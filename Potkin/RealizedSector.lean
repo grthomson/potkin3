@@ -124,7 +124,8 @@ end LocallyAdmittedTree
 mutual
 
 /-- Local admission is preserved when the presentation base is transported. -/
-def LocallyAdmittedTree.mapBase {C : MaterialBase sigma}
+def LocallyAdmittedTree.mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) :
     {G : Hypersequent sigma} -> {tree : CKTree sigma InstanceData G} ->
       LocallyAdmittedTree P tree ->
@@ -135,7 +136,8 @@ def LocallyAdmittedTree.mapBase {C : MaterialBase sigma}
         LocallyAdmittedChildren.mapBase f admitted.2⟩
 
 /-- Base transport preserves admission of every ordered child. -/
-def LocallyAdmittedChildren.mapBase {C : MaterialBase sigma}
+def LocallyAdmittedChildren.mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) :
     {boundaries : List (Hypersequent sigma)} ->
       {children : CKChildren sigma InstanceData boundaries} ->
@@ -213,11 +215,28 @@ def ofTree {G : Hypersequent sigma} (tree : CKTree sigma InstanceData G)
   locallyAdmitted := admitted
 
 /-- Proof-preserving base transport leaves the ambient component unchanged. -/
-def mapBase {C : MaterialBase sigma} (f : BaseHom T.base C)
+def mapBase {C : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C)
     (component : RealizedOpenComponent P) :
     RealizedOpenComponent (P.mapBase f) where
   component := component.component
   locallyAdmitted := component.locallyAdmitted.mapBase f
+
+/-- Identity material inclusion leaves a realised component unchanged. -/
+theorem mapBase_id_heq (component : RealizedOpenComponent P) :
+    HEq (component.mapBase (BaseHom.id T.base)) component := by
+  cases component
+  rfl
+
+/-- Realised-component transport respects composition of inclusions. -/
+theorem mapBase_comp_heq
+    {C D : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) (g : BaseHom C D)
+    (component : RealizedOpenComponent P) :
+    HEq ((component.mapBase f).mapBase g)
+      (component.mapBase (g.comp f)) := by
+  cases component
+  rfl
 
 /-- A positive ordinary descendant of a realised component is realised. -/
 def ofDescendant (component : RealizedOpenComponent P)
@@ -237,7 +256,8 @@ def realizedOpenComponent {G : Hypersequent sigma}
     derivation.realize_isOrdinary derivation.realizeLocallyAdmitted
 
 /-- The mapped complete proof remains in the transported realised open sector. -/
-theorem realizeLocallyAdmitted_mapBase {C : MaterialBase sigma}
+theorem realizeLocallyAdmitted_mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) {G : Hypersequent sigma}
     (derivation : CheckedDerivation P G) :
     LocallyAdmittedTree (P.mapBase f) (derivation.mapBase f).realize :=

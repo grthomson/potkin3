@@ -1,4 +1,4 @@
-# Potkin P3-0/P3-1 migration ledger
+# Potkin P3-0/P3-1/P3-2 migration ledger
 
 This ledger records declaration-level provenance. The source repositories were
 read-only references; `potkin3` has no source-level dependency on either one.
@@ -46,8 +46,8 @@ below.
 | `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/LanguageSignature.lean` | `RuleInstance` | `Potkin/Occurrence.lean`: `OccurrenceShape` | generalised | Premises and conclusion are upgraded from sequents to whole nonempty hypersequents. |
 | `potkin` | R | `potkin/kernel/calculus.rkt` | `concrete-occurrence`, `make-concrete-occurrence`, `occurrence-arity` | `Potkin/Occurrence.lean`: `OccurrenceKind`, `OccurrenceShape`, `LocalOccurrence`, `LocalOccurrence.arity` | replaced | The Lean structure makes the exact shape and optional incidence dependent immutable data. |
 | `potkin` | R | `potkin/kernel/calculus.rkt` | component-incidence fields of `concrete-occurrence` | `Potkin/Occurrence.lean`: `ComponentProfile`, `OccurrenceProfiles`, `ComponentEdge`, `ComponentIncidence` | generalised | A supplied ordered profile is proved to enumerate each exact component multiset; `Fin` endpoints then retain duplicate local occurrences, while `Option` preserves unknown versus known empty. |
-| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/LanguageSignature.lean` | `PrimitiveBase` | `Potkin/ProofTheory.lean`: `MaterialBase` | replaced | Removes the fixed primitive-fragment side condition and uses an arbitrary proof-relevant whole-boundary evidence family. No closure laws are added. |
-| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/LanguageSignature.lean` | `RuleSystem`, `ProofTheory` | `Potkin/ProofTheory.lean`: `RuleSystem`, `ProofTheory`, `ProofTheory.Admits` | generalised | Separates logical and structural occurrence admission, retains initials, and gives material admission an explicit nullary evidence branch. |
+| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/LanguageSignature.lean` | `PrimitiveBase` | `Potkin/ProofTheory.lean`: `PrimitiveFragment`, `MaterialBase` | replaced | P3-2 restores an explicitly chosen primitive fragment but indexes membership by the exact fully instantiated occurrence, allowing positive arity and adding no closure laws. |
+| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/LanguageSignature.lean` | `RuleSystem`, `ProofTheory` | `Potkin/ProofTheory.lean`: `RuleSystem`, `ProofTheory`, `ProofTheory.Admits` | generalised | Separates logical and structural occurrence admission, retains nullary logical initials, and gives material admission exact occurrence membership at arbitrary finite arity. |
 | `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/JLCRealizedSectorTransport.lean` | `PreservesBase`, `mapProofTree` | `Potkin/ProofTheory.lean`: `BaseHom`; `Potkin/Checked.lean`: `CheckedDerivation.mapBase` | generalised | Specialises transport to a proof-preserving material-base map while keeping fixed rules, initials, registry occurrences, and whole boundaries. |
 | `potkin` | R | `potkin/kernel/calculus.rkt` | `equipped-calculus`, `make-equipped-calculus`, `calculus-lookup` | `Potkin/Presentation.lean`: `EquippedPresentation`, `LookupResult`, `lookup` | replaced | A finite registry list carries unique-ID and admission proofs; executable lookup returns exact membership and ID evidence. |
 | `potkin` | R | `potkin/kernel/calculus.rkt` | immutable registry preservation under compatible addition | `Potkin/Presentation.lean`: `EquippedPresentation.mapBase`, `mapBase_registry` | replaced | P3-0 maps only base evidence and keeps the registry definitionally unchanged; deletion and revision are not represented. |
@@ -146,3 +146,36 @@ proved duplicate-free, but P3-1 does not claim `CKCut ≃ ValidAddressCut` or a
 Nodup theorem after forgetting witnesses to address lists. This is a formal
 representation/elimination gap, not evidence of two mathematical cuts with
 the same address set, and no quotient is added to bypass it.
+
+## P3-2 corrections and coherence additions
+
+P3-2 closes both recorded P3-1 representation mismatches at the public API
+level and migrates the manuscript's filling/coherence clauses. Source commits
+remain `N` and `R`; the manuscript source is v56.
+
+| Source | Commit | Path | Source declaration | Destination | Status | Migration note |
+|---|---|---|---|---|---|---|
+| manuscript v56 | v56 | Definition `Material base and the equipped calculus` | tagged primitive-boundary material occurrences and persistent inclusion | `Potkin/ProofTheory.lean`: `PrimitiveFragment`, exact-occurrence `MaterialBase.Member`, `BaseHom` | replaced | Membership is indexed by the whole occurrence and proves material kind plus primitive boundaries; arbitrary positive arity is admitted. A hom has no occurrence map, so it preserves exact old IDs, shapes, instance data, and incidence. |
+| `potkin` | R | `potkin/kernel/calculus.rkt` | positive-arity material occurrences and exact registry occurrence identity | `Potkin/Examples/MaterialBase.lean` | reproved | A unary material operation checks successfully; a same-profile twin ID remains separately includable, extension preserves only the explicit old member, and no Weakening, contraction, Cut, or substitution closure is generated. |
+| manuscript v56 | v56 | Definition `Address-indexed cut witness` | finite nonroot address antichain as cut identity | `Potkin/CKCutValidity.lean`: `ExtensionalCKCut`, `validAddressEquiv`, public enumeration and validation | replaced | The public cut is structurally equivalent to `ValidAddressCut` and canonically compiles to the legacy recursive plan. Public enumeration is Nodup and exact-once after structural address deduplication; no quotient is introduced. |
+| `potkin` | R | `potkin/kernel/context.rkt`, `cut.rkt` | general context insertion, filling, puncture requirements | `Potkin/GeneralFilling.lean`: `PunctureAt`, `IsComplete`, exact general-fill puncture formula | generalised | Proves root, local-admission, old-hole, filler-prefix, completeness, distinguished-reconstruction, and base-transport laws for arbitrary compatible replacements. |
+| `nonmonlogics` | N | `Nonmonlogics/JLCHoleRelabellingAndFilling.lean`, `JLCIteratedTelescopeCapstone.lean` | disjoint filling, prefix relabelling, staged reconstruction patterns | `Potkin/GeneralFilling.lean`: typed insertion and strict interchange | reproved | Constructor recursion fixes old occurrence decorations, prefixes replacement addresses, transports an incomparable old puncture literally, and proves structural interchange. |
+| manuscript v56 | v56 | Theorem `Puncture factorisation and nested coherence`, clauses (iii)-(iv) | noncrossing cuts and finite hierarchy | `Potkin/NestedCoherence.lean`: `Noncrossing`, `CutTransport`, `CanonicalTwoStageWitness`, `RankedCutHierarchy`, `ExactTwoStageRemainderCoherence` | partial/generalised | Retains source and relative addresses, proves a unique retained-or-detached destination, a `Sum` swap of source-address identities, common frontier-interface presence, and separate local reconstruction laws. A ranked hierarchy determines a canonical frontier; the only parenthesisation result is generic address-list append associativity. Actual region/factor correspondence, composed filling from the further-cut root, literal equality of sequential remainders, and coherence of iterated cut schedules remain explicit targets. |
+| manuscript v56 | v56 | Corollary `Strict interchange of independent refinements` | two incomparable puncture insertions | `Potkin/GeneralFilling.lean`: `insertIncomparable_commutes` | reproved | Equality is literal decorated-tree equality, not a quotient or commuting conversion; internal addresses are prefixed by their exact old puncture addresses. |
+
+## Manuscript correction exposed by P3-2
+
+The displayed v56 two-cut predicate must explicitly require disjoint address
+sets; otherwise the same address may occur in both cuts and cannot be
+transported after becoming a puncture. Clause (iv) also needs more than
+pairwise noncrossing. The formal fixture uses
+`A={(1,1),(3)}`, `B={(1),(2,1)}`, and `C={(2),(3,1)}`: each pair is
+noncrossing, but their orientations force `A < B < C < A`.
+
+Exact proposed wording: “A finite noncrossing hierarchy is a finite family of
+pairwise disjoint address cuts equipped with a global rank such that, whenever
+selected addresses from two levels are comparable, strict containment points
+from the lower rank to the higher rank.” Equivalently, require the induced
+level-orientation graph to be acyclic and choose a topological order. For two
+entirely incomparable cuts, retain their source labels (or an explicit
+tie-break) rather than claiming a canonical lower/middle label swap.

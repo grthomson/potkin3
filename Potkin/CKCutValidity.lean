@@ -1,4 +1,5 @@
 import Mathlib.Data.Finset.Image
+import Mathlib.Data.List.Dedup
 import Potkin.CKCutEnumeration
 import Potkin.CKCutPuncture
 
@@ -658,5 +659,394 @@ theorem exists_mem_enumerate_with_addressFinset
   exact family.toCut.mem_enumerate
 
 end CKCut
+
+/--
+The public extensional identity of a CK cut.  A value contains exactly one
+valid finite address antichain.  The constructor-recursive `CKCut` is retained
+as the canonically compiled internal witness used by the existing recursive
+algorithms; it is not a second public identity.
+-/
+structure ExtensionalCKCut {G : Hypersequent sigma}
+    (tree : CKTree sigma InstanceData G) where
+  validAddressCut : ValidAddressCut tree
+
+namespace ExtensionalCKCut
+
+variable {G : Hypersequent sigma} {tree : CKTree sigma InstanceData G}
+
+/-- Positive-source evidence carried by the exact valid address family. -/
+def sourceOrdinary (cut : ExtensionalCKCut tree) : tree.IsOrdinary :=
+  cut.validAddressCut.sourceOrdinary
+
+/-- Canonically compile the public address identity to the recursive witness. -/
+def compiled (cut : ExtensionalCKCut tree) : CKCut tree :=
+  cut.validAddressCut.toCut
+
+/-- Compatibility projection for constructor-recursive algorithms. -/
+def plan (cut : ExtensionalCKCut tree) : CKCutPlan tree :=
+  cut.compiled.plan
+
+/-- The extensional address identity of a public cut. -/
+def addresses (cut : ExtensionalCKCut tree) : Finset InternalAddress :=
+  cut.validAddressCut.addresses
+
+/-- The compiled plan has exactly the public address finset. -/
+@[simp]
+theorem compiled_addressFinset (cut : ExtensionalCKCut tree) :
+    cut.plan.addressFinset = cut.addresses :=
+  cut.validAddressCut.toCut_addressFinset
+
+/-- Proof fields are irrelevant: one exact valid antichain is one public cut. -/
+@[ext]
+theorem ext {left right : ExtensionalCKCut tree}
+    (addresses : left.addresses = right.addresses) : left = right := by
+  cases left with
+  | mk leftFamily =>
+      cases right with
+      | mk rightFamily =>
+          have familyEq : leftFamily = rightFamily :=
+            ValidAddressCut.ext addresses
+          cases familyEq
+          rfl
+
+/-- Decidable public equality compares only the exact address finsets. -/
+instance instDecidableEq : DecidableEq (ExtensionalCKCut tree) :=
+  fun left right =>
+    if equal : left.addresses = right.addresses then
+      isTrue (ExtensionalCKCut.ext equal)
+    else
+      isFalse (fun cutsEqual => equal <|
+        congrArg (fun cut : ExtensionalCKCut tree => cut.addresses) cutsEqual)
+
+/-- The public cut/address equivalence is structural, not a quotient. -/
+def validAddressEquiv :
+    ExtensionalCKCut tree ≃ ValidAddressCut tree where
+  toFun := fun cut => cut.validAddressCut
+  invFun := fun family => ⟨family⟩
+  left_inv := by intro cut; cases cut; rfl
+  right_inv := by intro family; rfl
+
+/-- Forget a legacy recursive witness to its public extensional identity. -/
+def ofCKCut (cut : CKCut tree) : ExtensionalCKCut tree :=
+  ⟨cut.validAddressCut⟩
+
+/-- Compilation returns precisely the public valid-address identity. -/
+@[simp]
+theorem validAddressCut_compiled (cut : ExtensionalCKCut tree) :
+    cut.compiled.validAddressCut = cut.validAddressCut := by
+  apply ValidAddressCut.ext
+  exact cut.validAddressCut.toCut_addressFinset
+
+/-- Forgetting the canonical compilation is definitionally extensional. -/
+@[simp]
+theorem ofCKCut_compiled (cut : ExtensionalCKCut tree) :
+    ofCKCut cut.compiled = cut := by
+  apply ExtensionalCKCut.ext
+  exact cut.compiled_addressFinset
+
+/-- Canonical lexicographic addresses exposed by the compiled witness. -/
+def orderedAddresses (cut : ExtensionalCKCut tree) : List InternalAddress :=
+  cut.compiled.orderedAddresses
+
+/-- The ordered-list view contains exactly the public finite set. -/
+@[simp]
+theorem orderedAddresses_toFinset (cut : ExtensionalCKCut tree) :
+    cut.orderedAddresses.toFinset = cut.addresses := by
+  calc
+    cut.orderedAddresses.toFinset = cut.plan.addressFinset := by
+      symm
+      exact cut.compiled.addressFinset_eq_orderedAddresses_toFinset
+    _ = cut.addresses := cut.compiled_addressFinset
+
+/-- Equality of canonical ordered address lists determines a public cut. -/
+theorem ext_orderedAddresses {left right : ExtensionalCKCut tree}
+    (addresses : left.orderedAddresses = right.orderedAddresses) :
+    left = right := by
+  apply ExtensionalCKCut.ext
+  have equalFinsets := congrArg List.toFinset addresses
+  simpa using equalFinsets
+
+/-- The legacy recursive enumeration projected to public address identities.
+It may contain repeated public values because injectivity of the legacy
+dependent plan representation is intentionally not assumed. -/
+def rawEnumerate (tree : CKTree sigma InstanceData G)
+    (ordinary : tree.IsOrdinary) : List (ExtensionalCKCut tree) :=
+  (CKCut.enumerate tree ordinary).map ofCKCut
+
+/-- Public enumeration has exactly one representative of every valid address
+antichain.  `dedup` acts on the structural address carrier; it is not a
+quotient of recursive plans. -/
+def enumerate (tree : CKTree sigma InstanceData G)
+    (ordinary : tree.IsOrdinary) : List (ExtensionalCKCut tree) :=
+  (rawEnumerate tree ordinary).dedup
+
+/-- Every public cut occurs in the projected recursive enumeration. -/
+theorem mem_rawEnumerate (cut : ExtensionalCKCut tree) :
+    cut ∈ rawEnumerate tree cut.sourceOrdinary := by
+  apply List.mem_map.mpr
+  refine ⟨cut.compiled, ?_, cut.ofCKCut_compiled⟩
+  simpa [compiled, sourceOrdinary] using cut.compiled.mem_enumerate
+
+/-- Every valid extensional cut occurs in the public enumeration. -/
+theorem mem_enumerate (cut : ExtensionalCKCut tree) :
+    cut ∈ enumerate tree cut.sourceOrdinary := by
+  exact List.mem_dedup.mpr cut.mem_rawEnumerate
+
+/-- Public enumeration is duplicate-free at address identity. -/
+theorem enumerate_nodup (tree : CKTree sigma InstanceData G)
+    (ordinary : tree.IsOrdinary) : (enumerate tree ordinary).Nodup :=
+  List.nodup_dedup _
+
+/-- Projection of the public enumeration to the independent valid-address
+carrier is itself duplicate-free. -/
+theorem map_validAddressCut_enumerate_nodup
+    (tree : CKTree sigma InstanceData G) (ordinary : tree.IsOrdinary) :
+    ((enumerate tree ordinary).map
+      (fun cut => cut.validAddressCut)).Nodup := by
+  apply (enumerate_nodup tree ordinary).map
+  exact validAddressEquiv.injective
+
+/-- Each valid address cut occurs exactly once in the public enumeration. -/
+theorem count_enumerate_eq_one (cut : ExtensionalCKCut tree) :
+    (enumerate tree cut.sourceOrdinary).count cut = 1 :=
+  List.count_eq_one_of_mem
+    (enumerate_nodup tree cut.sourceOrdinary) cut.mem_enumerate
+
+/-- Boolean comparison used by executable canonical-list validation. -/
+def matchesOrderedAddresses (requested : List InternalAddress)
+    (cut : ExtensionalCKCut tree) : Bool :=
+  cut.orderedAddresses == requested
+
+/-- Validate an already canonical lexicographic address list.  An unordered
+caller list can continue to use `CKCut.validateAddresses` before forgetting
+the returned compiled witness with `ofCKCut`. -/
+def validateOrderedAddresses (tree : CKTree sigma InstanceData G)
+    (ordinary : tree.IsOrdinary) (requested : List InternalAddress) :
+    Option (ExtensionalCKCut tree) :=
+  (enumerate tree ordinary).find?
+    (matchesOrderedAddresses requested)
+
+/-- Preserve the existing order-insensitive validator and its deliberate
+duplicate rejection, while returning the public extensional identity. -/
+def validateAddresses (tree : CKTree sigma InstanceData G)
+    (ordinary : tree.IsOrdinary) (requested : List InternalAddress) :
+    Option (ExtensionalCKCut tree) :=
+  (CKCut.validateAddresses tree ordinary requested).map ofCKCut
+
+/-- Forgetting the compiled result changes no validation success or failure,
+so malformed duplicates remain rejected exactly as before. -/
+@[simp]
+theorem validateAddresses_isNone
+    (tree : CKTree sigma InstanceData G) (ordinary : tree.IsOrdinary)
+    (requested : List InternalAddress) :
+    (validateAddresses tree ordinary requested).isNone =
+      (CKCut.validateAddresses tree ordinary requested).isNone := by
+  simp [validateAddresses]
+
+private theorem find?_sound {alpha : Type*} {items : List alpha}
+    {predicate : alpha -> Bool} {item : alpha}
+    (found : items.find? predicate = some item) :
+    item ∈ items ∧ predicate item = true := by
+  induction items with
+  | nil => simp at found
+  | cons head tail ih =>
+      by_cases selected : predicate head = true
+      · simp [List.find?, selected] at found
+        subst item
+        exact ⟨by simp, selected⟩
+      · simp [List.find?, selected] at found
+        rcases ih found with ⟨member, accepted⟩
+        exact ⟨by simp [member], accepted⟩
+
+private theorem find?_eq_some_of_mem_of_unique
+    {alpha : Type*} {items : List alpha} {predicate : alpha -> Bool}
+    {item : alpha} (member : item ∈ items)
+    (accepted : predicate item = true)
+    (unique : forall other, other ∈ items ->
+      predicate other = true -> other = item) :
+    items.find? predicate = some item := by
+  induction items with
+  | nil => simp at member
+  | cons head tail ih =>
+      by_cases selected : predicate head = true
+      · have headEq := unique head (by simp) selected
+        subst head
+        simp [List.find?, accepted]
+      · have tailMember : item ∈ tail := by
+          rcases List.mem_cons.mp member with itemEq | member
+          · subst head
+            exact (selected accepted).elim
+          · exact member
+        have tailUnique : forall other, other ∈ tail ->
+            predicate other = true -> other = item := by
+          intro other otherMember otherAccepted
+          exact unique other (by simp [otherMember]) otherAccepted
+        simpa [List.find?, selected] using
+          ih tailMember tailUnique
+
+/-- A successful unordered validation has exactly the canonical request as
+its public address finset.  Because canonicalisation preserves duplicates and
+legacy validation compares lists, a duplicated request still returns `none`. -/
+theorem validateAddresses_sound
+    (tree : CKTree sigma InstanceData G) (ordinary : tree.IsOrdinary)
+    (requested : List InternalAddress) {cut : ExtensionalCKCut tree}
+    (found : validateAddresses tree ordinary requested = some cut) :
+    cut ∈ enumerate tree ordinary ∧
+      cut.addresses = (CKCut.canonicalAddresses requested).toFinset := by
+  unfold validateAddresses at found
+  cases validated : CKCut.validateAddresses tree ordinary requested with
+  | none => simp [validated] at found
+  | some compiledCut =>
+      have cutEq : ofCKCut compiledCut = cut := by
+        simpa [validated] using found
+      have legacyFound :
+          (CKCut.enumerate tree ordinary).find? (fun candidate =>
+            candidate.orderedAddresses ==
+              CKCut.canonicalAddresses requested) = some compiledCut := by
+        simpa [CKCut.validateAddresses] using validated
+      rcases find?_sound legacyFound with ⟨compiledMember, accepted⟩
+      have orderedEq : compiledCut.orderedAddresses =
+          CKCut.canonicalAddresses requested := by
+        simpa using accepted
+      constructor
+      · rw [← cutEq]
+        exact List.mem_dedup.mpr <|
+          List.mem_map.mpr ⟨compiledCut, compiledMember, rfl⟩
+      · calc
+          cut.addresses = (ofCKCut compiledCut).addresses := by rw [cutEq]
+          _ = compiledCut.plan.addressFinset := rfl
+          _ = compiledCut.orderedAddresses.toFinset :=
+            compiledCut.addressFinset_eq_orderedAddresses_toFinset
+          _ = (CKCut.canonicalAddresses requested).toFinset :=
+            congrArg List.toFinset orderedEq
+
+/-- Any successful unordered validation is the unique public cut with that
+canonical request finset.  Proof fields and the internal compiled plan cannot
+create a second result. -/
+theorem validateAddresses_unique
+    (tree : CKTree sigma InstanceData G) (ordinary : tree.IsOrdinary)
+    (requested : List InternalAddress) {cut : ExtensionalCKCut tree}
+    (found : validateAddresses tree ordinary requested = some cut)
+    {other : ExtensionalCKCut tree}
+    (otherAddresses :
+      other.addresses = (CKCut.canonicalAddresses requested).toFinset) :
+    other = cut := by
+  apply ExtensionalCKCut.ext
+  exact otherAddresses.trans
+    (validateAddresses_sound tree ordinary requested found).2.symm
+
+/-- A successful canonical-list validation returns a member with exactly the
+requested ordered addresses. -/
+theorem validateOrderedAddresses_sound
+    (tree : CKTree sigma InstanceData G) (ordinary : tree.IsOrdinary)
+    (requested : List InternalAddress) {cut : ExtensionalCKCut tree}
+    (found : validateOrderedAddresses tree ordinary requested = some cut) :
+    cut ∈ enumerate tree ordinary ∧ cut.orderedAddresses = requested := by
+  rcases find?_sound found with ⟨member, accepted⟩
+  refine ⟨member, ?_⟩
+  simpa [matchesOrderedAddresses] using accepted
+
+/-- If a public cut has the requested canonical address list, validation
+returns that cut; list injectivity supplies uniqueness. -/
+theorem validateOrderedAddresses_complete
+    (tree : CKTree sigma InstanceData G) (ordinary : tree.IsOrdinary)
+    (requested : List InternalAddress) (cut : ExtensionalCKCut tree)
+    (member : cut ∈ enumerate tree ordinary)
+    (addresses : cut.orderedAddresses = requested) :
+    validateOrderedAddresses tree ordinary requested = some cut := by
+  apply find?_eq_some_of_mem_of_unique member
+  · simp [matchesOrderedAddresses, addresses]
+  · intro other otherMember accepted
+    apply ExtensionalCKCut.ext_orderedAddresses
+    have otherAddresses : other.orderedAddresses = requested := by
+      simpa [matchesOrderedAddresses] using accepted
+    exact otherAddresses.trans addresses.symm
+
+/-- Validation at a public cut's canonical address list returns it exactly. -/
+@[simp]
+theorem validateOrderedAddresses_self (cut : ExtensionalCKCut tree) :
+    validateOrderedAddresses tree cut.sourceOrdinary cut.orderedAddresses =
+      some cut := by
+  exact validateOrderedAddresses_complete tree cut.sourceOrdinary
+    cut.orderedAddresses cut cut.mem_enumerate rfl
+
+/-- Two public cuts matching one canonical list are equal, independently of
+their compiled proof fields. -/
+theorem unique_of_orderedAddresses {left right : ExtensionalCKCut tree}
+    {requested : List InternalAddress}
+    (leftMatches : left.orderedAddresses = requested)
+    (rightMatches : right.orderedAddresses = requested) : left = right :=
+  ExtensionalCKCut.ext_orderedAddresses
+    (leftMatches.trans rightMatches.symm)
+
+end ExtensionalCKCut
+
+namespace ValidAddressCut
+
+variable {G : Hypersequent sigma} {tree : CKTree sigma InstanceData G}
+
+/-- Decidable equality of valid families compares only their exact finite
+address sets; all validation fields are propositions. -/
+instance instDecidableEq : DecidableEq (ValidAddressCut tree) :=
+  fun left right =>
+    if equal : left.addresses = right.addresses then
+      isTrue (ValidAddressCut.ext equal)
+    else
+      isFalse (fun familiesEqual => equal <|
+        congrArg (fun family : ValidAddressCut tree => family.addresses)
+          familiesEqual)
+
+/-- Regard an exact valid family as the public extensional cut it identifies. -/
+def toExtensionalCKCut (family : ValidAddressCut tree) :
+    ExtensionalCKCut tree := ⟨family⟩
+
+@[simp]
+theorem toExtensionalCKCut_validAddressCut
+    (family : ValidAddressCut tree) :
+    family.toExtensionalCKCut.validAddressCut = family := rfl
+
+/-- The other direction of the structural public cut/address equivalence. -/
+@[simp]
+theorem validAddressCut_toExtensionalCKCut
+    (cut : ExtensionalCKCut tree) :
+    cut.validAddressCut.toExtensionalCKCut = cut := by
+  cases cut
+  rfl
+
+/-- Every valid family occurs exactly once in the public enumeration. -/
+theorem count_extensional_enumerate_eq_one
+    (family : ValidAddressCut tree) :
+    (ExtensionalCKCut.enumerate tree family.sourceOrdinary).count
+      family.toExtensionalCKCut = 1 :=
+  family.toExtensionalCKCut.count_enumerate_eq_one
+
+/-- The exact valid-address value, not merely its wrapper, occurs once in the
+projected public enumeration. -/
+theorem count_map_validAddressCut_enumerate_eq_one
+    (family : ValidAddressCut tree) :
+    ((ExtensionalCKCut.enumerate tree family.sourceOrdinary).map
+      (fun cut => cut.validAddressCut)).count family = 1 := by
+  apply List.count_eq_one_of_mem
+    (ExtensionalCKCut.map_validAddressCut_enumerate_nodup
+      tree family.sourceOrdinary)
+  exact List.mem_map.mpr ⟨family.toExtensionalCKCut,
+    family.toExtensionalCKCut.mem_enumerate, rfl⟩
+
+/-- Extensional completeness and uniqueness, stated directly for the
+independent valid-address carrier. -/
+theorem existsUnique_mem_extensional_enumerate
+    (family : ValidAddressCut tree) :
+    ∃! cut : ExtensionalCKCut tree,
+      cut ∈ ExtensionalCKCut.enumerate tree family.sourceOrdinary ∧
+        cut.validAddressCut = family := by
+  refine ⟨family.toExtensionalCKCut,
+    ⟨family.toExtensionalCKCut.mem_enumerate, rfl⟩, ?_⟩
+  intro other otherFacts
+  apply ExtensionalCKCut.ext
+  simpa [ExtensionalCKCut.addresses] using
+    congrArg (fun cut : ValidAddressCut tree => cut.addresses)
+      otherFacts.2
+
+end ValidAddressCut
 
 end Potkin

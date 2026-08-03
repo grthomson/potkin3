@@ -143,7 +143,8 @@ theorem fill_detachedOfCut_reconstructs (source : RealizedOpenComponent P)
 
 /-- Base transport commutes with packaging the retained remainder. -/
 @[simp]
-theorem remainderOfCut_mapBase {C : MaterialBase sigma}
+theorem remainderOfCut_mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) (source : RealizedOpenComponent P)
     (cut : CKCut source.component.tree) :
     (source.remainderOfCut cut).mapBase f =
@@ -152,7 +153,8 @@ theorem remainderOfCut_mapBase {C : MaterialBase sigma}
 
 /-- Base transport commutes with every address-indexed detached occurrence. -/
 @[simp]
-theorem detachedOfCut_mapBase {C : MaterialBase sigma}
+theorem detachedOfCut_mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) (source : RealizedOpenComponent P)
     (cut : CKCut source.component.tree) (site : cut.Site) :
     (source.detachedOfCut cut site).mapBase f =
@@ -161,7 +163,8 @@ theorem detachedOfCut_mapBase {C : MaterialBase sigma}
 
 /-- Base transport commutes with the complete occurrence-level detached tuple. -/
 @[simp]
-theorem detachedTupleOfCut_mapBase {C : MaterialBase sigma}
+theorem detachedTupleOfCut_mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) (source : RealizedOpenComponent P)
     (cut : CKCut source.component.tree) :
     (source.detachedTupleOfCut cut).map (mapBase f) =
@@ -172,12 +175,93 @@ theorem detachedTupleOfCut_mapBase {C : MaterialBase sigma}
   exact detachedOfCut_mapBase f source cut site
 
 /-- Reconstruction is unchanged by proof-preserving base transport. -/
-theorem fill_detachedOfCut_mapBase {C : MaterialBase sigma}
+theorem fill_detachedOfCut_mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) (source : RealizedOpenComponent P)
     (cut : CKCut source.component.tree) :
     cut.fill (fun site =>
         ((source.detachedOfCut cut site).mapBase f).component.tree) =
       (source.mapBase f).component.tree := by
+  simpa using source.fill_detachedOfCut_reconstructs cut
+
+/-! ## Identity and composition action on realised cut data -/
+
+@[simp]
+theorem remainderOfCut_mapBase_id_component
+    (source : RealizedOpenComponent P)
+    (cut : CKCut source.component.tree) :
+    ((source.remainderOfCut cut).mapBase
+      (BaseHom.id T.base)).component =
+      (source.remainderOfCut cut).component := rfl
+
+@[simp]
+theorem remainderOfCut_mapBase_comp_component
+    {C D : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) (g : BaseHom C D)
+    (source : RealizedOpenComponent P)
+    (cut : CKCut source.component.tree) :
+    (((source.remainderOfCut cut).mapBase f).mapBase g).component =
+      ((source.remainderOfCut cut).mapBase (g.comp f)).component := rfl
+
+@[simp]
+theorem detachedOfCut_mapBase_id_component
+    (source : RealizedOpenComponent P)
+    (cut : CKCut source.component.tree) (site : cut.Site) :
+    ((source.detachedOfCut cut site).mapBase
+      (BaseHom.id T.base)).component =
+      (source.detachedOfCut cut site).component := rfl
+
+@[simp]
+theorem detachedOfCut_mapBase_comp_component
+    {C D : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) (g : BaseHom C D)
+    (source : RealizedOpenComponent P)
+    (cut : CKCut source.component.tree) (site : cut.Site) :
+    (((source.detachedOfCut cut site).mapBase f).mapBase g).component =
+      ((source.detachedOfCut cut site).mapBase (g.comp f)).component := rfl
+
+/-- The complete addressed tuple has identical underlying components under identity. -/
+@[simp]
+theorem detachedTupleOfCut_mapBase_id_components
+    (source : RealizedOpenComponent P)
+    (cut : CKCut source.component.tree) :
+    (source.detachedTupleOfCut cut).map
+        (fun factor =>
+          (factor.mapBase (BaseHom.id T.base)).component) =
+      (source.detachedTupleOfCut cut).map
+        (fun factor => factor.component) := rfl
+
+/-- Staged and composite transport have the same addressed component tuple. -/
+@[simp]
+theorem detachedTupleOfCut_mapBase_comp_components
+    {C D : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) (g : BaseHom C D)
+    (source : RealizedOpenComponent P)
+    (cut : CKCut source.component.tree) :
+    (source.detachedTupleOfCut cut).map
+        (fun factor => ((factor.mapBase f).mapBase g).component) =
+      (source.detachedTupleOfCut cut).map
+        (fun factor => (factor.mapBase (g.comp f)).component) := rfl
+
+/-- Identity transport leaves distinguished realised reconstruction unchanged. -/
+theorem fill_detachedOfCut_mapBase_id
+    (source : RealizedOpenComponent P)
+    (cut : CKCut source.component.tree) :
+    cut.fill (fun site =>
+        ((source.detachedOfCut cut site).mapBase
+          (BaseHom.id T.base)).component.tree) =
+      source.component.tree := by
+  simpa using source.fill_detachedOfCut_reconstructs cut
+
+/-- Staged and composite transport give the same distinguished reconstruction. -/
+theorem fill_detachedOfCut_mapBase_comp
+    {C D : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) (g : BaseHom C D)
+    (source : RealizedOpenComponent P)
+    (cut : CKCut source.component.tree) :
+    cut.fill (fun site =>
+        (((source.detachedOfCut cut site).mapBase f).mapBase g).component.tree) =
+      (source.mapBase (g.comp f)).component.tree := by
   simpa using source.fill_detachedOfCut_reconstructs cut
 
 end RealizedOpenComponent

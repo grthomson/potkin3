@@ -164,13 +164,16 @@ theorem boundaryCorrect {G : Hypersequent sigma} (d : CheckedDerivation P G) :
 mutual
 
 /-- Reindex a checked derivation through transported registry admissions. -/
-def mapBase {C : MaterialBase sigma} (f : BaseHom T.base C) :
+def mapBase {C : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) :
     {G : Hypersequent sigma} -> CheckedDerivation P G ->
       CheckedDerivation (P.mapBase f) G
   | _, .node o registered children =>
       .node o (by simpa using registered) (CheckedChildren.mapBase f children)
 
-def CheckedChildren.mapBase {C : MaterialBase sigma} (f : BaseHom T.base C) :
+def CheckedChildren.mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) :
     {boundaries : List (Hypersequent sigma)} -> CheckedChildren P boundaries ->
       CheckedChildren (P.mapBase f) boundaries
   | _, .nil => .nil
@@ -202,7 +205,9 @@ theorem realize_isOrdinary {G : Hypersequent sigma} (d : CheckedDerivation P G) 
 mutual
 
 @[simp]
-theorem realize_mapBase {C : MaterialBase sigma} (f : BaseHom T.base C)
+theorem realize_mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C)
     {G : Hypersequent sigma} (d : CheckedDerivation P G) :
     realize (mapBase f d) = realize d := by
   cases d
@@ -211,7 +216,8 @@ theorem realize_mapBase {C : MaterialBase sigma} (f : BaseHom T.base C)
   apply CheckedChildren.realize_mapBase
 
 @[simp]
-theorem CheckedChildren.realize_mapBase {C : MaterialBase sigma}
+theorem CheckedChildren.realize_mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) {boundaries : List (Hypersequent sigma)}
     (children : CheckedChildren P boundaries) :
     CheckedChildren.realize (CheckedChildren.mapBase f children) =
@@ -223,8 +229,27 @@ theorem CheckedChildren.realize_mapBase {C : MaterialBase sigma}
 
 end
 
+/-- Identity base transport has literally unchanged occurrence-decorated action. -/
 @[simp]
-theorem erase_realize_mapBase {C : MaterialBase sigma} (f : BaseHom T.base C)
+theorem realize_mapBase_id {G : Hypersequent sigma}
+    (d : CheckedDerivation P G) :
+    realize (mapBase (BaseHom.id T.base) d) = realize d :=
+  realize_mapBase (BaseHom.id T.base) d
+
+/-- Composite base transport has the same decorated action as staged transport. -/
+@[simp]
+theorem realize_mapBase_comp
+    {C D : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) (g : BaseHom C D)
+    {G : Hypersequent sigma} (d : CheckedDerivation P G) :
+    realize (mapBase g (mapBase f d)) =
+      realize (mapBase (g.comp f) d) := by
+  simp only [realize_mapBase]
+
+@[simp]
+theorem erase_realize_mapBase
+    {C : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C)
     {G : Hypersequent sigma} (d : CheckedDerivation P G) :
     CKTree.erase (realize (mapBase f d)) = CKTree.erase (realize d) := by
   rw [realize_mapBase]

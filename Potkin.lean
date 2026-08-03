@@ -13,7 +13,12 @@ import Potkin.CKCutEnumeration
 import Potkin.CKCutValidity
 import Potkin.RealizedSector
 import Potkin.RealizedCut
+import Potkin.GeneralFilling
+import Potkin.NestedCoherence
 import Potkin.Examples.Anonymous
 import Potkin.Examples.RecursiveCut
+import Potkin.Examples.MaterialBase
+import Potkin.Examples.Coherence
 
-/-! Potkin P3-1: recursive address-indexed CK cuts and realised-open closure. -/
+/-! Potkin P3-2 foundations: exact bases, extensional cuts, filling, and
+explicitly bounded nested-coherence scaffolding. -/

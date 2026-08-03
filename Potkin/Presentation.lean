@@ -39,16 +39,34 @@ def lookup (P : EquippedPresentation T) (id : Nat) : Option (LookupResult P id) 
   | none => none
   | some found => some ⟨found.1, found.2.1, found.2.2⟩
 
-def mapBase (P : EquippedPresentation T) {C : MaterialBase sigma}
+def mapBase (P : EquippedPresentation T)
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) : EquippedPresentation (T.withBase C) where
   registry := P.registry
   uniqueIds := P.uniqueIds
   admitted := fun o ho => (P.admitted o ho).mapBase f
 
 @[simp]
-theorem mapBase_registry (P : EquippedPresentation T) {C : MaterialBase sigma}
+theorem mapBase_registry (P : EquippedPresentation T)
+    {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C) :
     (P.mapBase f).registry = P.registry := rfl
+
+/-- Identity base transport changes only dependent admission evidence. -/
+theorem mapBase_id_heq (P : EquippedPresentation T) :
+    HEq (P.mapBase (BaseHom.id T.base)) P := by
+  cases T
+  cases P
+  rfl
+
+/-- Consecutive persistent inclusions act as their composite. -/
+@[simp]
+theorem mapBase_comp (P : EquippedPresentation T)
+    {C D : MaterialBase sigma InstanceData T.primitive}
+    (f : BaseHom T.base C) (g : BaseHom C D) :
+    (P.mapBase f).mapBase g = P.mapBase (g.comp f) := by
+  cases P
+  rfl
 
 end EquippedPresentation
 

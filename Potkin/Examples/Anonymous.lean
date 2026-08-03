@@ -19,6 +19,7 @@ deriving DecidableEq, Repr
 inductive InstanceData where
   | baseS
   | baseT
+  | extra
   | merge
   | lift
 deriving DecidableEq, Repr
@@ -102,27 +103,55 @@ theorem unknown_incidence_ne_known_empty :
     (none : Option (ComponentIncidence baseSShape)) ≠
       some baseSKnownEmptyIncidence := by simp
 
-inductive MaterialEvidence : Hypersequent signature -> Type where
-  | s : MaterialEvidence GS
-  | t : MaterialEvidence GT
+def primitiveFragment : PrimitiveFragment signature :=
+  PrimitiveFragment.atoms
 
-def materialBase : MaterialBase signature where
-  Evidence := MaterialEvidence
+theorem GS_primitive : primitiveFragment.SupportsHypersequent GS := by
+  simp [PrimitiveFragment.SupportsHypersequent,
+    PrimitiveFragment.SupportsSequent, PrimitiveFragment.SupportsContext,
+    primitiveFragment, PrimitiveFragment.atoms, GS, S, formulaS]
+
+theorem GT_primitive : primitiveFragment.SupportsHypersequent GT := by
+  simp [PrimitiveFragment.SupportsHypersequent,
+    PrimitiveFragment.SupportsSequent, PrimitiveFragment.SupportsContext,
+    primitiveFragment, PrimitiveFragment.atoms, GT, T, formulaT]
+
+theorem GU_primitive : primitiveFragment.SupportsHypersequent GU := by
+  simp [PrimitiveFragment.SupportsHypersequent,
+    PrimitiveFragment.SupportsSequent, PrimitiveFragment.SupportsContext,
+    primitiveFragment, PrimitiveFragment.atoms, GU, U, formulaU]
+
+inductive MaterialEvidence :
+    LocalOccurrence signature InstanceData -> Prop where
+  | s : MaterialEvidence baseSOccurrence
+  | t : MaterialEvidence baseTOccurrence
+
+def materialBase : MaterialBase signature InstanceData primitiveFragment where
+  Member := MaterialEvidence
+  member_material := by
+    intro o evidence
+    cases evidence <;> rfl
+  member_primitiveBoundary := by
+    intro o evidence
+    cases evidence with
+    | s => exact ⟨fun i => Fin.elim0 i, GS_primitive⟩
+    | t => exact ⟨fun i => Fin.elim0 i, GT_primitive⟩
 
 def rules : RuleSystem signature InstanceData where
   logical := fun o => o.id = 20
   structural := fun o => o.id = 30
 
 def theory : ProofTheory signature InstanceData where
+  primitive := primitiveFragment
   base := materialBase
   rules := rules
   initial := fun _ => False
 
 def admitsBaseS : theory.Admits baseSOccurrence :=
-  .material rfl rfl ⟨.s⟩
+  .material .s
 
 def admitsBaseT : theory.Admits baseTOccurrence :=
-  .material rfl rfl ⟨.t⟩
+  .material .t
 
 def admitsMerge : theory.Admits mergeOccurrence :=
   .logical rfl rfl
@@ -246,15 +275,36 @@ theorem binaryCut_reconstructs :
     binaryCut.fill binaryCut.detached = binaryConstruction.tree :=
   binaryCut.fill_detached_reconstructs
 
-inductive ExtendedEvidence : Hypersequent signature -> Type where
-  | old {G} : MaterialEvidence G -> ExtendedEvidence G
-  | extra : ExtendedEvidence GU
+def extraMaterialOccurrence : LocalOccurrence signature InstanceData where
+  id := 40
+  kind := .material
+  shape := ⟨[], GU⟩
+  instanceData := .extra
+  incidence := none
 
-def extendedBase : MaterialBase signature where
-  Evidence := ExtendedEvidence
+inductive ExtendedEvidence :
+    LocalOccurrence signature InstanceData -> Prop where
+  | old {o} : MaterialEvidence o -> ExtendedEvidence o
+  | extra : ExtendedEvidence extraMaterialOccurrence
+
+def extendedBase : MaterialBase signature InstanceData primitiveFragment where
+  Member := ExtendedEvidence
+  member_material := by
+    intro o evidence
+    cases evidence with
+    | old evidence => cases evidence <;> rfl
+    | extra => rfl
+  member_primitiveBoundary := by
+    intro o evidence
+    cases evidence with
+    | old evidence =>
+        cases evidence with
+        | s => exact ⟨fun i => Fin.elim0 i, GS_primitive⟩
+        | t => exact ⟨fun i => Fin.elim0 i, GT_primitive⟩
+    | extra => exact ⟨fun i => Fin.elim0 i, GU_primitive⟩
 
 def baseInclusion : BaseHom materialBase extendedBase where
-  mapEvidence := ExtendedEvidence.old
+  map_member := ExtendedEvidence.old
 
 def mappedCheckedBinary :
     CheckedDerivation (presentation.mapBase baseInclusion) GST :=

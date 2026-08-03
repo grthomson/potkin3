@@ -317,12 +317,13 @@ def duplicateRules : RuleSystem FixtureSignature FixtureData where
   structural := fun _ => False
 
 def duplicateTheory : ProofTheory FixtureSignature FixtureData where
+  primitive := Anonymous.primitiveFragment
   base := Anonymous.materialBase
   rules := duplicateRules
   initial := fun _ => False
 
 def duplicateAdmitsBaseS : duplicateTheory.Admits Anonymous.baseSOccurrence :=
-  .material rfl rfl ⟨Anonymous.MaterialEvidence.s⟩
+  .material Anonymous.MaterialEvidence.s
 
 def duplicateAdmitsNode : duplicateTheory.Admits duplicateOccurrence :=
   .logical rfl rfl

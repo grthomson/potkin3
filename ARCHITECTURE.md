@@ -1,4 +1,9 @@
-# P3-1 architecture
+# P3-2 architecture
+
+Phases A--C and independent insertion are implemented. The nested-cut
+architecture exposes source-addressed transport and precise partial results;
+it does not claim the still-missing actual-region, actual-factor,
+sequential-root, composed two-stage-filling, or finite-schedule theorems.
 
 ## Dependency spine
 
@@ -15,9 +20,12 @@ Language
               -> RootCut -> CKCut -> CKCutPuncture
                     \          -> CKCutEnumeration -> CKCutValidity
                      \          -> RealizedCut <- RealizedSector
+                      \         -> GeneralFilling -> NestedCoherence
                       -> RootProjection
                             -> Examples.Anonymous
                             -> Examples.RecursiveCut
+                            -> Examples.MaterialBase
+                            -> Examples.Coherence
 ```
 
 There is deliberately no `GenericCalculusSnapshot`. A `ProofTheory` supplies
@@ -63,11 +71,22 @@ reindexing from incidence.
 
 ## Bases, rules, and proof theories
 
-`Potkin.ProofTheory` makes a `MaterialBase` an arbitrary boundary-indexed
-evidence family. It has no weakening, contraction, Cut, substitution,
-monotonicity, or closure field. A `BaseHom B C` is exactly a family of maps
-from `B.Evidence G` to `C.Evidence G`; identity and composition are ordinary
-function identity and composition.
+`Potkin.ProofTheory` makes a `MaterialBase sigma InstanceData primitive` an
+exact-occurrence-indexed membership predicate. Membership is indexed by the
+whole `LocalOccurrence`: its constructor ID (the manuscript's tag), kind, ordered premises,
+conclusion, instance data, and supplied incidence cannot be replaced by a
+transport. Membership proves material kind and support of every premise and
+the conclusion by an explicitly chosen `PrimitiveFragment`. Positive finite
+arity is unrestricted; the atom-only fragment is merely a convenience.
+
+The base has no weakening, contraction, Cut, substitution, monotonicity, or
+closure field. `BaseHom B C` maps `B.Member o` to `C.Member o` for the same
+implicit occurrence `o`; there is deliberately no occurrence map. Identity,
+composition, unit, and associativity are proved. Presentations and realised
+components have identity/composition `HEq` laws; checked derivations have the
+corresponding exact action on their full occurrence-decorated realizations.
+Direct proof-term `HEq` for `CheckedDerivation` remains a dependent
+presentation-index cast problem and is not asserted.
 
 A `RuleSystem` has separate logical and structural admission predicates on
 fully instantiated occurrences. A `ProofTheory` combines a material base,
@@ -78,11 +97,9 @@ nullary logical occurrence through the distinct `Admits.initial` constructor.
 `ProofTheory.Admits` is local to one occurrence. It adds no proof-global
 normality, freshness, liveness, or search condition.
 
-There is one inherited P3-0 restriction that P3-1 records rather than changes:
-`Admits.material` currently admits only nullary material occurrences. Both
-manuscript v56 and the Racket registry permit positive-arity material
-operations. Cut heredity below is valid for the exact current locally admitted
-carrier, but this representation gap remains for a later foundations review.
+`Admits.material` takes exact base membership and imposes no nullary
+restriction. Logical initials remain a separate nullary logical constructor;
+logical and structural occurrence admission is unchanged.
 
 ## Finite equipped presentations and checking
 
@@ -234,13 +251,15 @@ descends. `ValidAddressCut.toCut` preserves the address finset exactly, and
 `exists_mem_enumerate_with_addressFinset` proves that every such external
 finite antichain occurs in the recursive enumeration.
 
-One representation theorem remains open: Lean's dependent eliminator does not
-currently establish that two transported `CKCutPlan` values with equal address
-finsets are structurally equal when their occurrence conclusions agree only
-through dependent projections. Consequently P3-1 proves duplicate-freedom of
-the intrinsic witness enumeration, but does not claim a full
-`CKCut ≃ ValidAddressCut` or duplicate-freedom after mapping solely to address
-lists. No quotient or extensional equality is introduced to hide this gap.
+Direct extensional equality of arbitrary legacy `CKCutPlan` values remains
+awkward because dependent elimination exposes occurrence conclusions through
+different projections. P3-2 puts identity at the correct public level:
+`ExtensionalCKCut` is a one-field structural wrapper around `ValidAddressCut`
+and is proved equivalent to it. Its plan is the canonical recursive
+compilation. Public enumeration deduplicates on structural address identity,
+is Nodup and exact-once, and validation returns the unique public cut. No
+quotient is used; constructor-recursive `CKCut` remains an implementation
+witness.
 
 `Potkin.RealizedCut` combines recursive cuts with the exact-presentation local
 admission judgement. Admission is hereditary to every addressed detached
@@ -248,6 +267,73 @@ factor and to the retained remainder. Both closures, their component
 packaging, and reconstruction are stable under proof-preserving `BaseHom`
 transport. This depends on admission being local to finite registered
 occurrences; no claim is made for proof-global admission conditions.
+
+## General filling and typed punctures
+
+`Potkin.GeneralFilling` distinguishes recursive `CKTree.IsComplete` from
+local admission and adds proof-relevant `PunctureAt H tree p` path data, which
+retains the exact boundary erased by the older untyped interface relation.
+`HasPunctureAt` is its propositional `Nonempty` wrapper. Arbitrary filling has
+an exact puncture decomposition: a result puncture is either an old source
+puncture outside every selected prefix or a filler puncture whose relative
+address is prefixed by its selected source address. Constructor recursion
+proves root preservation, local admission, completeness, old-hole
+preservation, filler-hole prefixing, distinguished reconstruction, and base
+transport.
+
+Typed single-puncture insertion fixes all retained occurrence constructors.
+Insertion prefixes every replacement-internal address. A second
+prefix-incomparable puncture transports at its literal old address, and the
+two possible insertion schedules are structurally equal.
+`insertIncomparable_replacementPunctures_prefixed` places internal punctures
+of both replacements at their respective literal outer-prefix addresses in
+that common result.
+
+## Nested source-addressed coherence
+
+`Potkin.NestedCoherence` uses `StrictlyInside inner outer` for the consistent
+strict-prefix orientation. Two valid cuts are `Noncrossing` when their address
+sets are disjoint and they do not exhibit both cross orientations;
+incomparable branches impose none.
+
+Transport splits the second cut into `retainedAfter` and one `insideAfter`
+family for each exact detached first occurrence. Entries retain original
+source addresses, and detached entries also retain relative addresses and the
+prefix equations recovering their source. Full status preservation outside
+selected prefixes and exact detached/source lookup prove that these are valid
+cuts of the target remainder and detached trees.
+
+`CanonicalTwoStageWitness` stores the noncrossing certificate and determines
+derived transports, four labelled source regions representing three geometric
+layers, and the source-nearest final root frontier. Its
+`detachedOccurrenceEquiv` is a `Sum` swap of source-cut address identities; it
+preserves distinct source occurrences but does not compare actual transported
+detached tree entries. Reconstruction is proved by separate retained and
+inside-factor laws in both directions, not by one composed two-stage schedule.
+A `RankedCutHierarchy` supplies a global finite rank respected by every
+comparable pair and determines a final source frontier.
+
+`sourceRegion_swap` compares only the four-valued source-address classifier;
+it does not identify transported region components, occurrence sets, or
+relative maps, and it does not use the witness's `noMixedOrientation` field.
+That field presently proves rejection/diagnostic facts, not a substantive
+coherence theorem. The reconstruction laws also restart from each original
+first-stage cut rather than filling forward from the further-cut final root.
+
+This does not yet prove structural equality of the two actual sequential
+remainders with the canonical frontier remainder. That exact target is named
+`ExactTwoStageRemainderCoherence` but deliberately has no theorem. The proved
+frontier result is only common untyped interface presence at every canonical
+frontier address, not equality of roots or interface sets. The current
+parenthesisation result is generic associativity of append for supplied
+address-segment leaves; it is not connected to hierarchy levels or arbitrary
+iterated cut schedules. All stronger statements require a recursive theorem
+composing retained remainders without erasing occurrence decorations.
+
+The rank is necessary. Three pairwise noncrossing families can force the
+cycle `A < B < C < A`; hence manuscript v56 clause (iv) needs a globally
+acyclic/ranked orientation hypothesis, and its two-cut definition needs
+explicit set disjointness.
 
 ## Forests and root projections
 

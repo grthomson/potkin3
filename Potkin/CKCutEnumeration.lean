@@ -273,7 +273,7 @@ private def insertAddress (address : InternalAddress) :
 /-- Canonical lexicographic presentation of a requested internal-address
 antichain.  Sorting deliberately preserves duplicates so malformed repeated
 occurrences still fail to match an intrinsic cut. -/
-private def canonicalAddresses : List InternalAddress -> List InternalAddress
+def canonicalAddresses : List InternalAddress -> List InternalAddress
   | [] => []
   | head :: tail => insertAddress head (canonicalAddresses tail)
 

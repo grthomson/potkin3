@@ -1,8 +1,13 @@
-# P3-1 semantic contract
+# P3-2 semantic contract
 
-This contract distinguishes what P3-1 implements from conventions fixed now
+This contract distinguishes what P3-2 implements from conventions fixed now
 for later milestones. A convention marked **deferred** is not a theorem or API
 claim about the current source.
+
+P3-2 Phases A--C and strict independent insertion are proved. The nested-cut
+section states the exact weaker results currently available and explicitly
+excludes full actual-region/factor, sequential-root, composed two-stage, and
+finite iterated-schedule coherence.
 
 ## Boundaries and equality
 
@@ -31,16 +36,19 @@ claim about the current source.
   a supplied, known-empty relation. Neither is inferred from an occurrence
   ID, kind, name, tag, arity, or rule predicate.
 - Component incidence alone says nothing about formula copying or erasure.
-- A material base is an arbitrary family of evidence for whole boundaries.
-  No structural or substitution principle follows from that family.
-- The current `ProofTheory.Admits.material` constructor is narrower than both
-  manuscript v56 and Racket: it additionally requires a nullary occurrence.
-  P3-1 proves heredity for this exact current carrier and does not silently
-  claim positive-arity material admission.
+- A material base is a predicate on the exact fully instantiated
+  `LocalOccurrence`, not on its conclusion boundary. Membership proves
+  material kind and support of all ordered premise and conclusion boundaries
+  by one explicitly chosen primitive fragment. Positive finite arity is
+  allowed. No structural or substitution principle follows.
+- Constructor ID (representing the manuscript's occurrence tag) is part of
+  the membership index. Two occurrences with
+  identical boundaries, instance data, and incidence but different IDs remain
+  independently includable.
 - A finite equipped presentation is one immutable registry value with unique
-  IDs and local admission evidence. Lookup is by exact ID. A `BaseHom`
-  preserves evidence; it is not deletion, invalidation, revision, or a cast
-  between unrelated presentations.
+  IDs and local admission evidence. Lookup is by exact ID. A `BaseHom` maps
+  `B.Member o` to `C.Member o` for that same exact `o`; it cannot delete,
+  relabel, replace, revise, or cast occurrence provenance.
 
 ## Raw, checked, ambient, and realized terms
 
@@ -52,6 +60,10 @@ claim about the current source.
   checking at every node.
 - `CheckedDerivation P G` records exact presentation provenance in its type.
   `CKTree sigma InstanceData G` does not: it is the ambient open carrier.
+- Base transport preserves the exact decorated realization of a checked
+  derivation and respects identity/composition there. This does not supply a
+  direct proof-term `HEq` across the changed dependent presentation index;
+  such an equality would require explicit casts and is not claimed.
 - `OpenTree Boundary Decoration` is generic in its boundary type;
   `CKTree.Bare` instantiates that combinatorics with whole hypersequents and
   unit decoration.
@@ -96,10 +108,11 @@ claim about the current source.
 - A P3-0 `RootCut` remains one nonempty finite selection of ordinary immediate
   child roots. Its addresses are singleton lists, hence nonroot. Distinct
   selected slots yield prefix-incomparable addresses.
-- A P3-1 `CKCut t` is a recursive finite cut of a positive ordinary source.
-  Each ordered child independently chooses whole-root detachment or recursive
-  strict descent. An interface has only the empty descent. The current root
-  has no detach constructor.
+- The compiled `CKCut t` witness is a recursive finite cut of a positive
+  ordinary source. Each ordered child independently chooses whole-root
+  detachment or recursive strict descent. An interface has only empty descent,
+  and the current root has no detach constructor. Public identity is instead
+  the exact finite antichain in `ExtensionalCKCut` / `ValidAddressCut`.
 - Consequently every site is an existing nonroot ordinary vertex, and two
   different sites are prefix-incomparable by construction. A detach choice
   suppresses every choice below it.
@@ -200,10 +213,11 @@ claim about the current source.
 - The running four-vertex source generates five `CKCut` objects—one empty and
   four proper—not an inflated assertion-count oracle.
 
-- Structural `CKCut` enumeration is proved duplicate-free. A stronger theorem
-  that equal address finsets force equality of dependently transported
-  `CKCutPlan` presentations is not yet proved; therefore no mapped-address-list
-  Nodup theorem or full intrinsic/extensional equivalence is claimed.
+- `ExtensionalCKCut` is the public cut identifier and is structurally
+  equivalent to `ValidAddressCut`. Its recursive `CKCutPlan` is canonically
+  compiled internal data. Public enumeration is deduplicated on exact address
+  identity, proved Nodup, and contains every valid cut exactly once; ordered
+  address lists determine public cuts and validation returns the unique one.
 
 ## Cut heredity and base transport
 
@@ -222,6 +236,67 @@ claim about the current source.
   reconstruction, and their realised-sector packages commute with base
   transport without a cast of occurrence provenance.
 
+## General filling and insertion
+
+- `CKTree.IsComplete` means recursively that no typed interface occurs. It is
+  distinct from `LocallyAdmittedTree`; admitted open contexts need not be
+  complete or currently fillable.
+- Proof-relevant `PunctureAt H tree p` path data retains the exact required
+  whole boundary `H`; `HasPunctureAt` is the proposition that such data exists.
+  Arbitrary cut fillers are indexed by this boundary through their site.
+- Filling preserves the source root boundary and positive root. If source and
+  fillers are locally admitted, so is the result. If source and fillers are
+  complete, so is the result.
+- Result punctures satisfy an exact disjunction: an old source puncture whose
+  address is outside every selected prefix, or a puncture internal to one
+  filler at `selectedAddress ++ relativeAddress`.
+- Distinguished detached filling is the special case which reconstructs the
+  exact source. General realised filling and reconstruction commute with
+  exact-occurrence base transport.
+- Insertion at a typed puncture keeps every old rule occurrence and premise
+  position. Internal replacement addresses are prefixed literally. Insertions
+  at prefix-incomparable punctures strictly interchange as structural trees;
+  a separate corollary exhibits the prefixed internal punctures of both
+  replacements in the common result.
+
+## Nested cuts and finite hierarchies
+
+- `StrictlyInside inner outer` means that `outer` is a strict prefix of
+  `inner`. This orientation is used consistently throughout transport.
+- Two cuts are noncrossing only when their address sets are disjoint and no
+  cross-pair witnesses each of the two opposite strict-prefix orientations.
+  Incomparable branches impose no orientation.
+- After a first cut, a second source address either remains unchanged in the
+  retained remainder or has one first-cut prefix removed and enters that exact
+  detached component. Original source address, relative address, and the
+  prefix equation are retained together.
+- The schedule occurrence equivalence is exactly a `Sum` swap of the two
+  source-cut address families. It preserves distinct source occurrences, but
+  does not compare the actual transported detached tree entries. Transported
+  retained parts and inside factors have separate local reconstruction laws,
+  and refilling either original first-stage cut reconstructs the literal
+  source.
+- These facts do not establish literal equality of the two sequential retained
+  roots with the canonical frontier remainder. The missing statement is named
+  `ExactTwoStageRemainderCoherence` and remains unproved. The current frontier
+  theorem gives common untyped interface presence at each canonical frontier
+  address; it proves neither root equality, interface-set equality, nor typed
+  puncture-witness equality.
+- `sourceRegion_swap` is symmetry of a four-valued classifier on source
+  addresses. It does not compare transported region components, occurrence
+  sets, or relative maps, and its proof does not consume the noncrossing
+  witness. `noMixedOrientation` currently supplies rejection and hierarchy
+  diagnostics, not a full two-stage coherence implication.
+- Existing reconstruction laws rebuild retained and inside pieces separately
+  and then refill an original first-stage cut. They do not compose a filling
+  beginning at the further-cut final root.
+- A finite cut hierarchy includes a global rank respected by every comparable
+  cross-pair. Pairwise noncrossing is not substituted for this hypothesis: a
+  three-family orientation cycle is formally exhibited. The current
+  parenthesisation theorem is generic list-append associativity for supplied
+  address-segment leaves; it does not connect bracketings to hierarchy levels,
+  transported cuts, or arbitrary iterated schedules.
+
 ## Root projections
 
 - `blockRoots` keeps one whole hypersequent for each connected forest factor.
@@ -235,7 +310,7 @@ claim about the current source.
 
 ## Reserved algebraic conventions — deferred
 
-P3-1 defines neither a formal-sum carrier nor a coproduct. The following
+P3-2 defines neither a formal-sum carrier nor a coproduct. The following
 orientation is fixed to prevent later API drift:
 
 - A cut witness contributes `detached forest tensor retained component`.
@@ -252,7 +327,7 @@ orientation is fixed to prevent later API drift:
   never filling, assembly, Mix, reconstruction, or Gentzen Cut.
 
 No endpoint, tensor, coefficient, counit, coproduct, or antipode theorem is
-claimed in P3-1.
+claimed in P3-2.
 
 ## Vertex degree
 
@@ -271,12 +346,12 @@ degree(source)
 ```
 
 The ordered sum counts each occurrence separately, including equal detached
-trees at distinct addresses. P3-1 does not infer a connected grading or an
+trees at distinct addresses. P3-2 does not infer a connected grading or an
 antipode from this arithmetic theorem.
 
 ## Explicitly deferred
 
-The following are outside P3-1: empty-cut and whole-tree coproduct endpoints;
+The following are outside P3-2: empty-cut and whole-tree coproduct endpoints;
 formal sums and tensors; coefficient
 collection; counit, coassociativity, grading, and antipode; concrete featured
 calculi; Sandqvist IPL; constructor deletion and compatible revisions;
