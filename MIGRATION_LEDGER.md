@@ -1,4 +1,4 @@
-# P3-0 migration ledger
+# Potkin P3-0/P3-1 migration ledger
 
 This ledger records declaration-level provenance. The source repositories were
 read-only references; `potkin3` has no source-level dependency on either one.
@@ -23,7 +23,9 @@ Status vocabulary:
 - **reproved**: the mathematical statement was proved again for the new
   representation;
 - **replaced**: the source role is served by a deliberately different
-  foundation or executable representation.
+  foundation or executable representation;
+- **consulted**: source proof structure informed the design, but the named
+  source theorem was not migrated as a destination theorem.
 
 No P3-0 declaration is a blind textual copy. “Copied” is therefore not used
 below.
@@ -104,3 +106,43 @@ have no claimed P3-0 destination declaration:
   protected defects, and residue laws.
 
 These are deferred, not silently assumed.
+
+## P3-1 recursive cut, open-sector, and enumeration additions
+
+P3-1 continues to use source commits `N` and `R` defined above. The entries
+below record only the new declaration-level work; no source repository file
+was copied or modified.
+
+| Source | Commit | Path | Source declaration | Destination | Status | Migration note |
+|---|---|---|---|---|---|---|
+| `potkin` | R | `potkin/kernel/address.rkt` | `address<?`, address prefixing/conversion, `vertex-at-address` | `Potkin/CKCut.lean`: address append/prefix laws, recursive `address_vertexAt`; `Potkin/CKCutEnumeration.lean`: positive validation | generalised | Retains Lean’s zero-based internal paths and proves compatibility with positive one-based interchange paths; interfaces remain addressable holes but are never vertices. |
+| `potkin` | R | `potkin/kernel/cut.rkt` | `validate-ck-cut`, prefix-conflict validation | `Potkin/CKCut.lean`: `CKCutPlan`, `CKChildCuts`, `CKBranchCut`; `Potkin/CKCutEnumeration.lean`: canonical validators; `Potkin/CKCutValidity.lean`: `ValidAddressCut`, external witness construction | replaced | Invalid root, interface, duplicate, and ancestor/descendant selections are unrepresentable by the structural branch decomposition. Requests are lexicographically canonicalised without deduplication before witness lookup, matching the Racket order convention. |
+| `potkin` | R | `potkin/kernel/cut.rkt` | `make-cut-witness`, addressed `detached-entry`, retained remainder | `Potkin/CKCut.lean`: `CKCut`, `CKCutEntry`, `detachedTuple`, `remainder`, `detachedForest` | generalised | The dependent recursive site family and lexicographic tuple remain primary before the commutative forest image. Equal trees at different addresses remain different entries. |
+| `potkin` | R | `potkin/kernel/context.rkt`, `potkin/kernel/cut.rkt` | `puncture-requirement`, `context-insert`, `reconstruct-cut-witness` | `Potkin/CKCut.lean`: `siteBoundary`, `fill`, `remainder_interfaceAt_site`, `fill_detached_reconstructs`; `Potkin/CKCutPuncture.lean`: `requirement`, `selectedPuncture_matches_detachedRoot`, exact new/old interface laws | reproved | Filling is distinguished by new-site identity and therefore leaves pre-existing interfaces alone. Exact reconstruction is structural equality. |
+| `potkin` | R | `potkin/kernel/cut.rkt` | recursive `all-ck-cuts` branch enumeration | `Potkin/CKCutEnumeration.lean`: recursive plan/child/branch enumerators, intrinsic completeness and no-duplicate theorems; `Potkin/CKCutValidity.lean`: external finite-antichain completeness | generalised | Uses the explicit none/whole/below constructor decomposition and ordered Cartesian child product, not subset filtering or result-level deduplication. |
+| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/JLCOpenRootCocycle.lean` | `OpenCutResult`, `ChildCutResult`, `combineChildCuts`, `childCutChoices`, `treeNonTotalCuts` | `Potkin/CKCut.lean`; `Potkin/CKCutEnumeration.lean` | generalised | Reuses the constructor-recursive independent-child proof pattern while adding occurrence addresses, exact tuple identity, old/new interfaces, and duplicate-free enumeration absent from the source result carrier. |
+| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/JLCTwoCarrierRealization.lean` | `fillInterfaces`, `selectedImmediate_typedMatching`, `selectedImmediate_filling_reconstructs` | `Potkin/CKCut.lean`: distinguished recursive filling and reconstruction | generalised | The source fills interfaces by type and proves an immediate case; P3-1 fills only cut-created sites and reproves the theorem at arbitrary depth for already-open sources. |
+| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/JLCHoleRelabellingAndFilling.lean` | hole-bijection, staged-filling, and disjoint-filling proof patterns | `Potkin/CKCut.lean`: site-indexed address-aligned fill | consulted | Informed the separation of old vacancies from cut-created sites, but no general hole reindexing, staged-fill, disjoint-fill, or nested-coherence theorem is migrated in P3-1. |
+| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/JLCIteratedTelescopeCapstone.lean` | old/fresh `Sum` hole discipline, `fillInsideOut` | `Potkin/CKCut.lean`: recursive-sum `Site`, new-site fill; `Potkin/CKCutPuncture.lean`: `newHoleAt_iff_selectedSite`, old-interface preservation | generalised | Keeps old interfaces outside the new-site index and uses recursive sums for fresh selected occurrences; address provenance replaces name-wide refinement. |
+| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/JLCTypedCKConnectedAntipode.lean` | `ordinaryNodeCount`, cut degree-split lemmas | `Potkin/CKCut.lean`: `CKTree.degree`, `degree_partition` | reproved | Interfaces have degree zero; the theorem sums the degrees of the aligned detached occurrences before any algebraic grading or antipode packaging. |
+| `nonmonlogics` | N | `nonmonlogic/Nonmonlogics/JLCRealizedSectorTransport.lean` | `RealizedComponent`, `mapProofTree`, `realizedComponent_map` | `Potkin/RealizedSector.lean`: `LocallyAdmittedTree`, `RealizedOpenComponent`, `mapBase`; `Potkin/RealizedCut.lean`: cut closure | replaced | The source predicate is the range of complete proof erasure. P3-1 instead defines a genuine exact-registry admitted open sector, allowing typed interfaces and proving detached/remainder closure. |
+
+## Recorded P3-1 source mismatch
+
+Manuscript v56 and Racket both allow positive-arity material occurrences.
+P3-0’s `ProofTheory.Admits.material` requires a nullary occurrence, and P3-1
+does not alter that foundation. The open-sector and heredity theorems are
+therefore intentionally scoped to the exact current `EquippedPresentation`;
+they must not be cited as a proof of the broader manuscript material carrier.
+
+## Recorded P3-1 representation gap
+
+`CKCutValidity` constructs an intrinsic recursive cut from every independent
+finite valid address antichain and proves exact address-finset preservation.
+The converse structural-injectivity proof is not present: dependent
+elimination stalls when two occurrence constructors expose equality first at
+their `shape.conclusion` projections. Thus intrinsic witness enumeration is
+proved duplicate-free, but P3-1 does not claim `CKCut ≃ ValidAddressCut` or a
+Nodup theorem after forgetting witnesses to address lists. This is a formal
+representation/elimination gap, not evidence of two mathematical cuts with
+the same address set, and no quotient is added to bypass it.

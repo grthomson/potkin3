@@ -1,6 +1,6 @@
-# P3-0 semantic contract
+# P3-1 semantic contract
 
-This contract distinguishes what P3-0 implements from conventions fixed now
+This contract distinguishes what P3-1 implements from conventions fixed now
 for later milestones. A convention marked **deferred** is not a theorem or API
 claim about the current source.
 
@@ -33,6 +33,10 @@ claim about the current source.
 - Component incidence alone says nothing about formula copying or erasure.
 - A material base is an arbitrary family of evidence for whole boundaries.
   No structural or substitution principle follows from that family.
+- The current `ProofTheory.Admits.material` constructor is narrower than both
+  manuscript v56 and Racket: it additionally requires a nullary occurrence.
+  P3-1 proves heredity for this exact current carrier and does not silently
+  claim positive-arity material admission.
 - A finite equipped presentation is one immutable registry value with unique
   IDs and local admission evidence. Lookup is by exact ID. A `BaseHom`
   preserves evidence; it is not deletion, invalidation, revision, or a cast
@@ -53,10 +57,16 @@ claim about the current source.
   unit decoration.
 - An ambient CK interface is a typed vacancy, not an ordinary vertex. An
   ordinary node is positive and retains its full occurrence decoration.
-- A realized CK tree is the structural image of a complete checked derivation.
-  It has an ordinary root and no interfaces. The current code proves this
-  pointwise but does not yet define a global realized-sector predicate for
-  arbitrary forests.
+- `LocallyAdmittedTree P t` is the explicit realised open sector judgement.
+  Interfaces are admitted typed vacancies. Every ordinary vertex must occur
+  in the exact immutable registry `P`, and its exact ordered children must be
+  recursively locally admitted.
+- A `RealizedOpenComponent P` has a locally admitted tree and a positive
+  ordinary root. It may contain old interfaces. A bare interface is valid as
+  an open context but is not a connected realised component.
+- A complete checked derivation realizes into this sector. The sector is not
+  defined as the range of complete realization, so open terms with no complete
+  filling fibre are not excluded artificially.
 - `CKTree.erase` deliberately forgets occurrence decorations while retaining
   whole boundaries and ordered branching. Equality after erasure never proves
   equality of rich checked derivations or common presentation provenance.
@@ -78,9 +88,27 @@ claim about the current source.
   meaning.
 - Prefix order follows root-to-leaf path extension: `a` prefixes `b` exactly
   when `b = a ++ tail`.
-- A P3-0 `RootCut` is one nonempty finite selection of ordinary immediate
+- `InternalAddress.toRacket_prefix_iff` preserves and reflects prefixing.
+  For every recursive site, `selectedRacketAddress_toInternal` recovers the
+  exact internal address and `selectedRacketAddress_exists` locates the same
+  ordinary source vertex; the corresponding remainder-address theorem locates
+  the cut-created interface.
+- A P3-0 `RootCut` remains one nonempty finite selection of ordinary immediate
   child roots. Its addresses are singleton lists, hence nonroot. Distinct
   selected slots yield prefix-incomparable addresses.
+- A P3-1 `CKCut t` is a recursive finite cut of a positive ordinary source.
+  Each ordered child independently chooses whole-root detachment or recursive
+  strict descent. An interface has only the empty descent. The current root
+  has no detach constructor.
+- Consequently every site is an existing nonroot ordinary vertex, and two
+  different sites are prefix-incomparable by construction. A detach choice
+  suppresses every choice below it.
+- The all-descend plan is the unique empty cut. `ProperCKCut t` is the
+  nonempty subtype. Neither type admits the root address; the future
+  whole-tree algebraic endpoint remains separate data.
+- Recursive sum site identities are walked in ordered premise order. Their
+  internal addresses are lexicographically increasing. Pointwise successor
+  carries that exact order and prefixing to positive one-based addresses.
 - `CKTree.VertexAt` certifies address existence only for ordinary vertices;
   it has no constructor that turns an interface into a vertex.
 
@@ -104,11 +132,42 @@ claim about the current source.
 - `fill_detached_reconstructs` is exact structural equality. It is not proof
   reduction, normalization, Cut elimination, reconstruction from a
   commutative forest, or an existence claim based on proof search.
+- For `CKCut`, `detachedTuple` records an address, exact root boundary,
+  decorated tree, and ordinary-root proof for every recursive site. The tuple
+  remains primary; `detachedForest` is only its commutative projection.
+- `CKCut.requirement site` is the exact whole boundary of that recursive site.
+  `selectedPuncture_matches_detachedRoot` proves both that the remainder has an
+  interface at its address and that this requirement equals the aligned
+  detached tree's root boundary.
+- `CKCut.remainder` replaces precisely each selected ordinary subtree by an
+  interface of the same whole boundary. Its type therefore preserves the
+  exact source root boundary.
+- New and old interfaces are distinguished by provenance, not merely by
+  boundary equality. `CKAddressStatus` gives a total computational lookup.
+  The exact new-hole law is:
+
+  ```text
+  status(source, q) = ordinary
+    and status(remainder, q) = interface
+      iff q is the address of one selected site.
+  ```
+
+  The selected site is unique. An old interface inside a detached region
+  travels with the detached open factor; every old source interface for which
+  no selected address is a prefix remains an interface at its old address.
+  This is proved separately so neither direction conflates old provenance
+  with a cut-created site.
+- Distinguished filling is indexed only by the cut's new site type. It cannot
+  fill an unrelated old interface. Filling with the aligned detached family
+  reconstructs the exact source presentation.
 
 ## Ordered tuples and commutative forests
 
 - Ordered premises and cut-site identities are retained until detachment is
   complete. `RootCut.detached` is indexed by the selected slot subtype.
+- `CKCut.Site` is an intrinsic recursive occurrence identity. `orderedSites`
+  lists every identity once in lexicographic address order, and
+  `detachedTuple` keeps that address next to its exact dependent tree.
 - `detachedForest` is a later projection to the positive `CKForest` multiset.
   It forgets site order but preserves one ordinary-root factor occurrence per
   selected slot, including multiplicity for structurally equal trees.
@@ -117,6 +176,51 @@ claim about the current source.
   connected proof of `S | T` with separate proofs of `S` and `T`.
 - Reconstruction always consumes the aligned detached family, never the
   commutative forest image.
+
+## Recursive enumeration
+
+- Enumeration follows the unique child-branch decomposition, never powerset
+  filtering over vertex addresses.
+- At an ordinary child the canonical branch order is: empty descent, whole
+  child-root detachment, then nonempty recursive descents. An interface has
+  only empty descent.
+- Ordered children combine by Cartesian product with earlier premise slots
+  varying fastest. The empty plan is therefore generated exactly once.
+- Constructor recursion proves every generated plan sound, every intrinsic
+  finite prefix-free nonroot cut present, and the generated witness list
+  duplicate-free before projecting to forests or collected results.
+- Independently, `ValidAddressCut` stores a finite set of existing nonroot
+  vertices with pairwise prefix-incomparability and a positive source.
+  Recursive first-slot decomposition constructs a `CKCut` with exactly that
+  address finset, proving external finite-antichain completeness without
+  defining validity as existence of an intrinsic witness.
+- Validation canonicalizes request order lexicographically, as the Racket
+  reference does. Sorting does not erase duplicates, so repeated requests
+  remain invalid.
+- The running four-vertex source generates five `CKCut` objects—one empty and
+  four proper—not an inflated assertion-count oracle.
+
+- Structural `CKCut` enumeration is proved duplicate-free. A stronger theorem
+  that equal address finsets force equality of dependently transported
+  `CKCutPlan` presentations is not yet proved; therefore no mapped-address-list
+  Nodup theorem or full intrinsic/extensional equivalence is claimed.
+
+## Cut heredity and base transport
+
+- If the source is locally admitted by an exact presentation, every selected
+  detached subtree is locally admitted by that same presentation. The retained
+  remainder is locally admitted as well because detachment only replaces an
+  admitted child by a typed vacancy.
+- Detached factors may themselves contain old interfaces. Heredity is not a
+  completeness or fillability assertion.
+- These results rely on admission being local to each finite registered
+  occurrence and its exact ordered boundaries. They do not generalise to
+  calculi with proof-global admission conditions.
+- `BaseHom` maps only the local admission evidence. Registry occurrences and
+  the ambient CK presentation remain literally unchanged. Consequently
+  subtree selection, the remainder, addressed detached tuple, distinguished
+  reconstruction, and their realised-sector packages commute with base
+  transport without a cast of occurrence provenance.
 
 ## Root projections
 
@@ -131,7 +235,7 @@ claim about the current source.
 
 ## Reserved algebraic conventions — deferred
 
-P3-0 defines neither a formal-sum carrier nor a coproduct. The following
+P3-1 defines neither a formal-sum carrier nor a coproduct. The following
 orientation is fixed to prevent later API drift:
 
 - A cut witness contributes `detached forest tensor retained component`.
@@ -148,26 +252,32 @@ orientation is fixed to prevent later API drift:
   never filling, assembly, Mix, reconstruction, or Gentzen Cut.
 
 No endpoint, tensor, coefficient, counit, coproduct, or antipode theorem is
-claimed in P3-0.
+claimed in P3-1.
 
-## Reserved degree convention — deferred
+## Vertex degree
 
-When grading is added, degree is the number of ordinary vertices:
+`CKTree.degree` is the number of ordinary vertices:
 
 - an interface contributes zero;
 - an ordinary node contributes one plus the degrees of its ordered children;
-- a forest degree is the sum over every factor occurrence, with multiplicity;
-- the empty forest unit has degree zero;
 - a typed nodeless context is outside the positive rooted CK carrier and must
   not be assigned a carrier degree merely for convenience.
 
-P3-0 has no `degree` declaration and proves no connected-graded or antipode
-result.
+For every `CKCut`, constructor recursion proves
+
+```text
+degree(source)
+  = degree(remainder) + sum(site in canonical order, degree(detached(site))).
+```
+
+The ordered sum counts each occurrence separately, including equal detached
+trees at distinct addresses. P3-1 does not infer a connected grading or an
+antipode from this arithmetic theorem.
 
 ## Explicitly deferred
 
-The following are outside P3-0: arbitrary-depth recursive cuts; empty-cut and
-whole-tree coproduct endpoints; formal sums and tensors; coefficient
+The following are outside P3-1: empty-cut and whole-tree coproduct endpoints;
+formal sums and tensors; coefficient
 collection; counit, coassociativity, grading, and antipode; concrete featured
 calculi; Sandqvist IPL; constructor deletion and compatible revisions;
 historical liveness and repair; protected defects; recurrence and cyclic

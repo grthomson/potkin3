@@ -1,7 +1,7 @@
 # Potkin 3
 
-`potkin3` is the Lean 4 foundation for Potkin. Milestone P3-0 deliberately
-contains a small, proof-producing vertical slice rather than a port of the
+`potkin3` is the Lean 4 foundation for Potkin. Milestones P3-0 and P3-1 deliberately
+contain a small, proof-producing vertical slice rather than a port of the
 whole Racket workbench or the whole `nonmonlogics` development.
 
 The three related repositories have different jobs:
@@ -25,7 +25,7 @@ The three related repositories have different jobs:
 The Lean toolchain is `leanprover/lean4:v4.29.0-rc1`; Mathlib is pinned to
 `378b908c009ef82cf9584cba7447c44a5a89e58a`, matching the source development.
 
-## What P3-0 verifies
+## What P3-1 verifies
 
 The library implements the following route:
 
@@ -34,11 +34,12 @@ finite equipped presentation
   -> anonymous raw candidate
   -> checked complete derivation
   -> occurrence-decorated open CK tree
-  -> one nonempty two-site proper root cut
-  -> site-indexed detached tuple and commutative forest image
+  -> arbitrary-depth finite prefix-free CK cut
+  -> lexicographic address-indexed detached tuple and forest image
   -> retained typed punctures
-  -> typed filling
+  -> distinguished typed filling that leaves old punctures alone
   -> exact reconstruction
+  -> realised-open detached/remainder closure
 ```
 
 In particular, the declarations prove that:
@@ -50,20 +51,32 @@ In particular, the declarations prove that:
 - supplied incidence profiles enumerate each exact component multiset and
   retain separate local slots for equal displayed occurrences;
 - a checked root conclusion is its type index;
-- the two binary cut addresses exist, are nonroot, and are genuinely
-  prefix-incomparable;
+- every recursive cut address exists, is nonroot and ordinary, and distinct
+  sites are genuinely prefix-incomparable;
 - each selected puncture requires exactly the boundary of its corresponding
   detached root;
+- a computationally new puncture occurs exactly at one selected site, while
+  every old puncture outside the detached regions remains at its old address;
 - filling the retained component with the address-aligned detached family
   reconstructs the source tree;
+- degree partitions between the retained remainder and every addressed
+  detached occurrence;
+- the constructor-recursive cut enumerator is sound, complete for intrinsic
+  witnesses, and duplicate-free as a structural witness list;
+- every independent finite valid nonroot vertex antichain constructs a cut
+  with exactly that address finset and occurs in the enumeration;
+- exact-presentation local admission is hereditary to detached factors and
+  retained open remainders;
 - a `BaseHom` maps equipped presentations and checked derivations while
   realization, and therefore decoration erasure, is unchanged;
 - flattening root components can identify a connected proof of `S | T` with
   the forest of separate `S` and `T` proofs, while the block-root projection
   distinguishes them by connected-factor cardinality.
 
-The executable fixture is in `Potkin/Examples/Anonymous.lean`. It is a test of
-the generic representation, not a featured logic or calculus.
+The P3-0 fixture is in `Potkin/Examples/Anonymous.lean`; the P3-1 running-tree,
+open-source, invalid-address, and duplicate-occurrence fixtures are in
+`Potkin/Examples/RecursiveCut.lean`. They test the generic representation and
+are not a featured logic or calculus.
 
 ## Build
 
@@ -74,19 +87,24 @@ lake build
 ```
 
 The aggregate import is `Potkin.lean`. The intended audit also searches the
-new source for `sorry`, `admit`, custom axioms, and `unsafe`; P3-0 is designed
-to require none of them.
+new source for `sorry`, `admit`, custom axioms, `unsafe`, and accidental
+`native_decide`; P3-0 and P3-1 are designed to require none of them.
 
 ## Scope boundary
 
-P3-0 does **not** claim a full CK coproduct, coefficient collection,
+P3-1 does **not** claim a full CK coproduct, coefficient collection,
 coassociativity, counit, antipode, tensor algebra, constructor deletion,
 revision calculus, automatic repair, protected defects, recurrence, focusing,
 proof search, GL/Oudom/pre-Lie structure, Sandqvist IPL, normalization, cut
 elimination, proof quotients, or parity with either source repository.
 
-The cut implementation is intentionally restricted to nonempty selections of
-ordinary immediate children of one positive root. Recursive prefix-free cuts
-at arbitrary depth belong to a later milestone. See `SEMANTIC_CONTRACT.md` for
-the conventions already fixed for those later layers and `MIGRATION_LEDGER.md`
-for declaration-level provenance.
+`RootCut` remains the P3-0 immediate-root API. `CKCut` is the separate P3-1
+recursive occurrence-witness layer and includes the empty cut, but introduces
+no linear combinations, tensor endpoints, or coproduct. See
+`SEMANTIC_CONTRACT.md` for the conventions fixed for those later layers and
+`MIGRATION_LEDGER.md` for declaration-level provenance.
+
+The current dependent representation does not yet prove that equality of two
+address finsets forces structural equality of transported `CKCutPlan` values.
+Accordingly, duplicate-freedom is claimed for intrinsic witnesses, not for the
+enumeration after forgetting each witness to only its address list.
