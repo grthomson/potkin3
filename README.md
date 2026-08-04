@@ -4,11 +4,13 @@
 contain a small, proof-producing vertical slice rather than a port of the
 whole Racket workbench or the whole `nonmonlogics` development.
 
-This commit completes P3-2 Phases A--C and the strict independent-insertion
-part of Phase D. Its nested-cut layer is intentionally partial: actual
-transported-region/factor equivalence, sequential-root equality, genuine
-two-stage filling from the final root, and iterated finite-schedule coherence
-remain documented proof obligations.
+The current milestone completes exact two-stage opening coherence on actual
+decorated trees and occurrence-indexed factors.  It also introduces
+proof-relevant material-use support over locally admitted open trees, exact
+addressed-occurrence filling and public-cut partitions, and conditional
+maximal-pure-region coverage.  The arbitrary finite ranked-schedule theorem,
+an inverse equivalence on dependent `MaterialUse` witnesses, and every linear
+coproduct/comodule construction remain documented proof obligations.
 
 The three related repositories have different jobs:
 
@@ -47,7 +49,10 @@ finite equipped presentation
   -> exact reconstruction
   -> realised-open detached/remainder closure
   -> arbitrary admitted filling and typed puncture insertion
-  -> source-addressed two-stage cut transport and ranked hierarchy data
+  -> exact source-addressed two-stage region decomposition and composed fill
+  -> address-indexed material-base use support and multiplicity profiles
+  -> exact addressed-occurrence filling and extensional-cut partitions
+  -> canonical two-stage root/middle/lower material partition
 ```
 
 In particular, the declarations prove that:
@@ -92,6 +97,29 @@ In particular, the declarations prove that:
   do not exhibit both strict-prefix orientations; transport splits the second
   cut between the retained remainder and exact detached factors while keeping
   source and relative addresses;
+- both permitted two-stage schedules have the same actual decorated final
+  root, explicit lower and middle occurrence bijections preserving actual
+  components, equal multiplicity-preserving forests, and one common ordered
+  three-region basis datum;
+- the canonical composed fill begins at the final frontier remainder, fills
+  the punctured middle factors from their lower factors, and reconstructs the
+  exact source tree;
+- proof-relevant material-use extraction visits every ordered premise through
+  intervening logical or structural nodes, retains exact occurrence IDs and
+  source addresses, and projects to a multiplicity-preserving `Multiset`;
+- persistent `BaseHom` inclusion preserves every material-use address and
+  exact occurrence while transporting only membership evidence;
+- arbitrary admitted CK filling gives a constructor-recursive `List.Perm`
+  between the filled proof's exact `(source address, base occurrence)` list
+  and the remainder plus canonically site-ordered, source-prefixed filler
+  lists; forgetting addresses yields the exact additive profile law;
+- every public `ValidAddressCut` has the corresponding exact addressed source
+  partition into its remainder and detached family, and the canonical
+  two-stage decomposition refines this into final-root, middle, and lower
+  support while the two actual schedule-region data are equal;
+- maximal wholly material roots form an exact public valid cut for non-pure
+  ordinary sources, the whole-pure root exception is separate, and downward
+  stratification is proved sufficient for coverage of every material use;
 - a globally ranked finite cut hierarchy has a canonical source frontier;
   separately, generic ordered address-segment append is independent of binary
   parenthesisation;
@@ -103,8 +131,10 @@ The P3-0 fixture is in `Potkin/Examples/Anonymous.lean`; the P3-1 running-tree,
 open-source, invalid-address, and duplicate-occurrence fixtures are in
 `Potkin/Examples/RecursiveCut.lean`. P3-2 adds the exact material fixture in
 `Potkin/Examples/MaterialBase.lean` and filling/coherence fixtures in
-`Potkin/Examples/Coherence.lean`. They test the generic representation and are
-not a featured logic or calculus.
+`Potkin/Examples/Coherence.lean`. Occurrence-support, base-extension,
+multiplicity, filling, and the interleaved positive-arity counterexample are
+in `Potkin/Examples/MaterialSupport.lean`. They test the generic
+representation and are not a featured logic or calculus.
 
 ## Build
 
@@ -139,27 +169,36 @@ level: one valid address antichain is one `ExtensionalCKCut`; compilation to a
 plan is canonical, and the public enumeration deduplicates on this structural
 address carrier before proving exact-once occurrence.
 
-The Phase-D proof boundary is explicit. `ExactTwoStageRemainderCoherence`
-names, but does not prove, literal equality of both sequential retained roots
-with the canonical union-frontier remainder. The proved result gives exact
-source/relative transport, a unique retained-or-detached destination for each
-occurrence, common untyped interface presence at each canonical frontier
-address, and separate local reconstruction laws. The source-occurrence
-equivalence is only a label-preserving `Sum` swap of the two address families,
-not an equality of actual transported detached trees. A ranked hierarchy
-constructs a canonical frontier; the parenthesisation theorem separately
-proves generic list-append associativity for supplied address segments and
-does not connect a bracketing to hierarchy levels or an iterated cut schedule.
-Those stronger claims still need a constructor-recursive remainder-composition
-theorem.
+The two-stage equality boundary is explicit.  `exactTwoStageRemainderCoherence`
+proves propositional equality of the actual occurrence-decorated `CKTree`
+remainders.  `exactTwoStageRegionCoherence` packages the lower and middle
+occurrence bijections, pointwise equality of actual `CKComponent`s, ordered
+three-region equality, and composed reconstruction.  Realised wrappers commute
+definitionally with `BaseHom`; raw `CheckedDerivation` equality across distinct
+presentation indices is not claimed.
 
-Likewise, `sourceRegion_swap` is symmetry of a source-address classifier, not
-identity of actual transported region components or maps, and its proof does
-not use the noncrossing certificate. The current reconstruction laws rebuild
-the retained and inside pieces separately and then refill the original
-first-stage cut; they do not yet compose filling from the further-cut final
-root. `noMixedOrientation` therefore currently supports rejection and the
-rank-cycle diagnosis, not a full two-cut coherence theorem.
+`Noncrossing` permits one consistent strict-prefix orientation, so a nested
+pair uses the source-nearest frontier of its union.  `CrossIncomparableCuts` is
+the stronger independent-branch hypothesis under which the literal union is
+itself a valid antichain cut.  `sourceRegion_swap` remains only a classifier
+lemma, but it is no longer used as a substitute for the actual component
+theorems.
+
+The material-support equality boundary is also explicit.
+`fill_addressedMaterialOccurrences_perm` and the public cut specialisation
+are universal permutations of projected `(source address, ExactOccurrence)`
+values, preserving identity and multiplicity; their `Multiset` equations are
+corollaries. `exactTwoStageMaterialPartitionCoherence` couples the canonical
+root/middle/lower partition with equality of the two actual decorated
+schedule-region data. `MaterialSupportCut` supplies a forward classifier for
+dependent `MaterialUse` witnesses, but no inverse witness-level `Equiv` or
+schedule-specific material-use commuting diagram is claimed.
+
+A ranked hierarchy constructs a canonical frontier.  The existing
+parenthesisation theorem is deliberately only generic list-append
+associativity; it does not define valid linear extensions, exchange adjacent
+incomparable stages, or prove arbitrary finite staged filling.  Manuscript
+clause (iv) therefore remains pending.
 
 There is a separate dependent-provenance boundary for base transport. The
 presentation and realised-component packages have identity/composition `HEq`
@@ -181,5 +220,6 @@ C = {(2),   (3,1)}
 ```
 
 force `A` below `B`, `B` below `C`, and `C` below `A`. P3-2 therefore defines
-a hierarchy with one global rank respected by every comparable cross-pair.
-This is the exact extra hypothesis used by its finite parenthesisation result.
+a hierarchy whose rank increases from an outer selected address to an inner
+selected address.  This rejects the cycle, but a genuine finite schedule
+coherence theorem has not yet been derived from that data.

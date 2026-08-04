@@ -147,11 +147,15 @@ Nodup theorem after forgetting witnesses to address lists. This is a formal
 representation/elimination gap, not evidence of two mathematical cuts with
 the same address set, and no quotient is added to bypass it.
 
-## P3-2 corrections and coherence additions
+## P3-2 corrections, exact two-stage coherence, and material support
 
-P3-2 closes both recorded P3-1 representation mismatches at the public API
-level and migrates the manuscript's filling/coherence clauses. Source commits
-remain `N` and `R`; the manuscript source is v56.
+P3-2 closes both recorded P3-1 representation mismatches at the public API,
+migrates the manuscript's two-stage filling/coherence clause at actual
+decorated-tree level, and adds exact occurrence-indexed material support.
+Source commits remain `N` and `R`; the manuscript source is v56. Finite
+schedule coherence and linearisation remain explicit later targets.
+Pure-region coverage is proved under downward closure and mechanically false
+without it.
 
 | Source | Commit | Path | Source declaration | Destination | Status | Migration note |
 |---|---|---|---|---|---|---|
@@ -160,8 +164,34 @@ remain `N` and `R`; the manuscript source is v56.
 | manuscript v56 | v56 | Definition `Address-indexed cut witness` | finite nonroot address antichain as cut identity | `Potkin/CKCutValidity.lean`: `ExtensionalCKCut`, `validAddressEquiv`, public enumeration and validation | replaced | The public cut is structurally equivalent to `ValidAddressCut` and canonically compiles to the legacy recursive plan. Public enumeration is Nodup and exact-once after structural address deduplication; no quotient is introduced. |
 | `potkin` | R | `potkin/kernel/context.rkt`, `cut.rkt` | general context insertion, filling, puncture requirements | `Potkin/GeneralFilling.lean`: `PunctureAt`, `IsComplete`, exact general-fill puncture formula | generalised | Proves root, local-admission, old-hole, filler-prefix, completeness, distinguished-reconstruction, and base-transport laws for arbitrary compatible replacements. |
 | `nonmonlogics` | N | `Nonmonlogics/JLCHoleRelabellingAndFilling.lean`, `JLCIteratedTelescopeCapstone.lean` | disjoint filling, prefix relabelling, staged reconstruction patterns | `Potkin/GeneralFilling.lean`: typed insertion and strict interchange | reproved | Constructor recursion fixes old occurrence decorations, prefixes replacement addresses, transports an incomparable old puncture literally, and proves structural interchange. |
-| manuscript v56 | v56 | Theorem `Puncture factorisation and nested coherence`, clauses (iii)-(iv) | noncrossing cuts and finite hierarchy | `Potkin/NestedCoherence.lean`: `Noncrossing`, `CutTransport`, `CanonicalTwoStageWitness`, `RankedCutHierarchy`, `ExactTwoStageRemainderCoherence` | partial/generalised | Retains source and relative addresses, proves a unique retained-or-detached destination, a `Sum` swap of source-address identities, common frontier-interface presence, and separate local reconstruction laws. A ranked hierarchy determines a canonical frontier; the only parenthesisation result is generic address-list append associativity. Actual region/factor correspondence, composed filling from the further-cut root, literal equality of sequential remainders, and coherence of iterated cut schedules remain explicit targets. |
+| manuscript v56 | v56 | Theorem `Puncture factorisation and nested coherence`, clause (iii) | actual remainders and source-addressed regions for two noncrossing cuts | `Potkin/SourceAddressPruning.lean`: `remainder_eq_pruneAddresses`, `pruneAddresses_retainedAfter`, `pruneAddresses_frontier`, `nestedDetachedComponent_globalLookup`; `Potkin/NestedCoherence.lean`: `firstToSecondMiddleEquiv_component`, `firstToSecondLowerEquiv_component`, `exactTwoStageRemainderCoherence`, `scheduleRegionData_cohere`, `exactTwoStageRegionCoherence` | reproved/strengthened | Both actual sequential decorated roots and the canonical frontier root are literally equal through occurrence-preserving source pruning. Explicit middle/lower occurrence bijections preserve actual decorated components and multiplicity before forest collection. This is not address-classifier or finite-fixture agreement. |
+| manuscript v56 | v56 | Theorem `Puncture factorisation and nested coherence`, staged reconstruction part | filling from the final two-stage remainder | `Potkin/NestedCoherence.lean`: `CanonicalThreeRegionDecomposition.composedFilling_reconstructs` | reproved | Lower factors first reconstruct the actual punctured middle factors; those factors then fill the canonical final root and recover the exact source tree. The proof does not restart from either original first-stage cut. |
+| `nonmonlogics` | N | `Nonmonlogics/JLCRealizedSectorTransport.lean` | realised-sector transport discipline | `Potkin/RealizedNestedCoherence.lean`: `canonicalTwoStageRoot_mapBase`, `canonicalTwoStageMiddle_mapBase`, `canonicalTwoStageLower_mapBase`, `canonicalTwoStageComposedFilling_mapBase` | reproved | Base inclusion commutes with canonical two-stage realised packages and decorated reconstruction. No equality of raw `CheckedDerivation` terms across dependent presentation indices is claimed. |
+| manuscript v56 | v56 | Theorem `Puncture factorisation and nested coherence`, clause (iv) | finite noncrossing hierarchy and parenthesisation | `Potkin/NestedCoherence.lean`: `RankedCutHierarchy`, `pair_noncrossing`, `evaluate_independent_of_parenthesization` | partial | The global rank rejects orientation cycles and determines a canonical source frontier. The current evaluation theorem is address-prefix associativity with that root fixed; it does not construct finite transported schedules, region bijections, or iterated staged fillings. Clause (iv) remains pending. |
 | manuscript v56 | v56 | Corollary `Strict interchange of independent refinements` | two incomparable puncture insertions | `Potkin/GeneralFilling.lean`: `insertIncomparable_commutes` | reproved | Equality is literal decorated-tree equality, not a quotient or commuting conversion; internal addresses are prefixed by their exact old puncture addresses. |
+| P3-2 continuation brief | `34c37bc` | Stage B1--B2 | every use of an exact base occurrence in one proof presentation | `Potkin/MaterialSupport.lean`: `ExactOccurrence`, `MaterialUse`, `materialUseList`, `materialUseList_mapBase` | generalised | The proof-relevant carrier retains source address, exact occurrence membership, ID, and site boundary. Structural recursion traverses through nonmaterial nodes. Base transport changes only membership evidence and cannot alias distinct old occurrences. |
+| P3-2 continuation brief | `34c37bc` | Stage B1--B2 | address-forgetting multiplicity of exact material uses | `Potkin/MaterialSupport.lean`: `materialProfile`, `materialProfile_mapBase` | generalised | The profile is a `Multiset` pushforward obtained only after address-level extraction; it retains repeated use multiplicity but cannot recover source sites. It is not a formal sum, character, coaction, or comodule. |
+| P3-2 continuation brief | `34c37bc` | Stage B3 | dependent filled-use classification | `Potkin/MaterialSupportCut.lean`: `CKCut.partitionFilledMaterialUse`, `ValidAddressCut.partitionFilledMaterialUse` | partial | Recursive constructor views rebuild exactly, but the cut classifier is forward-only. No inverse or proof-relevant `MaterialUse` equivalence is claimed. |
+| P3-2 continuation brief | `34c37bc` | Stages B3--B4 | material support under arbitrary filling and public CK cuts | `Potkin/MaterialSupportListLaws.lean`: `fill_addressedMaterialOccurrences_perm`, `fill_materialProfile_eq_remainder_add_fillers`, `ValidAddressCut.source_addressedMaterialOccurrences_perm_remainder_append_detached`, `ValidAddressCut.source_materialProfile_eq_remainder_add_detached` | reproved at exact projected-occurrence level | Constructor recursion gives a `List.Perm` of exact `(source address, ExactOccurrence)` values; filler addresses are prefixed by their literal public-cut sites and multiplicity is retained. The profile laws follow from this permutation rather than finite agreement. |
+| P3-2 continuation brief | `34c37bc` | Stage B4, two-stage compatibility | canonical root/middle/lower material partition | `Potkin/MaterialSupportListLaws.lean`: `source_addressedMaterialOccurrences_perm_root_middle_lower`, `source_materialProfile_eq_root_add_middle_add_lower`, `exactTwoStageMaterialPartitionCoherence` | reproved at canonical projected-occurrence level | Each combined-frontier component is recursively repartitioned by its actual inner cut. The theorem couples the resulting source-addressed root/middle/lower permutation with equality of the two actual decorated Stage-A region data. A schedule-specific dependent-use equivalence is not inferred. |
+| P3-2 continuation brief | `34c37bc` | Stage B5 | wholly material subtrees versus occurrence support | `Potkin/MaterialRegions.lean`: `maximalMaterialCut_validAddresses`, `maximalMaterialPlan_detached_allVerticesMaterial`, `MaterialDownwardClosed`, `coveredByMaximalMaterialRegion_of_downwardClosed`; `Potkin/Examples/MaterialSupport.lean`: `maximal_regions_miss_interleaved_material_root` | reproved with counterexample | A non-pure source yields an exact public maximal-region cut and pure detached regions; downward stratification suffices for universal use coverage. A whole-pure source is the separately proved root-address exception. The interleaved positive-arity fixture shows unconditional coverage is false. |
+
+## Remaining P3-2 theorem boundary
+
+- Exact addressed-occurrence `List.Perm` filling, public extensional-cut
+  partition, additive profile laws, and the canonical two-stage material
+  partition are certified universal theorems. They are not fixture counts.
+- An inverse equivalence of dependent `MaterialUse` witnesses remains open;
+  `MaterialSupportCut` currently exposes only the forward classifier. A
+  schedule-specific material-use commuting diagram stronger than the
+  canonical compatibility package also remains open.
+- Pure-region coverage is conditional on `MaterialDownwardClosed`; the
+  interleaved fixture proves that removing this hypothesis is mathematically
+  false, not merely an unformalised strengthening.
+- No formal sums, tensor products, coproduct, counit, coaction/comodule,
+  grading, or antipode are migrated by these support declarations. The
+  occurrence and profile APIs are prerequisites for that future linear layer,
+  not proofs of it.
 
 ## Manuscript correction exposed by P3-2
 

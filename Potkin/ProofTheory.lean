@@ -188,6 +188,30 @@ theorem Admits.material_primitiveBoundary
     o.shape.IsPrimitiveBoundary T.primitive :=
   T.base.member_primitiveBoundary h
 
+/-- An admitted occurrence whose stored kind is material carries exact
+membership in the occurrence-indexed material base.  This Prop-level
+inversion is the safe bridge used by data-valued material-use extraction;
+it does not eliminate an admission proof directly into `Type`. -/
+theorem Admits.materialMembership_of_kind
+    {T : ProofTheory sigma InstanceData}
+    {o : LocalOccurrence sigma InstanceData}
+    (admitted : T.Admits o) (kind : o.kind = .material) :
+    T.base.Member o := by
+  cases admitted with
+  | material membership => exact membership
+  | initial logicalKind _ _ =>
+      have impossible : OccurrenceKind.logical = .material :=
+        logicalKind.symm.trans kind
+      cases impossible
+  | logical logicalKind _ =>
+      have impossible : OccurrenceKind.logical = .material :=
+        logicalKind.symm.trans kind
+      cases impossible
+  | structural structuralKind _ =>
+      have impossible : OccurrenceKind.structural = .material :=
+        structuralKind.symm.trans kind
+      cases impossible
+
 def Admits.mapBase {T : ProofTheory sigma InstanceData}
     {C : MaterialBase sigma InstanceData T.primitive}
     (f : BaseHom T.base C)

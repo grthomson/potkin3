@@ -1,13 +1,17 @@
 # P3-2 architecture
 
-Phases A--C and independent insertion are implemented. The nested-cut
-architecture exposes source-addressed transport and precise partial results;
-it does not claim the still-missing actual-region, actual-factor,
-sequential-root, composed two-stage-filling, or finite-schedule theorems.
+Phases A--C, strict independent insertion, and exact two-stage opening
+coherence are implemented. The two-stage result compares actual decorated
+remainders and actual occurrence-indexed factors, and its composed filling
+starts from the canonical final root. Arbitrary finite schedule coherence is
+still pending. The material-support layer records exact base occurrences and
+their multiplicity profiles. Downward-closed maximal-pure-region coverage is
+proved and unconditional coverage is refuted by an interleaved example; the
+future linear layer remains a separate claim.
 
 ## Dependency spine
 
-The aggregate `Potkin.lean` imports one short foundation spine:
+The milestone's module spine is:
 
 ```text
 Language
@@ -20,12 +24,20 @@ Language
               -> RootCut -> CKCut -> CKCutPuncture
                     \          -> CKCutEnumeration -> CKCutValidity
                      \          -> RealizedCut <- RealizedSector
-                      \         -> GeneralFilling -> NestedCoherence
-                      -> RootProjection
-                            -> Examples.Anonymous
-                            -> Examples.RecursiveCut
-                            -> Examples.MaterialBase
-                            -> Examples.Coherence
+                      \         -> GeneralFilling
+                       \        -> SourceAddressPruning
+                        \       -> NestedCoherence
+                         \      -> RealizedNestedCoherence
+                          \     -> MaterialSupport
+                           \        -> MaterialRegions
+                           \        -> MaterialSupportCut
+                           \        -> MaterialSupportListLaws
+                           -> RootProjection
+                                 -> Examples.Anonymous
+                                 -> Examples.RecursiveCut
+                                 -> Examples.MaterialBase
+                                 -> Examples.Coherence
+                                 -> Examples.MaterialSupport
 ```
 
 There is deliberately no `GenericCalculusSnapshot`. A `ProofTheory` supplies
@@ -303,37 +315,125 @@ prefix equations recovering their source. Full status preservation outside
 selected prefixes and exact detached/source lookup prove that these are valid
 cuts of the target remainder and detached trees.
 
-`CanonicalTwoStageWitness` stores the noncrossing certificate and determines
-derived transports, four labelled source regions representing three geometric
-layers, and the source-nearest final root frontier. Its
-`detachedOccurrenceEquiv` is a `Sum` swap of source-cut address identities; it
-preserves distinct source occurrences but does not compare actual transported
-detached tree entries. Reconstruction is proved by separate retained and
-inside-factor laws in both directions, not by one composed two-stage schedule.
-A `RankedCutHierarchy` supplies a global finite rank respected by every
-comparable pair and determines a final source frontier.
+`Potkin.SourceAddressPruning` supplies the constructor-recursive normal form
+used to compare actual roots without equating dependent cut certificates.
+`CKTree.pruneAddresses` removes a source address set while retaining every
+other occurrence and ordered child literally.
+`ValidAddressCut.remainder_eq_pruneAddresses`,
+`CKTree.pruneAddresses_retainedAfter`, and
+`CKTree.pruneAddresses_frontier` identify intrinsic remainders, sequential
+retained pruning, and frontier pruning with that normal form. The total
+decorated lookup `CKTree.componentAt?` and
+`CKCut.nestedDetachedComponent_globalLookup` support pointwise comparison of
+actual detached components.
 
-`sourceRegion_swap` compares only the four-valued source-address classifier;
-it does not identify transported region components, occurrence sets, or
-relative maps, and it does not use the witness's `noMixedOrientation` field.
-That field presently proves rejection/diagnostic facts, not a substantive
-coherence theorem. The reconstruction laws also restart from each original
-first-stage cut rather than filling forward from the further-cut final root.
+`CanonicalTwoStageWitness` stores the noncrossing certificate and computes the
+source-nearest combined frontier together with a
+`CanonicalThreeRegionDecomposition`. The first and reverse schedules have
+explicit middle and lower occurrence bijections
+`firstToSecondMiddleEquiv` and `firstToSecondLowerEquiv`. Their companion
+theorems `firstToSecondMiddleEquiv_component` and
+`firstToSecondLowerEquiv_component` prove equality of the actual decorated
+`CKComponent`s, not just addresses or counts. Forest collection occurs only
+after those bijections; `scheduleForests_cohere` preserves equal-factor
+multiplicity.
 
-This does not yet prove structural equality of the two actual sequential
-remainders with the canonical frontier remainder. That exact target is named
-`ExactTwoStageRemainderCoherence` but deliberately has no theorem. The proved
-frontier result is only common untyped interface presence at every canonical
-frontier address, not equality of roots or interface sets. The current
-parenthesisation result is generic associativity of append for supplied
-address-segment leaves; it is not connected to hierarchy levels or arbitrary
-iterated cut schedules. All stronger statements require a recursive theorem
-composing retained remainders without erasing occurrence decorations.
+The two actual sequential roots and the canonical frontier root reduce to the
+same source pruning by `firstThenSecondRoot_eq_pruneCombined`,
+`secondThenFirstRoot_eq_pruneCombined`, and
+`finalRoot_eq_pruneCombined`. Consequently
+`exactTwoStageRemainderCoherence` proves literal `CKTree` equality, including
+all retained occurrence decorations and ordered children.
+`scheduleRegionData_cohere` proves equality of the actual ordered
+lower/middle/root basis data, and `exactTwoStageRegionCoherence` packages the
+component bijections, final-root equality, basis equality, and reconstruction.
+`CanonicalThreeRegionDecomposition.composedFilling_reconstructs` is the
+genuine inside-out filling from the final root: it first reconstructs every
+punctured middle factor from its lower factors and then fills the final root
+to recover the exact source.
+
+`Potkin.RealizedNestedCoherence` packages the canonical root, middle, and
+lower components in the exact realised sector. The theorems
+`canonicalTwoStageRoot_mapBase`, `canonicalTwoStageMiddle_mapBase`, and
+`canonicalTwoStageLower_mapBase` are equalities of realised packages across
+occurrence-preserving base inclusion;
+`canonicalTwoStageComposedFilling_mapBase` is equality of the resulting
+decorated tree. None of these asserts equality of raw presentation-indexed
+`CheckedDerivation` terms.
+
+`sourceRegion_swap` remains only a useful classifier symmetry; the exact
+theorem no longer depends on treating it as component coherence. A
+`RankedCutHierarchy` supplies a global finite rank respected by every
+comparable pair and determines a source-canonical final frontier. However,
+`AddressBracketing.compose_independent_of_parenthesization` and
+`RankedCutHierarchy.evaluate_independent_of_parenthesization` are still only
+address-prefix associativity with that root held fixed. They do not construct
+finite transported schedules, region bijections, or iterated fillings, so
+manuscript clause (iv) remains pending.
 
 The rank is necessary. Three pairwise noncrossing families can force the
 cycle `A < B < C < A`; hence manuscript v56 clause (iv) needs a globally
 acyclic/ranked orientation hypothesis, and its two-cut definition needs
 explicit set disjointness.
+
+## Material occurrence support and pure regions
+
+`Potkin.MaterialSupport` follows material dependence to every exact
+base-occurrence use in a decorated, locally admitted tree. A
+`CKTree.MaterialUse B tree` is proof-relevant: its type fixes the source tree,
+while `sourceAddress`, `exactOccurrence`, `occurrenceId`, and `siteBoundary`
+retain the use site and its full occurrence-indexed base membership. There is
+no interface constructor.
+
+`CKTree.materialUseList` is a deterministic recursive preorder traversal. A
+material node contributes exactly one root use; all ordered premise trees are
+then traversed. Logical and structural nodes contribute no entry but do not
+stop recursion. Hence repeated uses, and different IDs with equal boundaries,
+remain distinct address-level objects. `materialUseList_mapBase` leaves those
+addresses and occurrences fixed and transports only membership evidence.
+
+`CKTree.materialProfile` deliberately forgets use addresses only after
+extracting them and returns a `Multiset` of exact base occurrences.
+Multiplicity is retained, and `materialProfile_mapBase` is its pushforward
+law under identity-on-occurrences `BaseHom`. The address-level list is the
+provenance API; the profile is a collected view and cannot recover use sites.
+
+Wholly material regions are a different projection.
+`CKTree.AllVerticesMaterial` asks whether every ordinary vertex in one
+subtree has stored material kind, and `maximalMaterialAddresses` finds maximal
+positive roots satisfying it. A whole pure tree legitimately returns `[]`;
+that root address is proved not to be a nonroot CK cut. For every non-pure
+ordinary source, `maximalMaterialCut_validAddresses` proves that the recursive
+plan is a public valid cut with exactly the maximal-root finset, and
+`maximalMaterialPlan_detached_allVerticesMaterial` proves every selected
+detached region pure. `MaterialDownwardClosed` is the explicit static
+stratification hypothesis under which
+`coveredByMaximalMaterialRegion_of_downwardClosed` covers every
+proof-relevant material use. Without it coverage is false: an interleaved
+positive-arity material rule separated from another material use by a logical
+vertex is still detected by `materialUseList` while the larger subtree is not
+wholly material.
+
+`MaterialSupportCut` recursively classifies each dependent filled
+`MaterialUse` into a retained or site-indexed filler case, but only in the
+forward direction. `MaterialSupportListLaws` projects witnesses to exact
+`(source address, ExactOccurrence)` values and proves the stronger reusable
+combinatorics there: `fill_addressedMaterialOccurrences_perm` is a universal
+constructor-recursive `List.Perm`, its filler side is the canonical
+site-order flat-map with literal address prefixes, and
+`fill_materialProfile_eq_remainder_add_fillers` is the collected corollary.
+The distinguished source law is exposed through the public
+`ValidAddressCut` API.
+
+For a canonical two-stage witness, the same module partitions each frontier
+factor into its actual middle remainder and lower detached family, then proves
+`source_addressedMaterialOccurrences_perm_root_middle_lower` and its profile
+identity. `exactTwoStageMaterialPartitionCoherence` packages that canonical
+partition with equality of the two actual decorated schedule-region data.
+This is not an inverse `Equiv` of dependent `MaterialUse` witnesses and does
+not yet provide a schedule-specific material-use commuting diagram. None of
+this support infrastructure is a linear coaction or comodule: formal sums,
+tensors, coefficients, and the linear CK layer remain a future milestone.
 
 ## Forests and root projections
 
@@ -353,7 +453,7 @@ projection distinguishes them because the former has one connected block and
 the latter has two. This is a structural presentation theorem, not a proof
 quotient or an operational assembly rule.
 
-## Anonymous fixtures
+## Fixtures
 
 `Potkin.Examples.Anonymous` supplies two material nullaries, one binary logical
 occurrence, and one unary structural occurrence. It checks the raw binary and
@@ -372,6 +472,13 @@ remainders, the degree splits, and executable invalid-address cases. A second
 open source distinguishes its old interface from a newly cut site. A duplicate
 binary source detaches two structurally equal `bS` trees at different premise
 addresses, demonstrating tuple identity and forest multiplicity separately.
+
+`Potkin.Examples.MaterialSupport` checks same-boundary/different-ID material
+operations, recursive support through an intervening logical node,
+multiplicity from repeated use, and persistent base extension. Its
+interleaved fixture separates occurrence support from wholly material region
+selection. These are deterministic witnesses and counterexamples, not proofs
+of the universal recursion or coverage statements.
 
 These finite examples are acceptance witnesses and falsifiers only. The
 universal claims are the constructor-recursive library theorems, not agreement

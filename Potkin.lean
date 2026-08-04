@@ -14,11 +14,18 @@ import Potkin.CKCutValidity
 import Potkin.RealizedSector
 import Potkin.RealizedCut
 import Potkin.GeneralFilling
+import Potkin.SourceAddressPruning
 import Potkin.NestedCoherence
+import Potkin.RealizedNestedCoherence
+import Potkin.MaterialSupport
+import Potkin.MaterialRegions
+import Potkin.MaterialSupportCut
+import Potkin.MaterialSupportListLaws
 import Potkin.Examples.Anonymous
 import Potkin.Examples.RecursiveCut
 import Potkin.Examples.MaterialBase
 import Potkin.Examples.Coherence
+import Potkin.Examples.MaterialSupport
 
-/-! Potkin P3-2 foundations: exact bases, extensional cuts, filling, and
-explicitly bounded nested-coherence scaffolding. -/
+/-! Potkin P3-2 foundations: exact bases, extensional cuts, exact two-stage
+opening coherence, and occurrence-level material support. -/

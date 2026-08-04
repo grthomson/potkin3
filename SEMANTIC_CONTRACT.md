@@ -4,10 +4,14 @@ This contract distinguishes what P3-2 implements from conventions fixed now
 for later milestones. A convention marked **deferred** is not a theorem or API
 claim about the current source.
 
-P3-2 Phases A--C and strict independent insertion are proved. The nested-cut
-section states the exact weaker results currently available and explicitly
-excludes full actual-region/factor, sequential-root, composed two-stage, and
-finite iterated-schedule coherence.
+P3-2 Phases A--C, strict independent insertion, and exact two-stage opening
+coherence are proved. The comparison is at the level of actual decorated
+trees, occurrence-indexed components, and realised packages; it is not raw
+`CheckedDerivation` equality across presentations. Arbitrary finite schedule
+coherence remains pending. Exact material-occurrence extraction and
+multiplicity profiles are present. Pure-region coverage is exact under an
+explicit downward-closure hypothesis and false without it; the future linear
+layer remains a separate claim.
 
 ## Boundaries and equality
 
@@ -270,32 +274,103 @@ finite iterated-schedule coherence.
   retained remainder or has one first-cut prefix removed and enters that exact
   detached component. Original source address, relative address, and the
   prefix equation are retained together.
-- The schedule occurrence equivalence is exactly a `Sum` swap of the two
-  source-cut address families. It preserves distinct source occurrences, but
-  does not compare the actual transported detached tree entries. Transported
-  retained parts and inside factors have separate local reconstruction laws,
-  and refilling either original first-stage cut reconstructs the literal
-  source.
-- These facts do not establish literal equality of the two sequential retained
-  roots with the canonical frontier remainder. The missing statement is named
-  `ExactTwoStageRemainderCoherence` and remains unproved. The current frontier
-  theorem gives common untyped interface presence at each canonical frontier
-  address; it proves neither root equality, interface-set equality, nor typed
-  puncture-witness equality.
-- `sourceRegion_swap` is symmetry of a four-valued classifier on source
-  addresses. It does not compare transported region components, occurrence
-  sets, or relative maps, and its proof does not consume the noncrossing
-  witness. `noMixedOrientation` currently supplies rejection and hierarchy
-  diagnostics, not a full two-stage coherence implication.
-- Existing reconstruction laws rebuild retained and inside pieces separately
-  and then refill an original first-stage cut. They do not compose a filling
-  beginning at the further-cut final root.
+- `CKTree.pruneAddresses` is the occurrence-preserving structural normal form
+  for source-address deletion. `ValidAddressCut.remainder_eq_pruneAddresses`,
+  `CKTree.pruneAddresses_retainedAfter`, and
+  `CKTree.pruneAddresses_frontier` identify an intrinsic remainder, either
+  sequential retained remainder, and the canonical frontier remainder with
+  the corresponding direct source pruning.
+- `firstThenSecondRoot_eq_pruneCombined`,
+  `secondThenFirstRoot_eq_pruneCombined`, and
+  `finalRoot_eq_pruneCombined` therefore have the same right-hand side.
+  `exactTwoStageRemainderCoherence` proves literal equality of the two actual
+  sequential `CKTree`s and the canonical frontier tree. This equality retains
+  occurrence decorations and ordered children; it is stronger than equality
+  of boundaries, interface sets, or address classifiers.
+- `firstToSecondMiddleEquiv` and `firstToSecondLowerEquiv` are explicit
+  occurrence bijections between the native schedules. The theorems
+  `firstToSecondMiddleEquiv_component` and
+  `firstToSecondLowerEquiv_component` prove equality of corresponding actual
+  decorated components. `scheduleForests_cohere` derives multiset equality
+  only after this pointwise comparison, retaining equal-factor multiplicity.
+- `scheduleRegionData_cohere` proves equality of the actual ordered
+  lower/middle/root data, and `exactTwoStageRegionCoherence` packages the two
+  component laws, exact final roots, basis data, and reconstruction. Neither a
+  finite count nor `sourceRegion_swap` is used as the proof of this universal
+  result.
+- `CanonicalThreeRegionDecomposition.composedFilling_reconstructs` is the
+  inside-out staged reconstruction from the actual final root: lower factors
+  reconstruct each punctured middle factor, and those factors reconstruct the
+  exact source.
+- At the realised level, `canonicalTwoStageRoot_mapBase`,
+  `canonicalTwoStageMiddle_mapBase`, `canonicalTwoStageLower_mapBase`, and
+  `canonicalTwoStageComposedFilling_mapBase` commute with exact-occurrence
+  base inclusion. These are realised-package or decorated-tree equalities,
+  not raw proof-term equality across presentation indices.
 - A finite cut hierarchy includes a global rank respected by every comparable
   cross-pair. Pairwise noncrossing is not substituted for this hypothesis: a
-  three-family orientation cycle is formally exhibited. The current
-  parenthesisation theorem is generic list-append associativity for supplied
-  address-segment leaves; it does not connect bracketings to hierarchy levels,
-  transported cuts, or arbitrary iterated schedules.
+  three-family orientation cycle is formally exhibited.
+  `evaluate_independent_of_parenthesization` holds a source-canonical root
+  fixed and proves only address-prefix associativity. It does not construct
+  hierarchy schedules, finite region bijections, or iterated fillings;
+  manuscript clause (iv) remains pending.
+
+## Material occurrence support and pure regions
+
+- `CKTree.MaterialUse B tree` is an address-level, proof-relevant use of one
+  exact material-base occurrence in one decorated tree. `sourceAddress`,
+  `exactOccurrence`, `occurrenceId`, and `siteBoundary` retain provenance.
+  There is no use constructor for an interface.
+- `CKTree.materialUseList` recursively traverses every ordered premise. A
+  material node contributes exactly once. Logical and structural nodes do not
+  contribute an entry, but they do not stop traversal. Repeated uses and
+  equal-boundary occurrences with different IDs remain distinct entries.
+- `materialUseList_mapBase` preserves addresses and exact occurrences while
+  transporting only base-membership evidence. `ExactOccurrence.map_injective`
+  prevents distinct old occurrences from aliasing under that transport.
+- `CKTree.materialProfile` is the address-forgetting `Multiset` projection of
+  the use list. It retains exact occurrence multiplicity but cannot reconstruct
+  use sites. `materialProfile_mapBase` is its pushforward law under
+  identity-on-occurrences `BaseHom`.
+- Primitive-boundary membership and occurrence support are different
+  judgements. The former constrains which exact material occurrence belongs to
+  the base; the latter says where that occurrence appears in a particular
+  proof presentation. Neither proves semantic necessity, harmony, or
+  conservativity.
+- `CKTree.AllVerticesMaterial` and `maximalMaterialAddresses` describe wholly
+  material positive subtrees, not general occurrence support. Interfaces are
+  vacuous for the predicate but contribute no maximal positive root. A wholly
+  material complete tree may yield root address `[]`, which is not a nonroot
+  CK cut.
+- For a non-pure ordinary source, `maximalMaterialCut_validAddresses` gives a
+  public valid address cut with exactly the maximal-root finset, and every
+  selected detached region is proved `AllVerticesMaterial`. For a whole-pure
+  source, `wholeMaterialRoot_not_validAddressCut` isolates the root exception.
+- `MaterialDownwardClosed` is the explicit stratification hypothesis under
+  which every proof-relevant use is covered by a maximal pure region. Without
+  it coverage is false: the interleaved fixture has material uses at `[]` and
+  `[0,0]` separated by a logical vertex, while
+  `maximalMaterialAddresses` returns only `[[0,0]]`.
+- `CKCut.fill_addressedMaterialOccurrences_perm` proves by recursive
+  constructor decomposition that the filled proof's projected exact
+  `(source address, ExactOccurrence)` list is a permutation of retained
+  support and canonically site-ordered, source-prefixed filler support.
+  `fill_materialProfile_eq_remainder_add_fillers` is its multiset corollary.
+- `ValidAddressCut.source_addressedMaterialOccurrences_perm_remainder_append_detached`
+  and `source_materialProfile_eq_remainder_add_detached` expose the exact
+  distinguished source partition through the public extensional cut API.
+- `source_addressedMaterialOccurrences_perm_root_middle_lower` recursively
+  refines the combined-frontier partition into canonical final-root, middle,
+  and lower support. `exactTwoStageMaterialPartitionCoherence` couples it to
+  equality of the two actual Stage-A schedule-region data; profile equality
+  is derived only after this occurrence permutation.
+- The dependent `MaterialUse` classifier is forward-only. No inverse
+  witness-level `Equiv`, nor a schedule-specific material-use commuting
+  diagram beyond the canonical compatibility theorem, is claimed.
+- Address-level material support and its multiset projection are prerequisites
+  for, but are not themselves, a linear coaction or comodule. Formal sums,
+  tensors, collected coefficients, counit, and the linear CK layer remain
+  deferred.
 
 ## Root projections
 
