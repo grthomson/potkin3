@@ -77,6 +77,35 @@ def runningTwoStage :
     CanonicalTwoStageWitness runningOuter runningInner :=
   ⟨running_noncrossing⟩
 
+/-- Canonical occurrence-decorated lower/middle/root decomposition of the
+running `i(m(bS,bT))` proof. -/
+def runningCanonicalDecomposition :=
+  runningTwoStage.canonicalDecomposition
+
+/-- The actual roots obtained in both orders are propositionally equal to one
+another and to the canonical final decorated root. -/
+theorem running_actual_final_roots_cohere :
+    runningTwoStage.firstThenSecondRoot =
+        runningTwoStage.secondThenFirstRoot ∧
+      runningTwoStage.firstThenSecondRoot = runningTwoStage.finalRoot := by
+  exact
+    ⟨runningTwoStage.exactTwoStageRemainderCoherence.1.trans
+        runningTwoStage.exactTwoStageRemainderCoherence.2.symm,
+      runningTwoStage.exactTwoStageRemainderCoherence.1⟩
+
+/-- The composed fill starts from `i(Box)`, fills `m(Box,Box)`, then fills
+`bS` and `bT`, reconstructing the exact running decorated tree. -/
+theorem running_canonical_composed_reconstructs :
+    runningCanonicalDecomposition.composedFilling = runningTree :=
+  runningCanonicalDecomposition.composedFilling_reconstructs
+
+/-- The two staged schedules expose the same actual ordered
+lower/middle/root basis data before any linearisation. -/
+theorem running_schedule_region_data_cohere :
+    runningTwoStage.firstScheduleRegionData =
+      runningTwoStage.secondScheduleRegionData :=
+  runningTwoStage.scheduleRegionData_cohere
+
 theorem running_first_then_second_reconstructs :
     runningOuter.toCut.fill (fun site =>
       (runningTwoStage.secondInsideFirst site).toCut.fill
@@ -90,6 +119,82 @@ theorem running_second_then_first_reconstructs :
         (runningTwoStage.firstInsideSecond site).toCut.plan.detached) =
       runningTree :=
   runningTwoStage.second_then_first_inside_filling_reconstructs
+
+/-! ## Two genuinely incomparable cuts, in both orders -/
+
+def siblingLeft : ValidAddressCut runningTree :=
+  leftGroundCut.validAddressCut
+
+def siblingRight : ValidAddressCut runningTree :=
+  rightGroundCut.validAddressCut
+
+theorem siblingLeft_addresses : siblingLeft.addresses = { [0, 0] } := by
+  change leftGroundCut.plan.addressFinset = { [0, 0] }
+  rw [leftGroundCut.addressFinset_eq_orderedAddresses_toFinset,
+    leftGroundCut_internal]
+  simp
+
+theorem siblingRight_addresses : siblingRight.addresses = { [0, 1] } := by
+  change rightGroundCut.plan.addressFinset = { [0, 1] }
+  rw [rightGroundCut.addressFinset_eq_orderedAddresses_toFinset,
+    rightGroundCut_internal]
+  simp
+
+theorem sibling_cuts_cross_incomparable :
+    CrossIncomparableCuts siblingLeft siblingRight := by
+  intro p pMember q qMember
+  have pEq : p = [0, 0] := by
+    change p ∈ leftGroundCut.plan.addressFinset at pMember
+    rw [leftGroundCut.addressFinset_eq_orderedAddresses_toFinset,
+      leftGroundCut_internal] at pMember
+    simpa using pMember
+  have qEq : q = [0, 1] := by
+    change q ∈ rightGroundCut.plan.addressFinset at qMember
+    rw [rightGroundCut.addressFinset_eq_orderedAddresses_toFinset,
+      rightGroundCut_internal] at qMember
+    simpa using qMember
+  subst p
+  subst q
+  decide
+
+theorem sibling_cuts_noncrossing :
+    Noncrossing siblingLeft siblingRight :=
+  Noncrossing.of_cross_incomparable sibling_cuts_cross_incomparable
+
+def siblingTwoStage :
+    CanonicalTwoStageWitness siblingLeft siblingRight :=
+  ⟨sibling_cuts_noncrossing⟩
+
+/-- Cutting the two independent ground branches in either order, or by the
+canonical (here literal-union) frontier, produces the same actual decorated
+open tree. -/
+theorem sibling_actual_final_roots_cohere :
+    siblingTwoStage.firstThenSecondRoot =
+        siblingTwoStage.secondThenFirstRoot ∧
+      siblingTwoStage.firstThenSecondRoot = siblingTwoStage.finalRoot := by
+  exact
+    ⟨siblingTwoStage.exactTwoStageRemainderCoherence.1.trans
+        siblingTwoStage.exactTwoStageRemainderCoherence.2.symm,
+      siblingTwoStage.exactTwoStageRemainderCoherence.1⟩
+
+/-- The schedule bijection identifies actual detached decorated components,
+not merely their source addresses. -/
+theorem sibling_actual_detached_components_correspond
+    (occurrence :
+      CanonicalTwoStageWitness.FirstScheduleMiddleOccurrence siblingTwoStage) :
+    siblingTwoStage.firstScheduleMiddleComponent occurrence =
+      siblingTwoStage.secondScheduleMiddleComponent
+        (siblingTwoStage.firstToSecondMiddleEquiv occurrence) :=
+  siblingTwoStage.firstToSecondMiddleEquiv_component occurrence
+
+/-- Staged filling from the common final root and direct filling of the
+literal-union frontier agree as decorated trees. -/
+theorem sibling_staged_filling_eq_direct :
+    siblingTwoStage.canonicalDecomposition.composedFilling =
+      siblingTwoStage.finalCut.toCut.fill
+        siblingTwoStage.finalCut.toCut.plan.detached := by
+  rw [siblingTwoStage.canonicalDecomposition.composedFilling_reconstructs,
+    siblingTwoStage.frontier_filling_reconstructs]
 
 /-! ## Existing holes, replacement holes, and independent insertion -/
 
@@ -202,5 +307,17 @@ theorem running_extensional_enumeration_nodup :
 theorem running_extensional_cut_object_count :
     runningExtensionalCuts.length = 5 := by
   decide
+
+/-- Four generated cuts on the duplicate-factor fixture; its joint cut has
+two equal detached occurrences rather than one idempotent factor. -/
+theorem duplicate_cut_object_count : duplicateCuts.length = 4 := by
+  decide
+
+/-- The required outer-before-inner rank inequalities of the three-family
+cycle are inconsistent. -/
+theorem three_family_rank_cycle_rejected
+    (rankA rankB rankC : Nat)
+    (BA : rankB < rankA) (CB : rankC < rankB) (AC : rankA < rankC) : False :=
+  HierarchyGapFixture.no_global_rank rankA rankB rankC BA CB AC
 
 end Potkin.Examples.Coherence

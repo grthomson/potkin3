@@ -1,21 +1,23 @@
-import Potkin.CKCutValidity
+import Potkin.SourceAddressPruning
 import Potkin.RealizedCut
 import Potkin.GeneralFilling
 import Mathlib.Data.Finset.Union
 import Mathlib.Data.Fintype.Basic
 
 /-!
-# Source-addressed nested CK-cut transport and partial coherence
+# Exact source-addressed two-stage CK-cut coherence
 
 This file keeps the comparison of successive cuts at occurrence level.  In
 particular, all relations below are relations on addresses in one fixed source
 tree; relative addresses used after transport are accompanied by the equation
 which recovers their source address.
 
-The current results are deliberately partial. They do not identify actual
-transported region components or detached tree entries, compose a two-stage
-fill from the further-cut root, prove equality of sequential remainders, or
-encode arbitrary finite iterated cut schedules.
+The two-stage results identify actual transported components, compare both
+schedule occurrence families through explicit bijections, prove equality of
+the decorated final remainders, retain multiplicity under forest projection,
+and reconstruct by a composed fill from the final root.  Arbitrary finite
+ranked schedule coherence is deliberately not claimed here: only its data,
+canonical frontier, and the ordinary address-append lemma are present.
 -/
 
 namespace Potkin
@@ -100,6 +102,15 @@ structure Noncrossing {G : Hypersequent sigma}
   noMixedOrientation :
     ¬ (HasInsidePair first second ∧ HasInsidePair second first)
 
+/-- Strong independent-branch hypothesis: every cross-cut pair is prefix
+incomparable.  Unlike `Noncrossing`, this excludes consistently nested pairs
+as well as equality and makes the literal union a valid antichain cut. -/
+def CrossIncomparableCuts {G : Hypersequent sigma}
+    {tree : CKTree sigma InstanceData G}
+    (first second : ValidAddressCut tree) : Prop :=
+  ∀ p ∈ first.addresses, ∀ q ∈ second.addresses,
+    PrefixIncomparable p q
+
 theorem noncrossing_iff_addressFamilies {G : Hypersequent sigma}
     {tree : CKTree sigma InstanceData G}
     (first second : ValidAddressCut tree) :
@@ -152,6 +163,43 @@ theorem of_cross_incomparable {G : Hypersequent sigma}
 end Noncrossing
 
 namespace ValidAddressCut
+
+/-- Under the stronger independent-branch hypothesis, the literal finite
+union is itself one public valid address cut.  For merely noncrossing nested
+cuts, use `combinedFrontier` instead. -/
+def unionOfCrossIncomparable {G : Hypersequent sigma}
+    {tree : CKTree sigma InstanceData G}
+    (first second : ValidAddressCut tree)
+    (incomparable : CrossIncomparableCuts first second) :
+    ValidAddressCut tree where
+  addresses := first.addresses ∪ second.addresses
+  address_vertex := by
+    intro address member
+    rcases Finset.mem_union.mp member with firstMember | secondMember
+    · exact first.address_vertex firstMember
+    · exact second.address_vertex secondMember
+  prefixFree := by
+    intro p q pMember qMember different
+    rcases Finset.mem_union.mp pMember with pFirst | pSecond <;>
+      rcases Finset.mem_union.mp qMember with qFirst | qSecond
+    · exact first.prefixFree pFirst qFirst different
+    · exact incomparable p pFirst q qSecond
+    · exact prefixIncomparable_symm (incomparable q qFirst p pSecond)
+    · exact second.prefixFree pSecond qSecond different
+  address_nonroot := by
+    intro address member
+    rcases Finset.mem_union.mp member with firstMember | secondMember
+    · exact first.address_nonroot firstMember
+    · exact second.address_nonroot secondMember
+  sourceOrdinary := first.sourceOrdinary
+
+@[simp]
+theorem unionOfCrossIncomparable_addresses {G : Hypersequent sigma}
+    {tree : CKTree sigma InstanceData G}
+    (first second : ValidAddressCut tree)
+    (incomparable : CrossIncomparableCuts first second) :
+    (unionOfCrossIncomparable first second incomparable).addresses =
+      first.addresses ∪ second.addresses := rfl
 
 /-- Prefix-freeness makes the selected anchor above a source address unique. -/
 theorem prefix_anchor_unique {G : Hypersequent sigma}
@@ -713,6 +761,16 @@ def frontierAddresses {G : Hypersequent sigma}
     ¬ ∃ outer ∈ combinedAddresses first second,
       StrictlyInside address outer
 
+/-- The cut-specific visible frontier is the generic finite source-nearest
+frontier of the combined source addresses. -/
+theorem frontierAddresses_eq_addressSelectionFrontier
+    {G : Hypersequent sigma} {tree : CKTree sigma InstanceData G}
+    (first second : ValidAddressCut tree) :
+    frontierAddresses first second =
+      AddressSelection.frontier (combinedAddresses first second) := by
+  ext address
+  simp [frontierAddresses, AddressSelection.frontier, StrictlyInside]
+
 /-- The final root frontier is itself a valid CK cut.  This construction is
 source-addressed and therefore independent of procedural cut order. -/
 def combinedFrontier {G : Hypersequent sigma}
@@ -990,9 +1048,9 @@ def secondOrderSourceAddress :
 
 /-- Source-tagged occurrence bijection between the two schedules.  It swaps
 only the stage tag and never identifies source addresses, so multiplicity of
-equal displayed trees is retained.  This is not yet a proof that the actual
-transported detached tree entries agree; that stronger statement depends on
-`ExactTwoStageRemainderCoherence`. -/
+equal displayed trees is retained.  This definition itself is address-only;
+the later middle/lower component equivalences prove equality of the actual
+transported decorated entries. -/
 def detachedOccurrenceEquiv :
     FirstOrderOccurrence (first := first) (second := second) ≃
       SecondOrderOccurrence (first := first) (second := second) where
@@ -1201,6 +1259,1784 @@ def finalRoot (witness : CanonicalTwoStageWitness first second) :
     CKTree sigma InstanceData G :=
   witness.finalCut.toCut.remainder
 
+/-- Relative addresses of every combined selected occurrence strictly below
+one canonical source-frontier occurrence. -/
+def frontierInnerRelativeAddresses
+    (witness : CanonicalTwoStageWitness first second)
+    (outer : witness.finalCut.toCut.Site) : Finset InternalAddress :=
+  ((ValidAddressCut.combinedAddresses first second).filter fun source =>
+      StrictlyInside source (witness.finalCut.toCut.plan.address outer)).image
+    (fun source => source.drop
+      (witness.finalCut.toCut.plan.address outer).length)
+
+/-- Relative membership carries its original source address and literal
+prefix equation. -/
+theorem mem_frontierInnerRelativeAddresses_iff
+    (witness : CanonicalTwoStageWitness first second)
+    (outer : witness.finalCut.toCut.Site) (relative : InternalAddress) :
+    relative ∈ witness.frontierInnerRelativeAddresses outer ↔
+      ∃ source ∈ ValidAddressCut.combinedAddresses first second,
+        StrictlyInside source
+          (witness.finalCut.toCut.plan.address outer) ∧
+        witness.finalCut.toCut.plan.address outer ++ relative = source := by
+  constructor
+  · intro member
+    rcases Finset.mem_image.mp member with
+      ⟨source, sourceData, relativeEq⟩
+    have combinedMember := (Finset.mem_filter.mp sourceData).1
+    have sourceInside := (Finset.mem_filter.mp sourceData).2
+    refine ⟨source, combinedMember, sourceInside, ?_⟩
+    rw [← relativeEq]
+    exact (List.prefix_append_drop sourceInside.1).symm
+  · rintro ⟨source, combinedMember, sourceInside, sourceEq⟩
+    have dropEq : source.drop
+        (witness.finalCut.toCut.plan.address outer).length = relative := by
+      rw [← sourceEq]
+      simp
+    exact Finset.mem_image.mpr
+      ⟨source, Finset.mem_filter.mpr
+        ⟨combinedMember, sourceInside⟩, dropEq⟩
+
+/-- Below a source-frontier occurrence, all remaining selected addresses lie
+in the opposite source antichain and are therefore prefix-free. -/
+theorem frontier_descendants_prefixFree
+    (witness : CanonicalTwoStageWitness first second)
+    {anchor p q : InternalAddress}
+    (anchorMember : anchor ∈
+      ValidAddressCut.frontierAddresses first second)
+    (pMember : p ∈ ValidAddressCut.combinedAddresses first second)
+    (qMember : q ∈ ValidAddressCut.combinedAddresses first second)
+    (pInside : StrictlyInside p anchor)
+    (qInside : StrictlyInside q anchor) (different : p ≠ q) :
+    PrefixIncomparable p q := by
+  have anchorCombined := (Finset.mem_filter.mp anchorMember).1
+  rcases Finset.mem_union.mp anchorCombined with anchorFirst | anchorSecond
+  · have pSecond : p ∈ second.addresses := by
+      rcases Finset.mem_union.mp pMember with pFirst | pSecond
+      · exact False.elim <|
+          (first.prefixFree anchorFirst pFirst
+            (fun equal => pInside.2 equal.symm)).1 pInside.1
+      · exact pSecond
+    have qSecond : q ∈ second.addresses := by
+      rcases Finset.mem_union.mp qMember with qFirst | qSecond
+      · exact False.elim <|
+          (first.prefixFree anchorFirst qFirst
+            (fun equal => qInside.2 equal.symm)).1 qInside.1
+      · exact qSecond
+    exact second.prefixFree pSecond qSecond different
+  · have pFirst : p ∈ first.addresses := by
+      rcases Finset.mem_union.mp pMember with pFirst | pSecond
+      · exact pFirst
+      · exact False.elim <|
+          (second.prefixFree anchorSecond pSecond
+            (fun equal => pInside.2 equal.symm)).1 pInside.1
+    have qFirst : q ∈ first.addresses := by
+      rcases Finset.mem_union.mp qMember with qFirst | qSecond
+      · exact qFirst
+      · exact False.elim <|
+          (second.prefixFree anchorSecond qSecond
+            (fun equal => qInside.2 equal.symm)).1 qInside.1
+    exact first.prefixFree pFirst qFirst different
+
+/-- The exact inner cut inside one canonical frontier-detached component.
+It is constructed directly from source addresses and retains the relative
+prefix equation for every site. -/
+def frontierInnerCut
+    (witness : CanonicalTwoStageWitness first second)
+    (outer : witness.finalCut.toCut.Site) :
+    ValidAddressCut (witness.finalCut.toCut.plan.detached outer) where
+  addresses := witness.frontierInnerRelativeAddresses outer
+  address_vertex := by
+    intro relative member
+    rcases (witness.mem_frontierInnerRelativeAddresses_iff outer relative).mp
+        member with ⟨source, combinedMember, _, sourceEq⟩
+    apply (witness.finalCut.toCut.detached_vertexAt_iff_source
+      outer relative).mpr
+    rw [sourceEq]
+    rcases Finset.mem_union.mp combinedMember with firstMember | secondMember
+    · exact first.address_vertex firstMember
+    · exact second.address_vertex secondMember
+  prefixFree := by
+    intro p q pMember qMember different
+    rcases (witness.mem_frontierInnerRelativeAddresses_iff outer p).mp
+      pMember with ⟨pSource, pCombined, pInside, pEq⟩
+    rcases (witness.mem_frontierInnerRelativeAddresses_iff outer q).mp
+      qMember with ⟨qSource, qCombined, qInside, qEq⟩
+    have sourceDifferent : pSource ≠ qSource := by
+      intro equal
+      exact different (List.append_cancel_left
+        (pEq.trans (equal.trans qEq.symm)))
+    have outerPlanMember :
+        witness.finalCut.toCut.plan.address outer ∈
+          witness.finalCut.toCut.plan.addressFinset :=
+      (witness.finalCut.toCut.plan.mem_addressFinset_iff _).mpr
+        ⟨outer, rfl⟩
+    have outerFrontier : witness.finalCut.toCut.plan.address outer ∈
+        ValidAddressCut.frontierAddresses first second := by
+      simpa [finalCut, ValidAddressCut.combinedFrontier] using outerPlanMember
+    have sourceIncomparable := witness.frontier_descendants_prefixFree
+      outerFrontier pCombined qCombined pInside qInside sourceDifferent
+    constructor
+    · intro relativePrefix
+      apply sourceIncomparable.1
+      rw [← pEq, ← qEq]
+      exact (List.prefix_append_right_inj _).mpr relativePrefix
+    · intro relativePrefix
+      apply sourceIncomparable.2
+      rw [← pEq, ← qEq]
+      exact (List.prefix_append_right_inj _).mpr relativePrefix
+  address_nonroot := by
+    intro relative member relativeRoot
+    rcases (witness.mem_frontierInnerRelativeAddresses_iff outer relative).mp
+      member with ⟨source, _, sourceInside, sourceEq⟩
+    apply sourceInside.2
+    simpa [relativeRoot] using sourceEq.symm
+  sourceOrdinary := witness.finalCut.toCut.plan.detachedOrdinary outer
+
+/-- The canonical occurrence-decorated three-region object.  Its middle
+occurrences are exact source-frontier sites; its lower occurrences are exact
+sites of the relative inner cut in that frontier factor. -/
+structure CanonicalThreeRegionDecomposition
+    (witness : CanonicalTwoStageWitness first second) where
+  innerCut : (outer : witness.finalCut.toCut.Site) →
+    ValidAddressCut (witness.finalCut.toCut.plan.detached outer)
+
+/-- Canonical decomposition built directly from the admitted source tree. -/
+def canonicalDecomposition
+    (witness : CanonicalTwoStageWitness first second) :
+    CanonicalThreeRegionDecomposition witness where
+  innerCut := witness.frontierInnerCut
+
+namespace CanonicalThreeRegionDecomposition
+
+variable {witness : CanonicalTwoStageWitness first second}
+
+/-- Source-addressed middle occurrence identities. -/
+abbrev MiddleOccurrence
+    (decomposition : CanonicalThreeRegionDecomposition witness) :=
+  witness.finalCut.toCut.Site
+
+/-- Source-addressed lower occurrence identities, retaining the exact outer
+site and relative inner site before any forest projection. -/
+abbrev LowerOccurrence
+    (decomposition : CanonicalThreeRegionDecomposition witness) :=
+  (outer : witness.finalCut.toCut.Site) ×
+    (decomposition.innerCut outer).toCut.Site
+
+/-- Actual punctured middle component at one exact source occurrence. -/
+def middleEntry (decomposition : CanonicalThreeRegionDecomposition witness)
+    (outer : decomposition.MiddleOccurrence) : CKCutEntry sigma InstanceData :=
+  { address := witness.finalCut.toCut.plan.address outer
+    boundary := witness.finalCut.toCut.plan.siteBoundary outer
+    tree := (decomposition.innerCut outer).toCut.remainder
+    ordinary := (decomposition.innerCut outer).toCut.remainder_isOrdinary }
+
+/-- Actual lower detached occurrence with both relative and original source
+addresses retained by its identity. -/
+def lowerEntry (decomposition : CanonicalThreeRegionDecomposition witness)
+    (occurrence : decomposition.LowerOccurrence) :
+    CKCutEntry sigma InstanceData :=
+  { address := witness.finalCut.toCut.plan.address occurrence.1 ++
+      (decomposition.innerCut occurrence.1).toCut.plan.address occurrence.2
+    boundary := (decomposition.innerCut occurrence.1).toCut.plan.siteBoundary
+      occurrence.2
+    tree := (decomposition.innerCut occurrence.1).toCut.plan.detached
+      occurrence.2
+    ordinary := (decomposition.innerCut occurrence.1).toCut.plan.detachedOrdinary
+      occurrence.2 }
+
+/-- Relative-to-source prefix equation, retained literally. -/
+theorem lowerEntry_sourceEquation
+    (decomposition : CanonicalThreeRegionDecomposition witness)
+    (occurrence : decomposition.LowerOccurrence) :
+    witness.finalCut.toCut.plan.address occurrence.1 ++
+        (decomposition.innerCut occurrence.1).toCut.plan.address occurrence.2 =
+      (decomposition.lowerEntry occurrence).address := rfl
+
+/-- Deterministic occurrence-level middle tuple. -/
+def middleTuple (decomposition : CanonicalThreeRegionDecomposition witness) :
+    List (CKCutEntry sigma InstanceData) :=
+  witness.finalCut.toCut.orderedSites.map decomposition.middleEntry
+
+/-- Deterministic lower tuple, preserving outer-block order, relative order,
+and equal displayed occurrences at distinct source addresses. -/
+def lowerTuple (decomposition : CanonicalThreeRegionDecomposition witness) :
+    List (CKCutEntry sigma InstanceData) :=
+  witness.finalCut.toCut.orderedSites.flatMap fun outer =>
+    (decomposition.innerCut outer).toCut.orderedSites.map fun inner =>
+      decomposition.lowerEntry ⟨outer, inner⟩
+
+/-- Commutative middle forest projection, after occurrence data is retained. -/
+def middleForest (decomposition : CanonicalThreeRegionDecomposition witness) :
+    CKForest sigma InstanceData :=
+  Multiset.ofList <| decomposition.middleTuple.map fun entry =>
+    { boundary := entry.boundary
+      tree := entry.tree
+      ordinary := entry.ordinary }
+
+/-- Commutative lower forest projection, preserving occurrence multiplicity. -/
+def lowerForest (decomposition : CanonicalThreeRegionDecomposition witness) :
+    CKForest sigma InstanceData :=
+  Multiset.ofList <| decomposition.lowerTuple.map fun entry =>
+    { boundary := entry.boundary
+      tree := entry.tree
+      ordinary := entry.ordinary }
+
+/-- Genuine composed two-stage filling from the final source-frontier root:
+each punctured middle factor is first reconstructed from its lower factors,
+then those reconstructed factors fill the final root. -/
+def composedFilling (decomposition : CanonicalThreeRegionDecomposition witness) :
+    CKTree sigma InstanceData G :=
+  witness.finalCut.toCut.fill fun outer =>
+    (decomposition.innerCut outer).toCut.fill
+      (decomposition.innerCut outer).toCut.plan.detached
+
+/-- The composed canonical filling reconstructs the exact admitted source
+tree without restarting from either original schedule cut. -/
+theorem composedFilling_reconstructs
+    (decomposition : CanonicalThreeRegionDecomposition witness) :
+    decomposition.composedFilling = tree := by
+  have fillers : (fun outer =>
+      (decomposition.innerCut outer).toCut.fill
+        (decomposition.innerCut outer).toCut.plan.detached) =
+      witness.finalCut.toCut.plan.detached := by
+    funext outer
+    exact (decomposition.innerCut outer).toCut.fill_detached_reconstructs
+  rw [composedFilling, fillers]
+  exact witness.finalCut.toCut.fill_detached_reconstructs
+
+/-- The genuinely staged filling and the direct distinguished filling of the
+canonical combined frontier agree as actual decorated trees.  The staged
+side first uses the relative inner sites carried by `LowerOccurrence`; the
+direct side uses the source-frontier sites carried by `MiddleOccurrence`. -/
+theorem composedFilling_eq_frontierFilling
+    (decomposition : CanonicalThreeRegionDecomposition witness) :
+    decomposition.composedFilling =
+      witness.finalCut.toCut.fill witness.finalCut.toCut.plan.detached := by
+  rw [decomposition.composedFilling_reconstructs,
+    witness.finalCut.toCut.fill_detached_reconstructs]
+
+end CanonicalThreeRegionDecomposition
+
+/-! ## Native schedule occurrence families and source-address equivalences -/
+
+/-- Canonical source-address identity of a middle occurrence. -/
+abbrev CanonicalMiddleAddress
+    (witness : CanonicalTwoStageWitness first second) :=
+  {address // address ∈ ValidAddressCut.frontierAddresses first second}
+
+/-- Middle occurrences actually exposed by the first-then-second schedule:
+frontier sites of the first cut, plus the retained second-stage sites. -/
+abbrev FirstScheduleMiddleOccurrence
+    (witness : CanonicalTwoStageWitness first second) :=
+  Sum
+    {site : first.toCut.Site // first.toCut.plan.address site ∈
+      ValidAddressCut.frontierAddresses first second}
+    witness.secondRetainedAfterFirst.toCut.Site
+
+/-- Symmetric middle occurrences of the reverse schedule. -/
+abbrev SecondScheduleMiddleOccurrence
+    (witness : CanonicalTwoStageWitness first second) :=
+  Sum
+    {site : second.toCut.Site // second.toCut.plan.address site ∈
+      ValidAddressCut.frontierAddresses first second}
+    witness.firstRetainedAfterSecond.toCut.Site
+
+/-- Literal source address of a first-schedule middle occurrence. -/
+def firstScheduleMiddleSourceAddress
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleMiddleOccurrence witness → InternalAddress
+  | .inl site => first.toCut.plan.address site.1
+  | .inr site =>
+      witness.secondRetainedAfterFirst.toCut.plan.address site
+
+/-- Literal source address of a reverse-schedule middle occurrence. -/
+def secondScheduleMiddleSourceAddress
+    (witness : CanonicalTwoStageWitness first second) :
+    SecondScheduleMiddleOccurrence witness → InternalAddress
+  | .inl site => second.toCut.plan.address site.1
+  | .inr site =>
+      witness.firstRetainedAfterSecond.toCut.plan.address site
+
+/-- Every retained second-stage site is source-nearest in the combined
+family. -/
+theorem secondRetainedAfterFirst_site_frontier
+    (witness : CanonicalTwoStageWitness first second)
+    (site : witness.secondRetainedAfterFirst.toCut.Site) :
+    witness.secondRetainedAfterFirst.toCut.plan.address site ∈
+      ValidAddressCut.frontierAddresses first second := by
+  let source := witness.secondRetainedAfterFirst.toCut.plan.address site
+  have planMember : source ∈
+      witness.secondRetainedAfterFirst.toCut.plan.addressFinset :=
+    (witness.secondRetainedAfterFirst.toCut.plan.mem_addressFinset_iff _).mpr
+      ⟨site, rfl⟩
+  have retainedMember : source ∈
+      ValidAddressCut.retainedAddresses first second := by
+    simpa [secondRetainedAfterFirst,
+      ValidAddressCut.toCut_addressFinset] using planMember
+  have retainedData := Finset.mem_filter.mp retainedMember
+  apply Finset.mem_filter.mpr
+  refine ⟨Finset.mem_union_right _ retainedData.1, ?_⟩
+  rintro ⟨outer, outerCombined, sourceInside⟩
+  rcases Finset.mem_union.mp outerCombined with outerFirst | outerSecond
+  · exact retainedData.2 outer outerFirst sourceInside.1
+  · exact (second.prefixFree outerSecond retainedData.1
+      (fun equal => sourceInside.2 equal.symm)).1 sourceInside.1
+
+/-- Symmetric retained-site frontier fact. -/
+theorem firstRetainedAfterSecond_site_frontier
+    (witness : CanonicalTwoStageWitness first second)
+    (site : witness.firstRetainedAfterSecond.toCut.Site) :
+    witness.firstRetainedAfterSecond.toCut.plan.address site ∈
+      ValidAddressCut.frontierAddresses first second := by
+  have swapped := (CanonicalTwoStageWitness.mk
+    witness.noncrossing.symm).secondRetainedAfterFirst_site_frontier site
+  simpa [ValidAddressCut.frontierAddresses,
+    ValidAddressCut.combinedAddresses, Finset.union_comm,
+    firstRetainedAfterSecond, secondRetainedAfterFirst] using swapped
+
+/-- The first native middle family maps into the canonical source-address
+family. -/
+def firstScheduleMiddleToCanonical
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : FirstScheduleMiddleOccurrence witness) :
+    CanonicalMiddleAddress witness :=
+  match occurrence with
+  | .inl site => ⟨first.toCut.plan.address site.1, site.2⟩
+  | .inr site =>
+      ⟨witness.secondRetainedAfterFirst.toCut.plan.address site,
+        witness.secondRetainedAfterFirst_site_frontier site⟩
+
+/-- The reverse native middle family maps into the same canonical addresses. -/
+def secondScheduleMiddleToCanonical
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : SecondScheduleMiddleOccurrence witness) :
+    CanonicalMiddleAddress witness :=
+  match occurrence with
+  | .inl site => ⟨second.toCut.plan.address site.1, site.2⟩
+  | .inr site =>
+      ⟨witness.firstRetainedAfterSecond.toCut.plan.address site,
+        witness.firstRetainedAfterSecond_site_frontier site⟩
+
+/-- First-schedule middle source addresses are injective, including across
+the two sum branches. -/
+theorem firstScheduleMiddleToCanonical_injective
+    (witness : CanonicalTwoStageWitness first second) :
+    Function.Injective witness.firstScheduleMiddleToCanonical := by
+  intro left right equal
+  cases left with
+  | inl left =>
+      cases right with
+      | inl right =>
+          apply congrArg Sum.inl
+          apply Subtype.ext
+          apply first.toCut.address_injective
+          exact congrArg Subtype.val equal
+      | inr right =>
+          have firstMember : first.toCut.plan.address left.1 ∈
+              first.addresses := by
+            rw [← first.toCut_addressFinset]
+            exact (first.toCut.plan.mem_addressFinset_iff _).mpr
+              ⟨left.1, rfl⟩
+          have rightPlanMember :=
+            (witness.secondRetainedAfterFirst.toCut.plan
+              |>.mem_addressFinset_iff _).mpr ⟨right, rfl⟩
+          have secondMember :
+              witness.secondRetainedAfterFirst.toCut.plan.address right ∈
+                second.addresses := by
+            have retained :
+                witness.secondRetainedAfterFirst.toCut.plan.address right ∈
+                  ValidAddressCut.retainedAddresses first second := by
+              simpa [secondRetainedAfterFirst] using rightPlanMember
+            exact (Finset.mem_filter.mp retained).1
+          have addressEq : first.toCut.plan.address left.1 =
+              witness.secondRetainedAfterFirst.toCut.plan.address right := by
+            exact congrArg Subtype.val equal
+          rw [← addressEq] at secondMember
+          exact False.elim <| Finset.disjoint_left.mp
+            witness.noncrossing.disjoint firstMember
+              secondMember
+  | inr left =>
+      cases right with
+      | inl right =>
+          have leftPlanMember :=
+            (witness.secondRetainedAfterFirst.toCut.plan
+              |>.mem_addressFinset_iff _).mpr ⟨left, rfl⟩
+          have secondMember :
+              witness.secondRetainedAfterFirst.toCut.plan.address left ∈
+                second.addresses := by
+            have retained :
+                witness.secondRetainedAfterFirst.toCut.plan.address left ∈
+                  ValidAddressCut.retainedAddresses first second := by
+              simpa [secondRetainedAfterFirst] using leftPlanMember
+            exact (Finset.mem_filter.mp retained).1
+          have firstMember : first.toCut.plan.address right.1 ∈
+              first.addresses := by
+            rw [← first.toCut_addressFinset]
+            exact (first.toCut.plan.mem_addressFinset_iff _).mpr
+              ⟨right.1, rfl⟩
+          have addressEq :
+              witness.secondRetainedAfterFirst.toCut.plan.address left =
+                first.toCut.plan.address right.1 := by
+            exact congrArg Subtype.val equal
+          rw [addressEq] at secondMember
+          exact False.elim <| Finset.disjoint_left.mp
+            witness.noncrossing.disjoint firstMember secondMember
+      | inr right =>
+          apply congrArg Sum.inr
+          apply witness.secondRetainedAfterFirst.toCut.address_injective
+          exact congrArg Subtype.val equal
+
+/-- Every canonical middle address occurs in the native first schedule. -/
+theorem firstScheduleMiddleToCanonical_surjective
+    (witness : CanonicalTwoStageWitness first second) :
+    Function.Surjective witness.firstScheduleMiddleToCanonical := by
+  intro canonical
+  have combined := (Finset.mem_filter.mp canonical.2).1
+  rcases Finset.mem_union.mp combined with firstMember | secondMember
+  · have planMember : canonical.1 ∈ first.toCut.plan.addressFinset := by
+      simpa [first.toCut_addressFinset] using firstMember
+    rcases (first.toCut.plan.mem_addressFinset_iff canonical.1).mp
+      planMember with ⟨site, siteEq⟩
+    refine ⟨Sum.inl ⟨site, ?_⟩, ?_⟩
+    · simpa [siteEq] using canonical.2
+    · apply Subtype.ext
+      exact siteEq
+  · have retained := ValidAddressCut.frontier_right_mem_retainedAddresses
+      first second witness.noncrossing.disjoint canonical.2 secondMember
+    have planMember : canonical.1 ∈
+        witness.secondRetainedAfterFirst.toCut.plan.addressFinset := by
+      simpa [secondRetainedAfterFirst,
+        ValidAddressCut.toCut_addressFinset] using retained
+    rcases (witness.secondRetainedAfterFirst.toCut.plan
+      |>.mem_addressFinset_iff canonical.1).mp planMember with
+      ⟨site, siteEq⟩
+    refine ⟨Sum.inr site, ?_⟩
+    apply Subtype.ext
+    exact siteEq
+
+/-- Explicit source-address bijection for first-then-second middle
+occurrences. -/
+noncomputable def firstScheduleMiddleEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleMiddleOccurrence witness ≃ CanonicalMiddleAddress witness :=
+  Equiv.ofBijective witness.firstScheduleMiddleToCanonical
+    ⟨witness.firstScheduleMiddleToCanonical_injective,
+      witness.firstScheduleMiddleToCanonical_surjective⟩
+
+/-- Reverse-schedule middle bijection, obtained by the same source-address
+construction with cut labels exchanged. -/
+noncomputable def secondScheduleMiddleEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    SecondScheduleMiddleOccurrence witness ≃ CanonicalMiddleAddress witness := by
+  let swapped : CanonicalTwoStageWitness second first :=
+    ⟨witness.noncrossing.symm⟩
+  let canonicalSwap : CanonicalMiddleAddress swapped ≃
+      CanonicalMiddleAddress witness := Equiv.ofBijective
+    (fun occurrence => ⟨occurrence.1, by
+      simpa [ValidAddressCut.frontierAddresses,
+        ValidAddressCut.combinedAddresses, Finset.union_comm] using occurrence.2⟩)
+    (by
+      constructor
+      · intro left right equal
+        apply Subtype.ext
+        exact congrArg
+          (fun occurrence : CanonicalMiddleAddress witness => occurrence.1)
+          equal
+      · intro occurrence
+        exact ⟨⟨occurrence.1, by
+          simpa [ValidAddressCut.frontierAddresses,
+            ValidAddressCut.combinedAddresses, Finset.union_comm] using
+              occurrence.2⟩, Subtype.ext rfl⟩)
+  let nativeSwap : SecondScheduleMiddleOccurrence witness ≃
+      FirstScheduleMiddleOccurrence swapped :=
+  { toFun := fun
+      | .inl site => .inl ⟨site.1, by
+          simpa [ValidAddressCut.frontierAddresses,
+            ValidAddressCut.combinedAddresses, Finset.union_comm] using site.2⟩
+      | .inr site => .inr site
+    invFun := fun
+      | .inl site => .inl ⟨site.1, by
+          simpa [ValidAddressCut.frontierAddresses,
+            ValidAddressCut.combinedAddresses, Finset.union_comm] using site.2⟩
+      | .inr site => .inr site
+    left_inv := by
+      intro occurrence
+      cases occurrence with
+      | inl site =>
+          apply congrArg Sum.inl
+          apply Subtype.ext
+          rfl
+      | inr site => rfl
+    right_inv := by
+      intro occurrence
+      cases occurrence with
+      | inl site =>
+          apply congrArg Sum.inl
+          apply Subtype.ext
+          rfl
+      | inr site => rfl
+  }
+  exact nativeSwap.trans (swapped.firstScheduleMiddleEquiv.trans canonicalSwap)
+
+/-- Canonical frontier site selected by one canonical middle source address. -/
+noncomputable def canonicalMiddleSite
+    (witness : CanonicalTwoStageWitness first second)
+    (address : CanonicalMiddleAddress witness) :
+    witness.finalCut.toCut.Site :=
+  witness.finalCut.toCut.siteAddressEquiv.symm
+    ⟨address.1, by
+      simpa [finalCut, ValidAddressCut.combinedFrontier] using address.2⟩
+
+@[simp]
+theorem canonicalMiddleSite_address
+    (witness : CanonicalTwoStageWitness first second)
+    (address : CanonicalMiddleAddress witness) :
+    witness.finalCut.toCut.plan.address
+        (witness.canonicalMiddleSite address) = address.1 := by
+  have inverse := witness.finalCut.toCut.siteAddressEquiv.apply_symm_apply
+    ⟨address.1, by
+      simpa [finalCut, ValidAddressCut.combinedFrontier] using address.2⟩
+  exact congrArg Subtype.val inverse
+
+/-- Actual canonical punctured middle component at a source address. -/
+noncomputable def canonicalMiddleComponent
+    (witness : CanonicalTwoStageWitness first second)
+    (address : CanonicalMiddleAddress witness) :
+    CKComponent sigma InstanceData :=
+  let outer := witness.canonicalMiddleSite address
+  (witness.canonicalDecomposition.innerCut outer).toCut.remainderComponent
+
+/-- Actual middle component exposed by the first native schedule. -/
+def firstScheduleMiddleComponent
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleMiddleOccurrence witness → CKComponent sigma InstanceData
+  | .inl site =>
+      (witness.secondInsideFirst site.1).toCut.remainderComponent
+  | .inr site =>
+      witness.secondRetainedAfterFirst.toCut.detachedComponent site
+
+/-- Actual middle component exposed by the reverse native schedule. -/
+def secondScheduleMiddleComponent
+    (witness : CanonicalTwoStageWitness first second) :
+    SecondScheduleMiddleOccurrence witness → CKComponent sigma InstanceData
+  | .inl site =>
+      (witness.firstInsideSecond site.1).toCut.remainderComponent
+  | .inr site =>
+      witness.firstRetainedAfterSecond.toCut.detachedComponent site
+
+/-- At a first-cut frontier site, the canonical relative inner family is
+exactly the transported second family. -/
+theorem frontierInnerRelativeAddresses_eq_secondInsideFirst
+    (witness : CanonicalTwoStageWitness first second)
+    (site : first.toCut.Site)
+    (frontier : first.toCut.plan.address site ∈
+      ValidAddressCut.frontierAddresses first second) :
+    witness.frontierInnerRelativeAddresses
+        (witness.canonicalMiddleSite
+          ⟨first.toCut.plan.address site, frontier⟩) =
+      ValidAddressCut.insideRelativeAddresses first second site := by
+  ext relative
+  rw [witness.mem_frontierInnerRelativeAddresses_iff]
+  rw [ValidAddressCut.mem_insideRelativeAddresses_iff]
+  constructor
+  · rintro ⟨source, combinedMember, sourceInside, sourceEq⟩
+    have outerEq : witness.finalCut.toCut.plan.address
+        (witness.canonicalMiddleSite
+          ⟨first.toCut.plan.address site, frontier⟩) =
+        first.toCut.plan.address site :=
+      witness.canonicalMiddleSite_address _
+    have sourceInsideFirst : StrictlyInside source
+        (first.toCut.plan.address site) := by
+      simpa [outerEq] using sourceInside
+    have sourceSecond : source ∈ second.addresses := by
+      rcases Finset.mem_union.mp combinedMember with sourceFirst | sourceSecond
+      · exact False.elim <|
+          (first.prefixFree
+            (by
+              rw [← first.toCut_addressFinset]
+              exact (first.toCut.plan.mem_addressFinset_iff _).mpr
+                ⟨site, rfl⟩)
+            sourceFirst (fun equal => sourceInsideFirst.2 equal.symm)).1
+              sourceInsideFirst.1
+      · exact sourceSecond
+    exact ⟨source, sourceSecond, by simpa [outerEq] using sourceEq⟩
+  · rintro ⟨source, sourceSecond, sourceEq⟩
+    have outerEq : witness.finalCut.toCut.plan.address
+        (witness.canonicalMiddleSite
+          ⟨first.toCut.plan.address site, frontier⟩) =
+        first.toCut.plan.address site :=
+      witness.canonicalMiddleSite_address _
+    have sourceDifferent : source ≠ first.toCut.plan.address site := by
+      intro equal
+      have firstMember : first.toCut.plan.address site ∈ first.addresses := by
+        rw [← first.toCut_addressFinset]
+        exact (first.toCut.plan.mem_addressFinset_iff _).mpr ⟨site, rfl⟩
+      exact Finset.disjoint_left.mp witness.noncrossing.disjoint
+        firstMember (equal ▸ sourceSecond)
+    refine ⟨source, Finset.mem_union_right _ sourceSecond, ?_, ?_⟩
+    · refine ⟨?_, ?_⟩
+      exact ⟨relative, by simpa [outerEq] using sourceEq⟩
+      intro equal
+      exact sourceDifferent (by simpa [outerEq] using equal)
+    · simpa [outerEq] using sourceEq
+
+/-- At a first-cut frontier occurrence, the native transported remainder and
+the canonical punctured middle component are the same actual decorated
+component, not merely the same source address. -/
+theorem firstScheduleMiddleComponent_inl_eq_canonical
+    (witness : CanonicalTwoStageWitness first second)
+    (site : first.toCut.Site)
+    (frontier : first.toCut.plan.address site ∈
+      ValidAddressCut.frontierAddresses first second) :
+    witness.firstScheduleMiddleComponent (Sum.inl ⟨site, frontier⟩) =
+      witness.canonicalMiddleComponent
+        ⟨first.toCut.plan.address site, frontier⟩ := by
+  let canonicalAddress : CanonicalMiddleAddress witness :=
+    ⟨first.toCut.plan.address site, frontier⟩
+  let outer := witness.canonicalMiddleSite canonicalAddress
+  change (witness.secondInsideFirst site).toCut.remainderComponent =
+    (witness.frontierInnerCut outer).toCut.remainderComponent
+  have outerAddress : witness.finalCut.toCut.plan.address outer =
+      first.toCut.plan.address site := by
+    exact witness.canonicalMiddleSite_address canonicalAddress
+  have sourceComponentEq : first.toCut.detachedComponent site =
+      witness.finalCut.toCut.detachedComponent outer :=
+    first.toCut.detachedComponent_eq_of_address_eq
+      witness.finalCut.toCut site outer outerAddress.symm
+  have selectedEq : (witness.secondInsideFirst site).addresses =
+      (witness.frontierInnerCut outer).addresses := by
+    change ValidAddressCut.insideRelativeAddresses first second site =
+      witness.frontierInnerRelativeAddresses outer
+    exact (witness.frontierInnerRelativeAddresses_eq_secondInsideFirst
+      site frontier).symm
+  apply CKComponent.ext
+  · change (first.toCut.detachedComponent site).boundary =
+      (witness.finalCut.toCut.detachedComponent outer).boundary
+    exact congrArg CKComponent.boundary sourceComponentEq
+  · have leftTreeEq := ValidAddressCut.remainder_eq_pruneAddresses
+        (witness.secondInsideFirst site)
+    have rightTreeEq := ValidAddressCut.remainder_eq_pruneAddresses
+        (witness.frontierInnerCut outer)
+    have leftHEq : HEq
+        (witness.secondInsideFirst site).toCut.remainder
+        ((first.toCut.detachedComponent site).tree.pruneAddresses
+          (witness.secondInsideFirst site).addresses) := by
+      exact heqOfEq leftTreeEq
+    have middleHEq := CKComponent.pruneAddresses_tree_heq_of_eq
+      sourceComponentEq selectedEq
+    have rightHEq : HEq
+        (witness.frontierInnerCut outer).toCut.remainder
+        ((witness.finalCut.toCut.detachedComponent outer).tree.pruneAddresses
+          (witness.frontierInnerCut outer).addresses) := by
+      exact heqOfEq rightTreeEq
+    exact leftHEq.trans (middleHEq.trans rightHEq.symm)
+
+/-- At a second-cut frontier site, the canonical relative inner family is
+exactly the first-family suffixes below that source address. -/
+theorem frontierInnerRelativeAddresses_eq_belowFirst
+    (witness : CanonicalTwoStageWitness first second)
+    (source : InternalAddress) (sourceSecond : source ∈ second.addresses)
+    (frontier : source ∈
+      ValidAddressCut.frontierAddresses first second) :
+    witness.frontierInnerRelativeAddresses
+        (witness.canonicalMiddleSite ⟨source, frontier⟩) =
+      AddressSelection.belowRelative first.addresses source := by
+  ext relative
+  rw [witness.mem_frontierInnerRelativeAddresses_iff]
+  rw [AddressSelection.mem_belowRelative_iff]
+  have outerEq : witness.finalCut.toCut.plan.address
+      (witness.canonicalMiddleSite ⟨source, frontier⟩) = source :=
+    witness.canonicalMiddleSite_address _
+  constructor
+  · rintro ⟨selected, combinedMember, selectedInside, selectedEq⟩
+    have selectedInsideSource : StrictlyInside selected source := by
+      simpa [outerEq] using selectedInside
+    rcases Finset.mem_union.mp combinedMember with selectedFirst | selectedSecond
+    · have relativeMember := selectedFirst
+      rw [← selectedEq, outerEq] at relativeMember
+      exact relativeMember
+    · exact False.elim <|
+        (second.prefixFree sourceSecond selectedSecond
+          (fun equal => selectedInsideSource.2 equal.symm)).1
+            selectedInsideSource.1
+  · intro selectedMember
+    let selected := source ++ relative
+    have selectedFirst : selected ∈ first.addresses := selectedMember
+    have different : selected ≠ source := by
+      intro equal
+      exact Finset.disjoint_left.mp witness.noncrossing.disjoint
+        selectedFirst (equal ▸ sourceSecond)
+    refine ⟨selected, Finset.mem_union_left _ selectedFirst, ?_, ?_⟩
+    · refine ⟨?_, ?_⟩
+      exact ⟨relative, by simp [selected, outerEq]⟩
+      intro equal
+      exact different (by simpa [outerEq] using equal)
+    · simp [selected, outerEq]
+
+/-- A retained second-stage detached factor is the source factor pruned by
+exactly the first-family descendants. -/
+theorem secondRetainedAfterFirst_component_eq_prunedSource
+    (witness : CanonicalTwoStageWitness first second)
+    (site : witness.secondRetainedAfterFirst.toCut.Site) :
+    witness.secondRetainedAfterFirst.toCut.detachedComponent site =
+      (witness.finalCut.toCut.detachedComponent
+        (witness.canonicalMiddleSite
+          (witness.firstScheduleMiddleToCanonical (Sum.inr site)))).pruneNonroot
+          (AddressSelection.belowRelative first.addresses
+            (witness.secondRetainedAfterFirst.toCut.plan.address site))
+          (by
+            apply AddressSelection.belowRelative_root_absent
+            intro dominated
+            rcases dominated with ⟨anchor, anchorMember, anchorPrefix⟩
+            have planMember :=
+              (witness.secondRetainedAfterFirst.toCut.plan
+                |>.mem_addressFinset_iff _).mpr ⟨site, rfl⟩
+            have retained :
+                witness.secondRetainedAfterFirst.toCut.plan.address site ∈
+                  ValidAddressCut.retainedAddresses first second := by
+              simpa [secondRetainedAfterFirst] using planMember
+            exact (Finset.mem_filter.mp retained).2
+              anchor anchorMember anchorPrefix) := by
+  let source := witness.secondRetainedAfterFirst.toCut.plan.address site
+  let canonical := witness.firstScheduleMiddleToCanonical (Sum.inr site)
+  let outer := witness.canonicalMiddleSite canonical
+  have outerAddress : witness.finalCut.toCut.plan.address outer = source := by
+    exact witness.canonicalMiddleSite_address canonical
+  have planMember : source ∈
+      witness.secondRetainedAfterFirst.toCut.plan.addressFinset :=
+    (witness.secondRetainedAfterFirst.toCut.plan.mem_addressFinset_iff _).mpr
+      ⟨site, rfl⟩
+  have retained : source ∈
+      ValidAddressCut.retainedAddresses first second := by
+    simpa [source, secondRetainedAfterFirst] using planMember
+  have outside : ¬ AddressSelection.Dominates first.addresses source := by
+    rintro ⟨anchor, anchorMember, anchorPrefix⟩
+    exact (Finset.mem_filter.mp retained).2 anchor anchorMember anchorPrefix
+  have actualLookup :=
+    witness.secondRetainedAfterFirst.toCut.plan
+      |>.componentAt?_address_eq_detachedComponent site
+  have sourceLookup := witness.finalCut.toCut.plan
+    |>.componentAt?_address_eq_detachedComponent outer
+  have remainderTreeEq := ValidAddressCut.remainder_eq_pruneAddresses first
+  have remainderLookupEq := congrArg
+    (fun retainedTree => retainedTree.componentAt? source) remainderTreeEq
+  have pruneLookup := CKTree.componentAt?_pruneAddresses
+    tree first.addresses source outside
+  have sourceLookupAt : tree.componentAt? source =
+      some (witness.finalCut.toCut.detachedComponent outer) := by
+    simpa [outerAddress] using sourceLookup
+  have someEqual :
+      some (witness.secondRetainedAfterFirst.toCut.detachedComponent site) =
+        some ((witness.finalCut.toCut.detachedComponent outer).pruneNonroot
+          (AddressSelection.belowRelative first.addresses source)
+          (AddressSelection.belowRelative_root_absent outside)) := by
+    calc
+      some (witness.secondRetainedAfterFirst.toCut.detachedComponent site) =
+          first.toCut.remainder.componentAt? source := actualLookup.symm
+      _ = (tree.pruneAddresses first.addresses).componentAt? source :=
+        remainderLookupEq
+      _ = (tree.componentAt? source).map (fun component =>
+          component.pruneNonroot
+            (AddressSelection.belowRelative first.addresses source)
+            (AddressSelection.belowRelative_root_absent outside)) := pruneLookup
+      _ = some ((witness.finalCut.toCut.detachedComponent outer).pruneNonroot
+          (AddressSelection.belowRelative first.addresses source)
+          (AddressSelection.belowRelative_root_absent outside)) := by
+        rw [sourceLookupAt]
+        change some _ = some _
+        apply congrArg some
+        apply CKComponent.ext <;> rfl
+  exact Option.some.inj someEqual
+
+/-- The retained branch of the first native schedule preserves the actual
+transported middle component under the canonical address equivalence. -/
+theorem firstScheduleMiddleComponent_inr_eq_canonical
+    (witness : CanonicalTwoStageWitness first second)
+    (site : witness.secondRetainedAfterFirst.toCut.Site) :
+    witness.firstScheduleMiddleComponent (Sum.inr site) =
+      witness.canonicalMiddleComponent
+        (witness.firstScheduleMiddleEquiv (Sum.inr site)) := by
+  let source := witness.secondRetainedAfterFirst.toCut.plan.address site
+  let canonical := witness.firstScheduleMiddleToCanonical (Sum.inr site)
+  let outer := witness.canonicalMiddleSite canonical
+  have sourceSecond : source ∈ second.addresses := by
+    have planMember :=
+      (witness.secondRetainedAfterFirst.toCut.plan
+        |>.mem_addressFinset_iff _).mpr ⟨site, rfl⟩
+    have retained : source ∈
+        ValidAddressCut.retainedAddresses first second := by
+      simpa [source, secondRetainedAfterFirst] using planMember
+    exact (Finset.mem_filter.mp retained).1
+  have frontier : source ∈
+      ValidAddressCut.frontierAddresses first second :=
+    witness.secondRetainedAfterFirst_site_frontier site
+  have selectedEq : (witness.frontierInnerCut outer).addresses =
+      AddressSelection.belowRelative first.addresses source := by
+    exact witness.frontierInnerRelativeAddresses_eq_belowFirst
+      source sourceSecond frontier
+  have actualEq := witness.secondRetainedAfterFirst_component_eq_prunedSource site
+  have canonicalNormal := ValidAddressCut.remainderComponent_eq_pruneNonroot
+    (witness.frontierInnerCut outer)
+  change witness.secondRetainedAfterFirst.toCut.detachedComponent site =
+    (witness.frontierInnerCut outer).toCut.remainderComponent
+  rw [actualEq, canonicalNormal]
+  apply CKComponent.ext
+  · rfl
+  · exact CKComponent.pruneAddresses_tree_heq_of_eq rfl selectedEq.symm
+
+/-- The explicit first-schedule source-address bijection preserves the actual
+transported decorated middle component pointwise. -/
+theorem firstScheduleMiddleEquiv_component
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : FirstScheduleMiddleOccurrence witness) :
+    witness.firstScheduleMiddleComponent occurrence =
+      witness.canonicalMiddleComponent
+        (witness.firstScheduleMiddleEquiv occurrence) := by
+  cases occurrence with
+  | inl site =>
+      change witness.firstScheduleMiddleComponent (Sum.inl site) =
+        witness.canonicalMiddleComponent
+          ⟨first.toCut.plan.address site.1, site.2⟩
+      exact witness.firstScheduleMiddleComponent_inl_eq_canonical
+        site.1 site.2
+  | inr site =>
+      exact witness.firstScheduleMiddleComponent_inr_eq_canonical site
+
+/-- Canonical source-address identity of a lower occurrence. -/
+abbrev CanonicalLowerAddress
+    (witness : CanonicalTwoStageWitness first second) :=
+  {address // address ∈ ValidAddressCut.combinedAddresses first second ∧
+    address ∉ ValidAddressCut.frontierAddresses first second}
+
+/-- The canonical lower-address type is finite because its predicate is the
+difference of two explicit finite source-address sets. -/
+noncomputable instance canonicalLowerAddressFintype
+    (witness : CanonicalTwoStageWitness first second) :
+    Fintype (CanonicalLowerAddress witness) :=
+  Fintype.ofFinset
+    (ValidAddressCut.combinedAddresses first second \
+      ValidAddressCut.frontierAddresses first second) (by
+        intro address
+        rw [Finset.mem_sdiff]
+        change
+          (address ∈ ValidAddressCut.combinedAddresses first second ∧
+              address ∉ ValidAddressCut.frontierAddresses first second) ↔
+            (address ∈ ValidAddressCut.combinedAddresses first second ∧
+              address ∉ ValidAddressCut.frontierAddresses first second)
+        simp)
+
+/-- Lower occurrences actually exposed by the first schedule: transported
+second sites inside a first factor, plus first sites lying below a retained
+second frontier. -/
+abbrev FirstScheduleLowerOccurrence
+    (witness : CanonicalTwoStageWitness first second) :=
+  Sum
+    (Σ outer : first.toCut.Site,
+      (witness.secondInsideFirst outer).toCut.Site)
+    {site : first.toCut.Site // first.toCut.plan.address site ∉
+      ValidAddressCut.frontierAddresses first second}
+
+/-- Literal global source address of a first-schedule lower occurrence. -/
+def firstScheduleLowerSourceAddress
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleLowerOccurrence witness → InternalAddress
+  | .inl occurrence =>
+      first.toCut.plan.address occurrence.1 ++
+        (witness.secondInsideFirst occurrence.1).toCut.plan.address
+          occurrence.2
+  | .inr occurrence => first.toCut.plan.address occurrence.1
+
+/-- Actual lower detached component of the first schedule. -/
+def firstScheduleLowerComponent
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleLowerOccurrence witness → CKComponent sigma InstanceData
+  | .inl occurrence =>
+      (witness.secondInsideFirst occurrence.1).toCut.detachedComponent
+        occurrence.2
+  | .inr occurrence => first.toCut.detachedComponent occurrence.1
+
+/-- One transported inside occurrence recovers a selected second source
+address. -/
+theorem secondInsideFirst_source_mem
+    (witness : CanonicalTwoStageWitness first second)
+    (outer : first.toCut.Site)
+    (inner : (witness.secondInsideFirst outer).toCut.Site) :
+    witness.firstScheduleLowerSourceAddress (Sum.inl ⟨outer, inner⟩) ∈
+      second.addresses := by
+  have planMember :
+      (witness.secondInsideFirst outer).toCut.plan.address inner ∈
+        (witness.secondInsideFirst outer).toCut.plan.addressFinset :=
+    ((witness.secondInsideFirst outer).toCut.plan.mem_addressFinset_iff _).mpr
+      ⟨inner, rfl⟩
+  have relativeMember :
+      (witness.secondInsideFirst outer).toCut.plan.address inner ∈
+        ValidAddressCut.insideRelativeAddresses first second outer := by
+    simpa [secondInsideFirst] using planMember
+  rcases (ValidAddressCut.mem_insideRelativeAddresses_iff
+    first second outer _).mp relativeMember with
+    ⟨source, sourceMember, sourceEq⟩
+  simpa [firstScheduleLowerSourceAddress, sourceEq]
+
+/-- The first native lower family maps into the canonical lower addresses. -/
+def firstScheduleLowerToCanonical
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : FirstScheduleLowerOccurrence witness) :
+    CanonicalLowerAddress witness := by
+  refine ⟨witness.firstScheduleLowerSourceAddress occurrence, ?_, ?_⟩
+  · cases occurrence with
+    | inl occurrence =>
+        exact Finset.mem_union_right _
+          (witness.secondInsideFirst_source_mem occurrence.1 occurrence.2)
+    | inr occurrence =>
+        apply Finset.mem_union_left
+        rw [← first.toCut_addressFinset]
+        exact (first.toCut.plan.mem_addressFinset_iff _).mpr
+          ⟨occurrence.1, rfl⟩
+  · cases occurrence with
+    | inl occurrence =>
+        intro frontier
+        have outerMember : first.toCut.plan.address occurrence.1 ∈
+            ValidAddressCut.combinedAddresses first second := by
+          apply Finset.mem_union_left
+          rw [← first.toCut_addressFinset]
+          exact (first.toCut.plan.mem_addressFinset_iff _).mpr
+            ⟨occurrence.1, rfl⟩
+        have sourcePrefix :
+            AddressPrefix (first.toCut.plan.address occurrence.1)
+              (witness.firstScheduleLowerSourceAddress
+                (Sum.inl occurrence)) := by
+          refine ⟨(witness.secondInsideFirst occurrence.1).toCut.plan.address
+            occurrence.2, ?_⟩
+          rfl
+        have sourceNe :
+            witness.firstScheduleLowerSourceAddress (Sum.inl occurrence) ≠
+              first.toCut.plan.address occurrence.1 := by
+          intro equal
+          have nonroot :=
+            (witness.secondInsideFirst occurrence.1).toCut.address_nonroot
+              occurrence.2
+          have relativeEmpty :
+              (witness.secondInsideFirst occurrence.1).toCut.plan.address
+                  occurrence.2 = [] :=
+            List.append_cancel_left
+              (as := first.toCut.plan.address occurrence.1) (by
+              simpa [firstScheduleLowerSourceAddress] using equal)
+          exact nonroot relativeEmpty
+        exact (Finset.mem_filter.mp frontier).2
+          ⟨first.toCut.plan.address occurrence.1, outerMember,
+            ⟨sourcePrefix, sourceNe⟩⟩
+    | inr occurrence => exact occurrence.2
+
+/-- The native first lower-address map is injective. -/
+theorem firstScheduleLowerToCanonical_injective
+    (witness : CanonicalTwoStageWitness first second) :
+    Function.Injective witness.firstScheduleLowerToCanonical := by
+  intro left right equal
+  cases left with
+  | inl left =>
+      cases right with
+      | inl right =>
+          have addressEq :
+              first.toCut.plan.address left.1 ++
+                  (witness.secondInsideFirst left.1).toCut.plan.address left.2 =
+                first.toCut.plan.address right.1 ++
+                  (witness.secondInsideFirst right.1).toCut.plan.address
+                    right.2 :=
+            by
+              simpa [firstScheduleLowerToCanonical,
+                firstScheduleLowerSourceAddress] using
+                congrArg Subtype.val equal
+          have outerEq : left.1 = right.1 := first.inside_site_unique
+            left.1 right.1
+              ⟨(witness.secondInsideFirst left.1).toCut.plan.address left.2,
+                rfl⟩
+              ⟨(witness.secondInsideFirst right.1).toCut.plan.address right.2,
+                addressEq.symm⟩
+          rcases left with ⟨leftOuter, leftInner⟩
+          rcases right with ⟨rightOuter, rightInner⟩
+          change leftOuter = rightOuter at outerEq
+          subst rightOuter
+          have innerEq : leftInner = rightInner :=
+            (witness.secondInsideFirst leftOuter).toCut.address_injective
+              (List.append_cancel_left addressEq)
+          subst rightInner
+          rfl
+      | inr right =>
+          have secondMember := witness.secondInsideFirst_source_mem left.1 left.2
+          have firstMember : first.toCut.plan.address right.1 ∈
+              first.addresses := by
+            rw [← first.toCut_addressFinset]
+            exact (first.toCut.plan.mem_addressFinset_iff _).mpr
+              ⟨right.1, rfl⟩
+          have sourceEq :
+              witness.firstScheduleLowerSourceAddress (Sum.inl left) =
+                first.toCut.plan.address right.1 :=
+            by
+              simpa [firstScheduleLowerToCanonical,
+                firstScheduleLowerSourceAddress] using
+                congrArg Subtype.val equal
+          rw [sourceEq] at secondMember
+          exact False.elim <| Finset.disjoint_left.mp
+            witness.noncrossing.disjoint firstMember secondMember
+  | inr left =>
+      cases right with
+      | inl right =>
+          have secondMember := witness.secondInsideFirst_source_mem right.1 right.2
+          have firstMember : first.toCut.plan.address left.1 ∈
+              first.addresses := by
+            rw [← first.toCut_addressFinset]
+            exact (first.toCut.plan.mem_addressFinset_iff _).mpr
+              ⟨left.1, rfl⟩
+          have sourceEq :
+              first.toCut.plan.address left.1 =
+                witness.firstScheduleLowerSourceAddress (Sum.inl right) :=
+            by
+              simpa [firstScheduleLowerToCanonical,
+                firstScheduleLowerSourceAddress] using
+                congrArg Subtype.val equal
+          rw [← sourceEq] at secondMember
+          exact False.elim <| Finset.disjoint_left.mp
+            witness.noncrossing.disjoint firstMember secondMember
+      | inr right =>
+          apply congrArg Sum.inr
+          apply Subtype.ext
+          apply first.toCut.address_injective
+          simpa [firstScheduleLowerToCanonical,
+            firstScheduleLowerSourceAddress] using
+            congrArg Subtype.val equal
+
+/-- Every canonical lower address occurs once in the native first schedule. -/
+theorem firstScheduleLowerToCanonical_surjective
+    (witness : CanonicalTwoStageWitness first second) :
+    Function.Surjective witness.firstScheduleLowerToCanonical := by
+  intro canonical
+  rcases canonical.2.1 with combinedMember
+  rcases Finset.mem_union.mp combinedMember with firstMember | secondMember
+  · have planMember : canonical.1 ∈ first.toCut.plan.addressFinset := by
+      simpa [first.toCut_addressFinset] using firstMember
+    rcases (first.toCut.plan.mem_addressFinset_iff canonical.1).mp
+      planMember with ⟨site, siteEq⟩
+    refine ⟨Sum.inr ⟨site, ?_⟩, ?_⟩
+    · simpa [siteEq] using canonical.2.2
+    · apply Subtype.ext
+      simpa [firstScheduleLowerToCanonical,
+        firstScheduleLowerSourceAddress] using siteEq
+  · have hasOuter : ∃ outer ∈
+        ValidAddressCut.combinedAddresses first second,
+        StrictlyInside canonical.1 outer := by
+      by_contra noOuter
+      exact canonical.2.2 (Finset.mem_filter.mpr
+        ⟨combinedMember, noOuter⟩)
+    rcases hasOuter with ⟨outerAddress, outerCombined, sourceInside⟩
+    have outerFirst : outerAddress ∈ first.addresses := by
+      rcases Finset.mem_union.mp outerCombined with outerFirst | outerSecond
+      · exact outerFirst
+      · exact False.elim <| (second.prefixFree outerSecond secondMember
+          (fun equal => sourceInside.2 equal.symm)).1 sourceInside.1
+    have outerPlanMember : outerAddress ∈ first.toCut.plan.addressFinset := by
+      simpa [first.toCut_addressFinset] using outerFirst
+    rcases (first.toCut.plan.mem_addressFinset_iff outerAddress).mp
+      outerPlanMember with ⟨outer, outerEq⟩
+    let relative := canonical.1.drop outerAddress.length
+    have sourceEq : outerAddress ++ relative = canonical.1 :=
+      (List.prefix_append_drop sourceInside.1).symm
+    have relativeMember : relative ∈
+        ValidAddressCut.insideRelativeAddresses first second outer := by
+      apply (ValidAddressCut.mem_insideRelativeAddresses_iff
+        first second outer relative).mpr
+      exact ⟨canonical.1, secondMember, by simpa [outerEq] using sourceEq⟩
+    have innerPlanMember : relative ∈
+        (witness.secondInsideFirst outer).toCut.plan.addressFinset := by
+      simpa [secondInsideFirst] using relativeMember
+    rcases ((witness.secondInsideFirst outer).toCut.plan
+      |>.mem_addressFinset_iff relative).mp innerPlanMember with
+      ⟨inner, innerEq⟩
+    refine ⟨Sum.inl ⟨outer, inner⟩, ?_⟩
+    apply Subtype.ext
+    simp only [firstScheduleLowerToCanonical,
+      firstScheduleLowerSourceAddress]
+    rw [outerEq, innerEq]
+    exact sourceEq
+
+/-- Explicit multiplicity-preserving lower-occurrence bijection. -/
+noncomputable def firstScheduleLowerEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleLowerOccurrence witness ≃ CanonicalLowerAddress witness :=
+  Equiv.ofBijective witness.firstScheduleLowerToCanonical
+    ⟨witness.firstScheduleLowerToCanonical_injective,
+      witness.firstScheduleLowerToCanonical_surjective⟩
+
+/-- Corresponding lower occurrences are the same actual global decorated
+source subtree under the explicit address bijection. -/
+theorem firstScheduleLowerEquiv_componentLookup
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : FirstScheduleLowerOccurrence witness) :
+    tree.componentAt?
+        (witness.firstScheduleLowerEquiv occurrence).1 =
+      some (witness.firstScheduleLowerComponent occurrence) := by
+  cases occurrence with
+  | inl occurrence =>
+      simpa [firstScheduleLowerEquiv, firstScheduleLowerToCanonical,
+        firstScheduleLowerSourceAddress, firstScheduleLowerComponent] using
+        first.toCut.nestedDetachedComponent_globalLookup occurrence.1
+          (witness.secondInsideFirst occurrence.1).toCut occurrence.2
+  | inr occurrence =>
+      simpa [firstScheduleLowerEquiv, firstScheduleLowerToCanonical,
+        firstScheduleLowerSourceAddress, firstScheduleLowerComponent] using
+        first.toCut.plan.componentAt?_address_eq_detachedComponent occurrence.1
+
+/-! ### Canonical and reverse-schedule lower occurrences -/
+
+/-- The source address carried by one canonical lower occurrence. -/
+def CanonicalThreeRegionDecomposition.lowerSourceAddress
+    (decomposition : CanonicalThreeRegionDecomposition witness)
+    (occurrence : decomposition.LowerOccurrence) : InternalAddress :=
+  witness.finalCut.toCut.plan.address occurrence.1 ++
+    (decomposition.innerCut occurrence.1).toCut.plan.address occurrence.2
+
+/-- Canonical lower occurrences map to the non-frontier selected source
+addresses without forgetting their outer/relative decomposition. -/
+def canonicalLowerOccurrenceToAddress
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : witness.canonicalDecomposition.LowerOccurrence) :
+    CanonicalLowerAddress witness := by
+  let relative :=
+    (witness.canonicalDecomposition.innerCut occurrence.1).toCut.plan.address
+      occurrence.2
+  have relativePlanMember : relative ∈
+      (witness.canonicalDecomposition.innerCut occurrence.1).toCut.plan.addressFinset :=
+    ((witness.canonicalDecomposition.innerCut occurrence.1).toCut.plan
+      |>.mem_addressFinset_iff relative).mpr ⟨occurrence.2, rfl⟩
+  have relativeMember : relative ∈
+      witness.frontierInnerRelativeAddresses occurrence.1 := by
+    simpa [canonicalDecomposition, frontierInnerCut] using relativePlanMember
+  refine ⟨witness.canonicalDecomposition.lowerSourceAddress occurrence,
+    ?_, ?_⟩
+  · rcases (witness.mem_frontierInnerRelativeAddresses_iff
+        occurrence.1 relative).mp relativeMember with
+      ⟨source, sourceMember, _, sourceEq⟩
+    simpa [CanonicalThreeRegionDecomposition.lowerSourceAddress,
+      relative, sourceEq] using sourceMember
+  · intro sourceFrontier
+    rcases (witness.mem_frontierInnerRelativeAddresses_iff
+        occurrence.1 relative).mp relativeMember with
+      ⟨source, _, sourceInside, sourceEq⟩
+    have outerPlanMember : witness.finalCut.toCut.plan.address occurrence.1 ∈
+        witness.finalCut.toCut.plan.addressFinset :=
+      (witness.finalCut.toCut.plan.mem_addressFinset_iff _).mpr
+        ⟨occurrence.1, rfl⟩
+    have outerFrontier : witness.finalCut.toCut.plan.address occurrence.1 ∈
+        ValidAddressCut.frontierAddresses first second := by
+      simpa [finalCut, ValidAddressCut.combinedFrontier] using outerPlanMember
+    exact (Finset.mem_filter.mp sourceFrontier).2
+      ⟨witness.finalCut.toCut.plan.address occurrence.1,
+        (Finset.mem_filter.mp outerFrontier).1,
+        by
+          simpa [CanonicalThreeRegionDecomposition.lowerSourceAddress,
+            relative, sourceEq] using sourceInside⟩
+
+/-- The canonical lower occurrence map is injective, including equal
+displayed factors at distinct source sites. -/
+theorem canonicalLowerOccurrenceToAddress_injective
+    (witness : CanonicalTwoStageWitness first second) :
+    Function.Injective witness.canonicalLowerOccurrenceToAddress := by
+  intro left right equal
+  have addressEq :
+      witness.finalCut.toCut.plan.address left.1 ++
+          (witness.canonicalDecomposition.innerCut left.1).toCut.plan.address
+            left.2 =
+        witness.finalCut.toCut.plan.address right.1 ++
+          (witness.canonicalDecomposition.innerCut right.1).toCut.plan.address
+            right.2 := by
+    simpa [canonicalLowerOccurrenceToAddress,
+      CanonicalThreeRegionDecomposition.lowerSourceAddress] using
+      congrArg Subtype.val equal
+  have outerEq : left.1 = right.1 := witness.finalCut.inside_site_unique
+    left.1 right.1
+      ⟨(witness.canonicalDecomposition.innerCut left.1).toCut.plan.address
+        left.2, rfl⟩
+      ⟨(witness.canonicalDecomposition.innerCut right.1).toCut.plan.address
+        right.2, addressEq.symm⟩
+  rcases left with ⟨leftOuter, leftInner⟩
+  rcases right with ⟨rightOuter, rightInner⟩
+  change leftOuter = rightOuter at outerEq
+  subst rightOuter
+  have innerEq : leftInner = rightInner :=
+    (witness.canonicalDecomposition.innerCut leftOuter).toCut.address_injective
+      (List.append_cancel_left addressEq)
+  subst rightInner
+  rfl
+
+/-- Every non-frontier selected source occurrence has one unique canonical
+outer/relative lower occurrence. -/
+theorem canonicalLowerOccurrenceToAddress_surjective
+    (witness : CanonicalTwoStageWitness first second) :
+    Function.Surjective witness.canonicalLowerOccurrenceToAddress := by
+  intro canonical
+  have selectedDominates : AddressSelection.Dominates
+      (ValidAddressCut.combinedAddresses first second) canonical.1 :=
+    ⟨canonical.1, canonical.2.1, by simp [AddressPrefix]⟩
+  have frontierDominates : AddressSelection.Dominates
+      (AddressSelection.frontier
+        (ValidAddressCut.combinedAddresses first second)) canonical.1 :=
+    (AddressSelection.dominates_frontier_iff _ _).mpr selectedDominates
+  rcases frontierDominates with
+    ⟨outerAddress, outerFrontierSelection, outerPrefix⟩
+  have outerFrontier : outerAddress ∈
+      ValidAddressCut.frontierAddresses first second := by
+    rw [ValidAddressCut.frontierAddresses_eq_addressSelectionFrontier]
+    exact outerFrontierSelection
+  let outer := witness.canonicalMiddleSite ⟨outerAddress, outerFrontier⟩
+  have outerEq : witness.finalCut.toCut.plan.address outer = outerAddress :=
+    witness.canonicalMiddleSite_address ⟨outerAddress, outerFrontier⟩
+  let relative := canonical.1.drop outerAddress.length
+  have sourceEq : outerAddress ++ relative = canonical.1 :=
+    (List.prefix_append_drop outerPrefix).symm
+  have strictInside : StrictlyInside canonical.1 outerAddress := by
+    refine ⟨outerPrefix, ?_⟩
+    intro equal
+    apply canonical.2.2
+    simpa [equal] using outerFrontier
+  have relativeMember : relative ∈
+      witness.frontierInnerRelativeAddresses outer := by
+    apply (witness.mem_frontierInnerRelativeAddresses_iff outer relative).mpr
+    exact ⟨canonical.1, canonical.2.1,
+      by simpa [outerEq] using strictInside,
+      by simpa [outerEq] using sourceEq⟩
+  have innerPlanMember : relative ∈
+      (witness.canonicalDecomposition.innerCut outer).toCut.plan.addressFinset := by
+    simpa [canonicalDecomposition, frontierInnerCut] using relativeMember
+  rcases ((witness.canonicalDecomposition.innerCut outer).toCut.plan
+      |>.mem_addressFinset_iff relative).mp innerPlanMember with
+    ⟨inner, innerEq⟩
+  refine ⟨⟨outer, inner⟩, ?_⟩
+  apply Subtype.ext
+  simp only [canonicalLowerOccurrenceToAddress,
+    CanonicalThreeRegionDecomposition.lowerSourceAddress]
+  rw [outerEq, innerEq]
+  exact sourceEq
+
+/-- Exact bijection between canonical relative lower occurrences and their
+global non-frontier source addresses. -/
+noncomputable def canonicalLowerOccurrenceEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.canonicalDecomposition.LowerOccurrence ≃
+      CanonicalLowerAddress witness :=
+  Equiv.ofBijective witness.canonicalLowerOccurrenceToAddress
+    ⟨witness.canonicalLowerOccurrenceToAddress_injective,
+      witness.canonicalLowerOccurrenceToAddress_surjective⟩
+
+namespace CanonicalThreeRegionDecomposition
+
+variable {witness : CanonicalTwoStageWitness first second}
+
+/-- Actual lower component selected by one canonical relative occurrence. -/
+def lowerComponent
+    (decomposition : CanonicalThreeRegionDecomposition witness)
+    (occurrence : decomposition.LowerOccurrence) :
+    CKComponent sigma InstanceData :=
+  (decomposition.innerCut occurrence.1).toCut.detachedComponent occurrence.2
+
+end CanonicalThreeRegionDecomposition
+
+/-- Canonical lower occurrences look up the actual decorated source subtree
+at their retained global address. -/
+theorem canonicalLowerOccurrenceEquiv_componentLookup
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : witness.canonicalDecomposition.LowerOccurrence) :
+    tree.componentAt?
+        (witness.canonicalLowerOccurrenceEquiv occurrence).1 =
+      some (witness.canonicalDecomposition.lowerComponent occurrence) := by
+  simpa [canonicalLowerOccurrenceEquiv,
+    canonicalLowerOccurrenceToAddress,
+    CanonicalThreeRegionDecomposition.lowerSourceAddress,
+    CanonicalThreeRegionDecomposition.lowerComponent,
+    canonicalDecomposition] using
+    witness.finalCut.toCut.nestedDetachedComponent_globalLookup occurrence.1
+      (witness.canonicalDecomposition.innerCut occurrence.1).toCut occurrence.2
+
+/-- First-native lower occurrences correspond to canonical relative
+occurrences, not merely to unstructured source addresses. -/
+noncomputable def firstScheduleLowerOccurrenceEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleLowerOccurrence witness ≃
+      witness.canonicalDecomposition.LowerOccurrence :=
+  witness.firstScheduleLowerEquiv.trans
+    witness.canonicalLowerOccurrenceEquiv.symm
+
+/-- The first schedule preserves the actual occurrence-decorated lower
+component under the canonical relative-occurrence bijection. -/
+theorem firstScheduleLowerOccurrenceEquiv_component
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : FirstScheduleLowerOccurrence witness) :
+    witness.firstScheduleLowerComponent occurrence =
+      witness.canonicalDecomposition.lowerComponent
+        (witness.firstScheduleLowerOccurrenceEquiv occurrence) := by
+  have native := witness.firstScheduleLowerEquiv_componentLookup occurrence
+  have canonical := witness.canonicalLowerOccurrenceEquiv_componentLookup
+    (witness.firstScheduleLowerOccurrenceEquiv occurrence)
+  have sameAddress :
+      (witness.firstScheduleLowerEquiv occurrence).1 =
+        (witness.canonicalLowerOccurrenceEquiv
+          (witness.firstScheduleLowerOccurrenceEquiv occurrence)).1 := by
+    simp [firstScheduleLowerOccurrenceEquiv]
+  rw [sameAddress] at native
+  exact Option.some.inj (native.symm.trans canonical)
+
+/-- Exchange the two source-cut labels while retaining the same ambient
+decorated source tree. -/
+def swapped (witness : CanonicalTwoStageWitness first second) :
+    CanonicalTwoStageWitness second first :=
+  ⟨witness.noncrossing.symm⟩
+
+/-- Reverse-schedule lower occurrences are literally the first-schedule
+occurrences of the label-swapped witness.  Thus they retain both the outer
+second-cut site and every relative first-cut site. -/
+abbrev SecondScheduleLowerOccurrence
+    (witness : CanonicalTwoStageWitness first second) :=
+  FirstScheduleLowerOccurrence witness.swapped
+
+/-- Global source address of a reverse-schedule lower occurrence. -/
+def secondScheduleLowerSourceAddress
+    (witness : CanonicalTwoStageWitness first second) :
+    SecondScheduleLowerOccurrence witness → InternalAddress :=
+  witness.swapped.firstScheduleLowerSourceAddress
+
+/-- Actual occurrence-decorated lower component in the reverse schedule. -/
+def secondScheduleLowerComponent
+    (witness : CanonicalTwoStageWitness first second) :
+    SecondScheduleLowerOccurrence witness → CKComponent sigma InstanceData :=
+  witness.swapped.firstScheduleLowerComponent
+
+/-- Swapping labels induces an address-preserving equivalence between the
+two presentations of canonical non-frontier source addresses. -/
+noncomputable def swappedCanonicalLowerAddressEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    CanonicalLowerAddress witness.swapped ≃ CanonicalLowerAddress witness :=
+  Equiv.ofBijective
+    (fun occurrence => ⟨occurrence.1, by
+      constructor
+      · simpa [ValidAddressCut.combinedAddresses, Finset.union_comm] using
+          occurrence.2.1
+      · simpa [ValidAddressCut.frontierAddresses,
+          ValidAddressCut.combinedAddresses, Finset.union_comm] using
+          occurrence.2.2⟩)
+    (by
+      constructor
+      · intro left right equal
+        apply Subtype.ext
+        exact congrArg
+          (fun occurrence : CanonicalLowerAddress witness => occurrence.1)
+          equal
+      · intro occurrence
+        refine ⟨⟨occurrence.1, ?_⟩, Subtype.ext rfl⟩
+        constructor
+        · simpa [ValidAddressCut.combinedAddresses, Finset.union_comm] using
+            occurrence.2.1
+        · simpa [ValidAddressCut.frontierAddresses,
+            ValidAddressCut.combinedAddresses, Finset.union_comm] using
+            occurrence.2.2)
+
+/-- Explicit reverse-schedule lower-address bijection. -/
+noncomputable def secondScheduleLowerEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    SecondScheduleLowerOccurrence witness ≃ CanonicalLowerAddress witness :=
+  witness.swapped.firstScheduleLowerEquiv.trans
+    witness.swappedCanonicalLowerAddressEquiv
+
+@[simp]
+theorem secondScheduleLowerEquiv_sourceAddress
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : SecondScheduleLowerOccurrence witness) :
+    (witness.secondScheduleLowerEquiv occurrence).1 =
+      witness.secondScheduleLowerSourceAddress occurrence := by
+  rfl
+
+/-- Reverse lower occurrences retrieve the same actual global decorated
+source subtree under the explicit source-address bijection. -/
+theorem secondScheduleLowerEquiv_componentLookup
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : SecondScheduleLowerOccurrence witness) :
+    tree.componentAt? (witness.secondScheduleLowerEquiv occurrence).1 =
+      some (witness.secondScheduleLowerComponent occurrence) := by
+  simpa [secondScheduleLowerEquiv, secondScheduleLowerComponent,
+    swappedCanonicalLowerAddressEquiv] using
+    witness.swapped.firstScheduleLowerEquiv_componentLookup occurrence
+
+/-- Reverse-native lower occurrences correspond to canonical relative
+occurrences while retaining multiplicity. -/
+noncomputable def secondScheduleLowerOccurrenceEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    SecondScheduleLowerOccurrence witness ≃
+      witness.canonicalDecomposition.LowerOccurrence :=
+  witness.secondScheduleLowerEquiv.trans
+    witness.canonicalLowerOccurrenceEquiv.symm
+
+/-- The reverse schedule preserves each actual lower decorated component. -/
+theorem secondScheduleLowerOccurrenceEquiv_component
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : SecondScheduleLowerOccurrence witness) :
+    witness.secondScheduleLowerComponent occurrence =
+      witness.canonicalDecomposition.lowerComponent
+        (witness.secondScheduleLowerOccurrenceEquiv occurrence) := by
+  have native := witness.secondScheduleLowerEquiv_componentLookup occurrence
+  have canonical := witness.canonicalLowerOccurrenceEquiv_componentLookup
+    (witness.secondScheduleLowerOccurrenceEquiv occurrence)
+  have sameAddress :
+      (witness.secondScheduleLowerEquiv occurrence).1 =
+        (witness.canonicalLowerOccurrenceEquiv
+          (witness.secondScheduleLowerOccurrenceEquiv occurrence)).1 := by
+    simp [secondScheduleLowerOccurrenceEquiv]
+  rw [sameAddress] at native
+  exact Option.some.inj (native.symm.trans canonical)
+
+/-! ### Reverse middle-component coherence -/
+
+/-- The reverse native middle family is the first native family after
+exchanging the two source-cut labels. -/
+noncomputable def secondScheduleMiddleSwapEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    SecondScheduleMiddleOccurrence witness ≃
+      FirstScheduleMiddleOccurrence witness.swapped where
+  toFun
+    | .inl site => .inl ⟨site.1, by
+        simpa [ValidAddressCut.frontierAddresses,
+          ValidAddressCut.combinedAddresses, Finset.union_comm] using site.2⟩
+    | .inr site => .inr site
+  invFun
+    | .inl site => .inl ⟨site.1, by
+        simpa [ValidAddressCut.frontierAddresses,
+          ValidAddressCut.combinedAddresses, Finset.union_comm] using site.2⟩
+    | .inr site => .inr site
+  left_inv := by
+    intro occurrence
+    cases occurrence with
+    | inl site =>
+        apply congrArg Sum.inl
+        apply Subtype.ext
+        rfl
+    | inr site => rfl
+  right_inv := by
+    intro occurrence
+    cases occurrence with
+    | inl site =>
+        apply congrArg Sum.inl
+        apply Subtype.ext
+        rfl
+    | inr site => rfl
+
+/-- Canonical middle source identities are unchanged by exchanging the cut
+labels. -/
+noncomputable def swappedCanonicalMiddleAddressEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    CanonicalMiddleAddress witness.swapped ≃ CanonicalMiddleAddress witness :=
+  Equiv.ofBijective
+    (fun occurrence => ⟨occurrence.1, by
+      simpa [ValidAddressCut.frontierAddresses,
+        ValidAddressCut.combinedAddresses, Finset.union_comm] using occurrence.2⟩)
+    (by
+      constructor
+      · intro left right equal
+        apply Subtype.ext
+        exact congrArg
+          (fun occurrence : CanonicalMiddleAddress witness => occurrence.1)
+          equal
+      · intro occurrence
+        exact ⟨⟨occurrence.1, by
+          simpa [ValidAddressCut.frontierAddresses,
+            ValidAddressCut.combinedAddresses, Finset.union_comm] using
+              occurrence.2⟩, Subtype.ext rfl⟩)
+
+/-- The previously exposed reverse middle equivalence is exactly the
+label-swapped construction, at occurrence level. -/
+theorem secondScheduleMiddleEquiv_eq_swapped
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : SecondScheduleMiddleOccurrence witness) :
+    witness.secondScheduleMiddleEquiv occurrence =
+      witness.swappedCanonicalMiddleAddressEquiv
+        (witness.swapped.firstScheduleMiddleEquiv
+          (witness.secondScheduleMiddleSwapEquiv occurrence)) := by
+  rfl
+
+/-- The actual native reverse middle component is definitionally the actual
+first-schedule component of the label-swapped witness. -/
+theorem secondScheduleMiddleComponent_eq_swapped
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : SecondScheduleMiddleOccurrence witness) :
+    witness.secondScheduleMiddleComponent occurrence =
+      witness.swapped.firstScheduleMiddleComponent
+        (witness.secondScheduleMiddleSwapEquiv occurrence) := by
+  cases occurrence <;> rfl
+
+/-- The canonical punctured middle component is invariant under exchanging
+the two source-cut labels.  The proof compares the actual source component
+and exact relative pruning family, not only its boundary. -/
+theorem canonicalMiddleComponent_swapped
+    (witness : CanonicalTwoStageWitness first second)
+    (address : CanonicalMiddleAddress witness.swapped) :
+    witness.swapped.canonicalMiddleComponent address =
+      witness.canonicalMiddleComponent
+        (witness.swappedCanonicalMiddleAddressEquiv address) := by
+  let swappedOuter := witness.swapped.canonicalMiddleSite address
+  let originalAddress := witness.swappedCanonicalMiddleAddressEquiv address
+  let originalOuter := witness.canonicalMiddleSite originalAddress
+  change (witness.swapped.frontierInnerCut swappedOuter).toCut.remainderComponent =
+    (witness.frontierInnerCut originalOuter).toCut.remainderComponent
+  have swappedOuterAddress :
+      witness.swapped.finalCut.toCut.plan.address swappedOuter = address.1 :=
+    witness.swapped.canonicalMiddleSite_address address
+  have originalOuterAddress :
+      witness.finalCut.toCut.plan.address originalOuter = address.1 := by
+    rw [witness.canonicalMiddleSite_address originalAddress]
+    rfl
+  have sourceComponentEq :
+      witness.swapped.finalCut.toCut.detachedComponent swappedOuter =
+        witness.finalCut.toCut.detachedComponent originalOuter :=
+    witness.swapped.finalCut.toCut.detachedComponent_eq_of_address_eq
+      witness.finalCut.toCut swappedOuter originalOuter
+        (swappedOuterAddress.trans originalOuterAddress.symm)
+  have selectedEq :
+      (witness.swapped.frontierInnerCut swappedOuter).addresses =
+        (witness.frontierInnerCut originalOuter).addresses := by
+    change witness.swapped.frontierInnerRelativeAddresses swappedOuter =
+      witness.frontierInnerRelativeAddresses originalOuter
+    ext relative
+    rw [witness.swapped.mem_frontierInnerRelativeAddresses_iff,
+      witness.mem_frontierInnerRelativeAddresses_iff]
+    constructor
+    · rintro ⟨source, member, inside, sourceEq⟩
+      refine ⟨source, ?_, ?_, ?_⟩
+      · simpa [ValidAddressCut.combinedAddresses, Finset.union_comm] using
+          member
+      · simpa [swappedOuterAddress, originalOuterAddress] using inside
+      · simpa [swappedOuterAddress, originalOuterAddress] using sourceEq
+    · rintro ⟨source, member, inside, sourceEq⟩
+      refine ⟨source, ?_, ?_, ?_⟩
+      · simpa [ValidAddressCut.combinedAddresses, Finset.union_comm] using
+          member
+      · simpa [swappedOuterAddress, originalOuterAddress] using inside
+      · simpa [swappedOuterAddress, originalOuterAddress] using sourceEq
+  apply CKComponent.ext
+  · change
+      (witness.swapped.finalCut.toCut.detachedComponent swappedOuter).boundary =
+        (witness.finalCut.toCut.detachedComponent originalOuter).boundary
+    exact congrArg CKComponent.boundary sourceComponentEq
+  · have leftTreeEq := ValidAddressCut.remainder_eq_pruneAddresses
+        (witness.swapped.frontierInnerCut swappedOuter)
+    have rightTreeEq := ValidAddressCut.remainder_eq_pruneAddresses
+        (witness.frontierInnerCut originalOuter)
+    have leftHEq : HEq
+        (witness.swapped.frontierInnerCut swappedOuter).toCut.remainder
+        ((witness.swapped.finalCut.toCut.detachedComponent swappedOuter).tree
+          |>.pruneAddresses
+            (witness.swapped.frontierInnerCut swappedOuter).addresses) :=
+      heqOfEq leftTreeEq
+    have middleHEq := CKComponent.pruneAddresses_tree_heq_of_eq
+      sourceComponentEq selectedEq
+    have rightHEq : HEq
+        (witness.frontierInnerCut originalOuter).toCut.remainder
+        ((witness.finalCut.toCut.detachedComponent originalOuter).tree
+          |>.pruneAddresses
+            (witness.frontierInnerCut originalOuter).addresses) :=
+      heqOfEq rightTreeEq
+    exact leftHEq.trans (middleHEq.trans rightHEq.symm)
+
+/-- The reverse middle occurrence bijection preserves the actual punctured
+decorated component pointwise. -/
+theorem secondScheduleMiddleEquiv_component
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : SecondScheduleMiddleOccurrence witness) :
+    witness.secondScheduleMiddleComponent occurrence =
+      witness.canonicalMiddleComponent
+        (witness.secondScheduleMiddleEquiv occurrence) := by
+  rw [witness.secondScheduleMiddleComponent_eq_swapped occurrence,
+    witness.secondScheduleMiddleEquiv_eq_swapped occurrence]
+  exact (witness.swapped.firstScheduleMiddleEquiv_component
+      (witness.secondScheduleMiddleSwapEquiv occurrence)).trans
+    (witness.canonicalMiddleComponent_swapped
+      (witness.swapped.firstScheduleMiddleEquiv
+        (witness.secondScheduleMiddleSwapEquiv occurrence)))
+
+/-! ### Coassociativity-ready occurrence and forest comparison -/
+
+/-- Explicit occurrence bijection between the two middle schedules through
+their common canonical source-address family. -/
+noncomputable def firstToSecondMiddleEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleMiddleOccurrence witness ≃
+      SecondScheduleMiddleOccurrence witness :=
+  witness.firstScheduleMiddleEquiv.trans witness.secondScheduleMiddleEquiv.symm
+
+/-- Corresponding middle occurrences in the two schedules are the same
+actual punctured decorated component. -/
+theorem firstToSecondMiddleEquiv_component
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : FirstScheduleMiddleOccurrence witness) :
+    witness.firstScheduleMiddleComponent occurrence =
+      witness.secondScheduleMiddleComponent
+        (witness.firstToSecondMiddleEquiv occurrence) := by
+  calc
+    witness.firstScheduleMiddleComponent occurrence =
+        witness.canonicalMiddleComponent
+          (witness.firstScheduleMiddleEquiv occurrence) :=
+      witness.firstScheduleMiddleEquiv_component occurrence
+    _ = witness.canonicalMiddleComponent
+          (witness.secondScheduleMiddleEquiv
+            (witness.firstToSecondMiddleEquiv occurrence)) := by
+      rw [firstToSecondMiddleEquiv]
+      simp
+    _ = witness.secondScheduleMiddleComponent
+          (witness.firstToSecondMiddleEquiv occurrence) :=
+      (witness.secondScheduleMiddleEquiv_component _).symm
+
+/-- Explicit occurrence bijection between the two lower schedules through
+the canonical outer/relative occurrence family. -/
+noncomputable def firstToSecondLowerEquiv
+    (witness : CanonicalTwoStageWitness first second) :
+    FirstScheduleLowerOccurrence witness ≃
+      SecondScheduleLowerOccurrence witness :=
+  witness.firstScheduleLowerOccurrenceEquiv.trans
+    witness.secondScheduleLowerOccurrenceEquiv.symm
+
+/-- Corresponding lower occurrences are the same actual detached decorated
+component, even when equal displayed factors occur with multiplicity. -/
+theorem firstToSecondLowerEquiv_component
+    (witness : CanonicalTwoStageWitness first second)
+    (occurrence : FirstScheduleLowerOccurrence witness) :
+    witness.firstScheduleLowerComponent occurrence =
+      witness.secondScheduleLowerComponent
+        (witness.firstToSecondLowerEquiv occurrence) := by
+  calc
+    witness.firstScheduleLowerComponent occurrence =
+        witness.canonicalDecomposition.lowerComponent
+          (witness.firstScheduleLowerOccurrenceEquiv occurrence) :=
+      witness.firstScheduleLowerOccurrenceEquiv_component occurrence
+    _ = witness.canonicalDecomposition.lowerComponent
+          (witness.secondScheduleLowerOccurrenceEquiv
+            (witness.firstToSecondLowerEquiv occurrence)) := by
+      rw [firstToSecondLowerEquiv]
+      simp
+    _ = witness.secondScheduleLowerComponent
+          (witness.firstToSecondLowerEquiv occurrence) :=
+      (witness.secondScheduleLowerOccurrenceEquiv_component _).symm
+
+/-- Canonical middle forest indexed once by exact source-address identity.
+Mapping distinct addresses to equal components retains their multiplicity. -/
+noncomputable def canonicalMiddleOccurrenceForest
+    (witness : CanonicalTwoStageWitness first second) :
+    CKForest sigma InstanceData := by
+  classical
+  exact (Finset.univ : Finset (CanonicalMiddleAddress witness)).1.map
+    witness.canonicalMiddleComponent
+
+/-- First-schedule middle forest, explicitly reindexed by the canonical
+occurrence bijection before commutative projection. -/
+noncomputable def firstScheduleMiddleForest
+    (witness : CanonicalTwoStageWitness first second) :
+    CKForest sigma InstanceData := by
+  classical
+  exact (Finset.univ : Finset (CanonicalMiddleAddress witness)).1.map
+    (fun canonical => witness.firstScheduleMiddleComponent
+      (witness.firstScheduleMiddleEquiv.symm canonical))
+
+/-- Reverse-schedule middle forest under the same canonical indexing. -/
+noncomputable def secondScheduleMiddleForest
+    (witness : CanonicalTwoStageWitness first second) :
+    CKForest sigma InstanceData := by
+  classical
+  exact (Finset.univ : Finset (CanonicalMiddleAddress witness)).1.map
+    (fun canonical => witness.secondScheduleMiddleComponent
+      (witness.secondScheduleMiddleEquiv.symm canonical))
+
+theorem firstScheduleMiddleForest_eq_canonical
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.firstScheduleMiddleForest = witness.canonicalMiddleOccurrenceForest := by
+  classical
+  apply congrArg (fun f : CanonicalMiddleAddress witness →
+      CKComponent sigma InstanceData =>
+    (Finset.univ : Finset (CanonicalMiddleAddress witness)).1.map f)
+  funext canonical
+  simpa using witness.firstScheduleMiddleEquiv_component
+    (witness.firstScheduleMiddleEquiv.symm canonical)
+
+theorem secondScheduleMiddleForest_eq_canonical
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.secondScheduleMiddleForest = witness.canonicalMiddleOccurrenceForest := by
+  classical
+  apply congrArg (fun f : CanonicalMiddleAddress witness →
+      CKComponent sigma InstanceData =>
+    (Finset.univ : Finset (CanonicalMiddleAddress witness)).1.map f)
+  funext canonical
+  simpa using witness.secondScheduleMiddleEquiv_component
+    (witness.secondScheduleMiddleEquiv.symm canonical)
+
+/-- Canonical lower forest indexed by the exact outer/relative occurrences,
+before forgetting those identities. -/
+noncomputable def canonicalLowerOccurrenceForest
+    (witness : CanonicalTwoStageWitness first second) :
+    CKForest sigma InstanceData := by
+  classical
+  exact (Finset.univ : Finset (CanonicalLowerAddress witness)).1.map
+    (fun canonical => witness.canonicalDecomposition.lowerComponent
+      (witness.canonicalLowerOccurrenceEquiv.symm canonical))
+
+/-- First lower forest with actual native components and canonical
+occurrence reindexing. -/
+noncomputable def firstScheduleLowerForest
+    (witness : CanonicalTwoStageWitness first second) :
+    CKForest sigma InstanceData := by
+  classical
+  exact (Finset.univ : Finset (CanonicalLowerAddress witness)).1.map
+    (fun canonical => witness.firstScheduleLowerComponent
+      (witness.firstScheduleLowerEquiv.symm canonical))
+
+/-- Reverse lower forest with actual native components and canonical
+occurrence reindexing. -/
+noncomputable def secondScheduleLowerForest
+    (witness : CanonicalTwoStageWitness first second) :
+    CKForest sigma InstanceData := by
+  classical
+  exact (Finset.univ : Finset (CanonicalLowerAddress witness)).1.map
+    (fun canonical => witness.secondScheduleLowerComponent
+      (witness.secondScheduleLowerEquiv.symm canonical))
+
+theorem firstScheduleLowerForest_eq_canonical
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.firstScheduleLowerForest = witness.canonicalLowerOccurrenceForest := by
+  classical
+  apply congrArg (fun f : CanonicalLowerAddress witness →
+      CKComponent sigma InstanceData =>
+    (Finset.univ : Finset (CanonicalLowerAddress witness)).1.map f)
+  funext canonical
+  simpa [firstScheduleLowerOccurrenceEquiv] using
+    witness.firstScheduleLowerOccurrenceEquiv_component
+      (witness.firstScheduleLowerEquiv.symm canonical)
+
+theorem secondScheduleLowerForest_eq_canonical
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.secondScheduleLowerForest = witness.canonicalLowerOccurrenceForest := by
+  classical
+  apply congrArg (fun f : CanonicalLowerAddress witness →
+      CKComponent sigma InstanceData =>
+    (Finset.univ : Finset (CanonicalLowerAddress witness)).1.map f)
+  funext canonical
+  simpa [secondScheduleLowerOccurrenceEquiv] using
+    witness.secondScheduleLowerOccurrenceEquiv_component
+      (witness.secondScheduleLowerEquiv.symm canonical)
+
+/-- Multiplicity-preserving equality of both commutative forest projections.
+This is a corollary of occurrence equivalences and pointwise actual-component
+equality, not a finite agreement oracle. -/
+theorem scheduleForests_cohere
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.firstScheduleLowerForest = witness.secondScheduleLowerForest ∧
+      witness.firstScheduleMiddleForest = witness.secondScheduleMiddleForest := by
+  exact ⟨witness.firstScheduleLowerForest_eq_canonical.trans
+      witness.secondScheduleLowerForest_eq_canonical.symm,
+    witness.firstScheduleMiddleForest_eq_canonical.trans
+      witness.secondScheduleMiddleForest_eq_canonical.symm⟩
+
 /-- The literal root remaining after first cutting `first`, then cutting the
 transported part of `second` which remains in that root component. -/
 def firstThenSecondRoot (witness : CanonicalTwoStageWitness first second) :
@@ -1212,14 +3048,216 @@ def secondThenFirstRoot (witness : CanonicalTwoStageWitness first second) :
     CKTree sigma InstanceData G :=
   witness.firstRetainedAfterSecond.toCut.remainder
 
-/-- The exact remaining Phase-D root-coherence target.  Establishing this
-proposition requires a constructor-recursive theorem that sequential retained
-remainders compile to the union frontier; address-status equality alone is
-insufficient because it forgets occurrence decorations. -/
+/-- Exact root-coherence proposition: both sequential retained remainders are
+literally the canonical combined-frontier decorated tree.  The theorem below
+inhabits it via constructor-recursive source pruning; address-status equality
+alone would be insufficient because it forgets occurrence decorations. -/
 def ExactTwoStageRemainderCoherence
     (witness : CanonicalTwoStageWitness first second) : Prop :=
   witness.firstThenSecondRoot = witness.finalRoot ∧
     witness.secondThenFirstRoot = witness.finalRoot
+
+/-- The first staged ambient remainder is the direct occurrence-preserving
+source pruning by both exact cut families. -/
+theorem firstThenSecondRoot_eq_pruneCombined
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.firstThenSecondRoot =
+      tree.pruneAddresses (ValidAddressCut.combinedAddresses first second) := by
+  calc
+    witness.firstThenSecondRoot =
+        first.toCut.remainder.pruneAddresses
+          witness.secondRetainedAfterFirst.addresses :=
+      ValidAddressCut.remainder_eq_pruneAddresses
+        witness.secondRetainedAfterFirst
+    _ = (tree.pruneAddresses first.addresses).pruneAddresses
+          witness.secondRetainedAfterFirst.addresses := by
+      exact congrArg
+        (fun retained => retained.pruneAddresses
+          witness.secondRetainedAfterFirst.addresses)
+        (ValidAddressCut.remainder_eq_pruneAddresses first)
+    _ = tree.pruneAddresses
+          (ValidAddressCut.combinedAddresses first second) := by
+      change (tree.pruneAddresses first.addresses).pruneAddresses
+          (AddressSelection.retainedAfter first.addresses second.addresses) =
+        tree.pruneAddresses (first.addresses ∪ second.addresses)
+      exact CKTree.pruneAddresses_retainedAfter tree
+        first.addresses second.addresses
+
+/-- The reverse staged ambient remainder computes the same direct decorated
+source pruning, with no equality of recursive cut certificates. -/
+theorem secondThenFirstRoot_eq_pruneCombined
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.secondThenFirstRoot =
+      tree.pruneAddresses (ValidAddressCut.combinedAddresses first second) := by
+  calc
+    witness.secondThenFirstRoot =
+        second.toCut.remainder.pruneAddresses
+          witness.firstRetainedAfterSecond.addresses :=
+      ValidAddressCut.remainder_eq_pruneAddresses
+        witness.firstRetainedAfterSecond
+    _ = (tree.pruneAddresses second.addresses).pruneAddresses
+          witness.firstRetainedAfterSecond.addresses := by
+      exact congrArg
+        (fun retained => retained.pruneAddresses
+          witness.firstRetainedAfterSecond.addresses)
+        (ValidAddressCut.remainder_eq_pruneAddresses second)
+    _ = tree.pruneAddresses
+          (ValidAddressCut.combinedAddresses first second) := by
+      change (tree.pruneAddresses second.addresses).pruneAddresses
+          (AddressSelection.retainedAfter second.addresses first.addresses) =
+        tree.pruneAddresses (first.addresses ∪ second.addresses)
+      rw [Finset.union_comm]
+      exact CKTree.pruneAddresses_retainedAfter tree
+        second.addresses first.addresses
+
+/-- The canonical source-frontier cut computes the same direct pruning by
+the whole combined family; dominated selections are redundant. -/
+theorem finalRoot_eq_pruneCombined
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.finalRoot =
+      tree.pruneAddresses (ValidAddressCut.combinedAddresses first second) := by
+  calc
+    witness.finalRoot = tree.pruneAddresses witness.finalCut.addresses :=
+      ValidAddressCut.remainder_eq_pruneAddresses witness.finalCut
+    _ = tree.pruneAddresses
+        (AddressSelection.frontier
+          (ValidAddressCut.combinedAddresses first second)) := by
+      apply congrArg (tree.pruneAddresses)
+      change ValidAddressCut.frontierAddresses first second =
+        AddressSelection.frontier
+          (ValidAddressCut.combinedAddresses first second)
+      exact ValidAddressCut.frontierAddresses_eq_addressSelectionFrontier
+        first second
+    _ = tree.pruneAddresses
+        (ValidAddressCut.combinedAddresses first second) :=
+      CKTree.pruneAddresses_frontier tree _
+
+/-- Exact two-stage ambient decorated-tree coherence.  Both schedules and
+the canonical source frontier retain literally the same occurrences and
+ordered children. -/
+theorem exactTwoStageRemainderCoherence
+    (witness : CanonicalTwoStageWitness first second) :
+    ExactTwoStageRemainderCoherence witness := by
+  constructor
+  · exact witness.firstThenSecondRoot_eq_pruneCombined.trans
+      witness.finalRoot_eq_pruneCombined.symm
+  · exact witness.secondThenFirstRoot_eq_pruneCombined.trans
+      witness.finalRoot_eq_pruneCombined.symm
+
+/-- The non-linear three-region basis datum exposed to the next
+coefficientwise milestone.  Tensor order is represented by named fields;
+each forest is commutative only within its own coordinate. -/
+structure ThreeRegionBasisData (sigma : Signature.{u, v})
+    (InstanceData : Type w) where
+  lower : CKForest sigma InstanceData
+  middle : CKForest sigma InstanceData
+  root : CKComponent sigma InstanceData
+
+namespace ThreeRegionBasisData
+
+@[ext]
+theorem ext {left right : ThreeRegionBasisData sigma InstanceData}
+    (lower : left.lower = right.lower)
+    (middle : left.middle = right.middle)
+    (root : left.root = right.root) : left = right := by
+  cases left
+  cases right
+  simp_all
+
+end ThreeRegionBasisData
+
+/-- Canonical lower/middle/root triple of actual decorated components. -/
+noncomputable def canonicalRegionData
+    (witness : CanonicalTwoStageWitness first second) :
+    ThreeRegionBasisData sigma InstanceData :=
+  { lower := witness.canonicalLowerOccurrenceForest
+    middle := witness.canonicalMiddleOccurrenceForest
+    root :=
+      { boundary := G
+        tree := witness.finalRoot
+        ordinary := witness.finalCut.toCut.remainder_isOrdinary } }
+
+/-- Actual first-then-second schedule triple. -/
+noncomputable def firstScheduleRegionData
+    (witness : CanonicalTwoStageWitness first second) :
+    ThreeRegionBasisData sigma InstanceData :=
+  { lower := witness.firstScheduleLowerForest
+    middle := witness.firstScheduleMiddleForest
+    root :=
+      { boundary := G
+        tree := witness.firstThenSecondRoot
+        ordinary := witness.secondRetainedAfterFirst.toCut.remainder_isOrdinary } }
+
+/-- Actual reverse schedule triple. -/
+noncomputable def secondScheduleRegionData
+    (witness : CanonicalTwoStageWitness first second) :
+    ThreeRegionBasisData sigma InstanceData :=
+  { lower := witness.secondScheduleLowerForest
+    middle := witness.secondScheduleMiddleForest
+    root :=
+      { boundary := G
+        tree := witness.secondThenFirstRoot
+        ordinary := witness.firstRetainedAfterSecond.toCut.remainder_isOrdinary } }
+
+/-- The first schedule yields the canonical ordered triple of basis objects. -/
+theorem firstScheduleRegionData_eq_canonical
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.firstScheduleRegionData = witness.canonicalRegionData := by
+  unfold firstScheduleRegionData canonicalRegionData
+  apply ThreeRegionBasisData.ext
+  · exact witness.firstScheduleLowerForest_eq_canonical
+  · exact witness.firstScheduleMiddleForest_eq_canonical
+  · apply CKComponent.ext
+    · rfl
+    · exact heqOfEq witness.exactTwoStageRemainderCoherence.1
+
+/-- The reverse schedule yields the same canonical ordered triple. -/
+theorem secondScheduleRegionData_eq_canonical
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.secondScheduleRegionData = witness.canonicalRegionData := by
+  unfold secondScheduleRegionData canonicalRegionData
+  apply ThreeRegionBasisData.ext
+  · exact witness.secondScheduleLowerForest_eq_canonical
+  · exact witness.secondScheduleMiddleForest_eq_canonical
+  · apply CKComponent.ext
+    · rfl
+    · exact heqOfEq witness.exactTwoStageRemainderCoherence.2
+
+/-- Coassociativity-ready equality of the two actual ordered three-region
+basis data, obtained from explicit occurrence bijections and exact root
+equality before any sums, coefficients, or tensors are introduced. -/
+theorem scheduleRegionData_cohere
+    (witness : CanonicalTwoStageWitness first second) :
+    witness.firstScheduleRegionData = witness.secondScheduleRegionData :=
+  witness.firstScheduleRegionData_eq_canonical.trans
+    witness.secondScheduleRegionData_eq_canonical.symm
+
+/-- Paper-facing package of the exact two-stage witness-level result. -/
+structure ExactTwoStageRegionCoherence
+    (witness : CanonicalTwoStageWitness first second) : Prop where
+  middleComponents : ∀ occurrence,
+    witness.firstScheduleMiddleComponent occurrence =
+      witness.secondScheduleMiddleComponent
+        (witness.firstToSecondMiddleEquiv occurrence)
+  lowerComponents : ∀ occurrence,
+    witness.firstScheduleLowerComponent occurrence =
+      witness.secondScheduleLowerComponent
+        (witness.firstToSecondLowerEquiv occurrence)
+  finalRoots : ExactTwoStageRemainderCoherence witness
+  basisTriple : witness.firstScheduleRegionData =
+    witness.secondScheduleRegionData
+  reconstructs : witness.canonicalDecomposition.composedFilling = tree
+
+/-- The exact two-stage region-coherence package is inhabited universally
+for every disjoint noncrossing pair of public address cuts. -/
+theorem exactTwoStageRegionCoherence
+    (witness : CanonicalTwoStageWitness first second) :
+    ExactTwoStageRegionCoherence witness :=
+  { middleComponents := witness.firstToSecondMiddleEquiv_component
+    lowerComponents := witness.firstToSecondLowerEquiv_component
+    finalRoots := witness.exactTwoStageRemainderCoherence
+    basisTriple := witness.scheduleRegionData_cohere
+    reconstructs := witness.canonicalDecomposition.composedFilling_reconstructs }
 
 /-- Swapping the cut labels swaps only the two middle values of the
 source-address classifier.  This is not equality of transported region
@@ -1352,8 +3390,8 @@ theorem compose_independent_of_parenthesization
 end AddressBracketing
 
 /-- A finite hierarchy is globally ranked, rather than merely pairwise
-noncrossing.  Lower ranks are strictly deeper whenever two selected addresses
-are comparable.  This is the missing global hypothesis needed to rule out an
+noncrossing.  Ranks increase from an outer selected address to a strictly
+deeper selected address.  This is the global hypothesis needed to rule out an
 orientation cycle among three or more cuts. -/
 structure RankedCutHierarchy {G : Hypersequent sigma}
     (tree : CKTree sigma InstanceData G) where
@@ -1361,9 +3399,9 @@ structure RankedCutHierarchy {G : Hypersequent sigma}
   levelCountPositive : 0 < levelCount
   cut : Fin levelCount → ValidAddressCut tree
   disjoint : ∀ {i j}, i ≠ j → Disjoint (cut i).addresses (cut j).addresses
-  rank_respects_inside : ∀ {i j} {p q},
+  rank_respects_prefix : ∀ {i j} {p q},
     p ∈ (cut i).addresses → q ∈ (cut j).addresses →
-    StrictlyInside p q → i.1 < j.1
+    StrictlyInside q p → i.1 < j.1
 
 namespace RankedCutHierarchy
 
@@ -1426,8 +3464,8 @@ theorem pair_noncrossing {G : Hypersequent sigma}
   refine ⟨hierarchy.disjoint different, ?_⟩
   rintro ⟨⟨p, pMember, q, qMember, pInside⟩,
     ⟨q', q'Member, p', p'Member, qInside⟩⟩
-  have ij := hierarchy.rank_respects_inside pMember qMember pInside
-  have ji := hierarchy.rank_respects_inside q'Member p'Member qInside
+  have ji := hierarchy.rank_respects_prefix qMember pMember pInside
+  have ij := hierarchy.rank_respects_prefix p'Member q'Member qInside
   omega
 
 /-- The address-level parenthesisation certificate retains the canonical
@@ -1508,7 +3546,7 @@ theorem cycle_C_inside_A : HasInsideAddresses cycleC cycleA := by decide
 /-- No global natural-number ranking can realize the cyclic pairwise
 orientations. -/
 theorem no_global_rank (rankA rankB rankC : Nat)
-    (AB : rankA < rankB) (BC : rankB < rankC) (CA : rankC < rankA) :
+    (BA : rankB < rankA) (CB : rankC < rankB) (AC : rankA < rankC) :
     False := by
   omega
 
