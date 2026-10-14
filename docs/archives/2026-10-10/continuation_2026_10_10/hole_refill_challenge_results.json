@@ -1,0 +1,14 @@
+{
+  "status": "NO_BOUNDED_COUNTEREXAMPLE",
+  "totals": {
+    "terms": 2185,
+    "nontrivial_canonical_image_pairs": 1262,
+    "equal_pairs": 1724,
+    "nonempty_matched_batches": 3505,
+    "batches_inside_nonprimitive_islands": 1459,
+    "closed_joint_mode_refills": 9226,
+    "post_refill_exact_coaction_checks": 400,
+    "single_open_or_composite_refills": 22680
+  },
+  "scope": "all actual antichain batches of generated mode-equal beta/eta and canonical-image pairs; joint closed pure/identity-detour fills preserve complete slot judgment; open/composite single fills additionally stress changing ambient contexts"
+}

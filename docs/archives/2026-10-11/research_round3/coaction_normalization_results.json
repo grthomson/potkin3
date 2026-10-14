@@ -1,0 +1,15 @@
+{
+  "source_trees": 1034,
+  "forward_coaction_terms": 5609,
+  "inverse_coaction_witness_checks": 95961,
+  "complete_witness_normalizations": 39370,
+  "positive_open_and_complete_states": {
+    "C": 8,
+    "B": 8,
+    "O": 32
+  },
+  "saturation_rounds": 3,
+  "actual_coaction_budget_nonvacuous": true,
+  "actual_coaction_counterexample_normal_form_cost": 3,
+  "scope": "Actual typed coaction with positive open providers; complete-source implication guard. Finite-registry paper theorem plus bounded forward and exact-state witness checks."
+}

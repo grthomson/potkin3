@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "scope": "independently typed unit-free mixed tensor/implication; atomic nondischarging selected primitives; explicit fixture equations only; no normalizer completeness assertion",
+  "fixtures": [
+    {
+      "name": "let_lambda",
+      "ordinary_equal": true,
+      "material_mode_equal": true,
+      "left_cuts": 1,
+      "right_cuts": 1
+    },
+    {
+      "name": "let_app_function",
+      "ordinary_equal": true,
+      "material_mode_equal": true,
+      "left_cuts": 2,
+      "right_cuts": 2
+    },
+    {
+      "name": "let_app_argument",
+      "ordinary_equal": true,
+      "material_mode_equal": true,
+      "left_cuts": 1,
+      "right_cuts": 1
+    },
+    {
+      "name": "compound_beta_pair",
+      "ordinary_equal": true,
+      "material_mode_equal": true,
+      "left_cuts": 8,
+      "right_cuts": 8
+    },
+    {
+      "name": "mixed_eta",
+      "ordinary_equal": true,
+      "material_mode_equal": true,
+      "left_cuts": 1,
+      "right_cuts": 1
+    },
+    {
+      "name": "mixed_principal_fusion",
+      "ordinary_equal": true,
+      "material_mode_equal": false,
+      "left_cuts": 4,
+      "right_cuts": 5
+    },
+    {
+      "name": "compound_port_raw_barrier",
+      "ordinary_equal": true,
+      "material_mode_equal": true,
+      "left_cuts": 1,
+      "right_cuts": 1
+    },
+    {
+      "name": "tensor_eta_function_result",
+      "ordinary_equal": true,
+      "material_mode_equal": true,
+      "left_cuts": 2,
+      "right_cuts": 2
+    },
+    {
+      "name": "atomic_mode_detects_future_fusion",
+      "ordinary_equal": true,
+      "material_mode_equal": false,
+      "left_cuts": 2,
+      "right_cuts": 2
+    }
+  ],
+  "material_mode_checks": 10,
+  "compound_substitution_checks": 18,
+  "typed_extraction_checks": 22,
+  "exact_nonprimitive_fusion_defect": true,
+  "actual_nested_flag_terms": 495,
+  "malformed_terms_rejected": 4,
+  "joint_compound_atomic_substitutions": 4
+}

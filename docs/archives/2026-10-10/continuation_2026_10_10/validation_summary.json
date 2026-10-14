@@ -1,0 +1,71 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "passed": true,
+  "checks": [
+    {
+      "script": "cofree_profile.py",
+      "returncode": 0,
+      "seconds": 0.156
+    },
+    {
+      "script": "island_seal.py",
+      "returncode": 0,
+      "seconds": 30.602
+    },
+    {
+      "script": "material_modes.py",
+      "returncode": 0,
+      "seconds": 0.061
+    },
+    {
+      "script": "material_modes_validation.py",
+      "returncode": 0,
+      "seconds": 2.158
+    },
+    {
+      "script": "hole_refill_challenge.py",
+      "returncode": 0,
+      "seconds": 22.977
+    },
+    {
+      "script": "adversarial_no_go_probe.py",
+      "returncode": 0,
+      "seconds": 0.738
+    },
+    {
+      "script": "adversarial_parametric_probe.py",
+      "returncode": 0,
+      "seconds": 0.361
+    },
+    {
+      "script": "adversarial_hole_refill_probe.py",
+      "returncode": 0,
+      "seconds": 1.619
+    },
+    {
+      "script": "hole_refill_modes.py",
+      "returncode": 0,
+      "seconds": 7.537
+    },
+    {
+      "script": "nonprimitive_lift_obstruction.py",
+      "returncode": 0,
+      "seconds": 0.079
+    },
+    {
+      "script": "faa_di_bruno_expansion.py",
+      "returncode": 0,
+      "seconds": 0.247
+    },
+    {
+      "script": "carrier_client/check_translation.py",
+      "returncode": 0,
+      "seconds": 0.299
+    },
+    {
+      "script": "carrier_client/tensor_shell.py",
+      "returncode": 0,
+      "seconds": 0.064
+    }
+  ]
+}

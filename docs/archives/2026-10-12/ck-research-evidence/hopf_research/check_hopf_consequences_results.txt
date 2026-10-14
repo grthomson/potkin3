@@ -1,0 +1,17 @@
+PASS: 5 physical corolla cuts; ordered one-leaf remainders distinct
+PASS: connected-graded antipode agrees with four-term formula
+PASS: generic inversion on all six typed remainder states
+PASS: cache rebase on all six states and exact quadratic update
+PASS: simultaneous shared-port replacement and multiplicity 2
+C_phi(t) = 1*u*u*z[P] + 1*v*v*z[Q] + 2*v*z*z[Q] + 1*w[E] + 1*z*z*z[Q]
+Evidence: exact finite symbolic checks only; no Lean/native/LQ revival claim
+PASS: all 210 slotted trees and 476 forests through degree 4
+PASS: full cut-flag coaction, both antipode identities, polynomial inversion
+PASS: logarithmic derivative infinitesimal and connected sensitivity on every tree
+PASS: Lie closure, commutator representation, directional two-node witness
+PASS: all963 native-like21-node LQ cuts enumerated without restricting coproduct
+PASS: exactly4 cache-supported frontiers;2 survive shared-owner join; minimum11
+PASS: old q-cache to new p-cache full963-cut antipode rebase
+PASS: genuine cooperative update: first sensitivity0, Hasse order2=u²z11[P]
+Old cache polynomial: 1*v*v*z*z*z*z*z*z*z*z*z*z*z[Q] + 2*v*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z[Q] + 1*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z[Q]
+New cache polynomial: 1*u*u*z*z*z*z*z*z*z*z*z*z*z[P] + 1*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z*z[Q]

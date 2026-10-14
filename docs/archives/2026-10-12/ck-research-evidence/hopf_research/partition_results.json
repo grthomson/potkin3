@@ -1,0 +1,10 @@
+{
+  "associative_diagram_triples": 1728,
+  "matrix_contraction_cases": 22464,
+  "shared_trace_polynomial": "q",
+  "fresh_trace_polynomial": "q^2",
+  "equal_early_counts_different_future": [
+    0,
+    1
+  ]
+}

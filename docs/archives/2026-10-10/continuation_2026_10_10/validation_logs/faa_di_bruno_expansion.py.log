@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "counts": {
+    "expansions": 64,
+    "actual_antichain_terms": 1791
+  },
+  "primitive_probe_terms": 2,
+  "nonprimitive_payload_terms": 5,
+  "internal_two_leaf_cut_retained": true,
+  "includes_zero_vertex_payloads": true,
+  "scope": "exact finite cut reconstruction; universal proof in notes"
+}

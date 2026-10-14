@@ -1,0 +1,154 @@
+POTKIN3 — D3 source adequacy and schema-general application
+
+The fixed-owner discharge milestone is COMPLETE. Do not reopen exposure_fill,
+ok_fill, directSummary_fill, realizable associativity, fixedOwner_replacement,
+or the verified Sys(com) two-stage diagrams. Read the completed continuation of
+the 14 October report, not the superseded historical section beneath it.
+
+USER GOAL
+Use CK Hopf/decomposition machinery for structural proof theory with a credible
+application. This milestone removes the gap between independently specified
+systems-of-rules derivations and the existing native theorem. It does not start
+a new algebraic framework or discover the implication permutation anew.
+
+INPUTS
+The accompanying D3 notes are PAPER ARGUMENTS, not Lean results:
+  source_bridge.txt — independent pending-discharge syntax and its equivalence;
+  open_encoding_lemma.txt — explicit conditional filling/encoding bridge;
+  admission_bridge.txt — schema-general permutation and finite registry gates.
+The maintained theorem ledger is the research status authority for this task;
+update matching entries rather than concatenating every completed lemma. Keep
+the native repository's own ledger consistent, with references to exact source
+declarations and final checks. Follow AGENTS and preserve unrelated changes.
+
+FIRST TARGETED AUDIT
+Find existing source encodings, ordinary rule schemas, formula interpretations,
+registry extension/lifting and source erasure/decorability by concept searches.
+Inspect the actual definitions of Data, ExactInstance, ExactTree, Legal,
+FixedOwnerInterface, fixedOwner_replacement, checked quotation and admission.
+Identify the strongest existing theorem for each obligation below. Reuse it;
+do not repeat a finished port. Record which source syntax is already available.
+Do not replace CKTree, native cuts, forests, physical holes or existing fillers.
+An independently specified source syntax for an adequacy theorem is allowed;
+it is not a replacement CK carrier.
+
+DESIRED THEOREMS, IN DEPENDENCY ORDER
+
+1. Actual formula/rule interpretation.
+Choose the independently defined source fragment identity, internal weakening,
+internal contraction, implication-right, and Sys(com) top/bottom rules. State
+the rule schemes before defining encodings. Include all finite formula/multiset
+parameters, not p/q-only instances. If a larger existing source calculus is
+already available, use it only to the extent its encoding is proved.
+
+The generic native theorem accepts arbitrary Imp. Prove that the chosen Imp
+characterizes the actual encoded implication constructor on the source image.
+An arbitrary ternary predicate is not source adequacy. Preserve singleton
+hypersequent embedding, context multiplicity, local occurrence indices, ordered
+premises and incidence witnesses. Show local soundness AND reflection on the
+encoding image for each rule; registry membership is a separate statement.
+Full-LJ surjectivity may not be claimed until all its constructors are covered.
+
+2. Independent discharge semantics and faithful annotation.
+Use the inductive pending-physical-top-occurrence construction in the notes:
+ordinary rules combine pending occurrences, tops add themselves, and bottom b
+discharges selected subsets of matching role/pack in its own ordered premises.
+Selected occurrences are removed, preventing double discharge. Unselected tops
+can pass through nested systems. This must NOT be defined as native Legal or
+success of the summary operation.
+
+Prove correspondence with maps from physical tops to eligible physical bottoms.
+The induction invariant is exact: pending tops are those assigned outside the
+currently processed subtree. Then injectively name ALL bottom declarations,
+including bottoms discharging zero tops. Closed erasure/decoration round trips
+preserve grouping, up to the explicitly chosen used-declaration naming relation.
+Do not assume nearest-owner, one-top-per-branch, or section 4 normal-form
+conditions as initial source correctness.
+
+Raw erasure is many-to-one. Include a universal explanation or minimal checked
+witness of two eligible same-pack ancestor bottoms; do not claim canonical
+grouping from a bare proof drawing. This is a representation fact, not a new
+logical ambiguity theorem claimed against the source literature.
+
+3. Open diagrams and contextual source transfer.
+Keep explicit stable declaration/reference tokens in open source diagrams.
+Inputs may be invalid: collisions, unresolved references and wrong branches
+must remain failures, not be repaired by implicit freshening. Define correctness
+of complete assemblies using the independent discharge grouping. Preserve every
+token under filling; do not allocate names by a global traversal counter.
+Prove enc(P[F]) = nativeFill(enc(P),enc(F)), under the actual dependent physical
+hole transport, and the analogous puncture insertion law.
+
+Use local adequacy plus this commutation lemma to transfer the existing native
+fixed-owner replacement theorem to source completions. If a result stays open,
+state the theorem over its subsequent complete fillings; do not fabricate a
+closed proof certificate for a Box. Separate chosen-reference source replacement
+from existential equivalence over ALL possible groupings.
+
+4. Schema-general implication-right permutation.
+For arbitrary Phi,Psi,Gamma,A,B and owner u, put S=Gamma,A=>B and
+T=Gamma=>A->B. Build exact native shells
+  R(B_(u,Phi,Psi;S)(Box_S,Box_S))
+  B_(u,Phi,Psi;T)(R(Box_S),R(Box_S)).
+Construct FixedOwnerInterface uniformly and apply fixedOwner_replacement.
+Do not write another bespoke correctness proof instead of using the existing
+theorem. Conclusions, ordered hole boundaries and exposures must be proved;
+the bottom common sequent changes while owner u and Phi/Psi do not.
+Obtain arbitrary matching donors AND arbitrary exterior contexts. Preserve
+failure reflection without a freshness condition that removes negative cases.
+
+Separately, the notes prove a stronger SOURCE corollary specific to this
+permutation: every top/bottom eligibility relation is preserved, so all valid
+groupings biject. Mechanize it if feasible after the basic bridge. It supplies
+validity iff when grouping is existentially hidden. Do not generalize this
+certificate/grouping bijection to arbitrary summary-equivalent fragments.
+The underlying permutation is established in the literature; this is a source
+interpretation/generalization of our mechanized application, not priority for
+the permutation or a full normalization theorem.
+
+5. Admission with correct quantifiers.
+First prove the checked corollary in ANY registry containing the actual exact
+shell instances, with donors and exterior admitted in that registry. This
+already removes the ten-instance restriction.
+
+Then reuse or prove finite realization: for each FINITE family of schema-valid
+source/target derivations, obtain a finite common validated registry. Do not
+claim one fixed finite registry admits every possible formula instance. Preserve
+corresponding unchanged descriptors/keys across both sides; fresh allocations
+must be consistent, not independently retag each occurrence in each derivation.
+Distinguish rule-instance lookup keys from system owner UIDs. Source/target
+bottoms need different descriptors/keys when their common sequents differ but
+the SAME system UID. Multiple physical R occurrences may share one instance key.
+
+For extending an existing immutable registry, preserve all old exact lookups
+and prove checked-derivation lifting preserves realization. Do not claim logical
+conservativity, signature/base conservativity or a Hopf morphism from this lemma.
+If fresh key capacity or lifting is unavailable, state the explicit hypothesis
+and finish the any-admitting-registry theorem first.
+
+6. Preserve the actual CK consequence.
+Discharge the assumptions of existing full-summary cut evaluation and scoped
+certificate maps using source adequacy. State the resulting SOURCE theorem:
+both compatible native cut stagings check the same source discharge conditions
+with coherent actual witnesses. Preserve physical factors/remainders, inherited
+holes, ordered branches and multiplicities. Detached factors are jointly scoped;
+they are not independently closed proofs. Do not claim coproduct invariance of
+the permutation, a generic Hopf character, or a newly proved antipode theorem.
+
+ACCEPTANCE AND VERIFICATION
+Have independent reviewers check the source-definition correspondence, formula
+and incidence adequacy, fixed-token filling, registry quantifiers, and claims of
+novelty versus mechanization. Fix genuine statement errors rather than hiding
+them behind smaller fixtures. Universal source/permutation statements are the
+acceptance criterion; examples are supplementary.
+Use targeted serialized checks with the project's authorized monitored budgets
+(the preceding report records 300-second checks), actual child termination and
+axiom closures. Diagnose import cost before repeating silent checks. No full
+suite/build or dependency campaign absent a concrete required gate. Record exact
+commands, durations, source revision/dirty status and hypotheses. No sorryAx or
+custom axioms in accepted closures. No commit/push unless separately authorized.
+
+Update D3-A in the maintained ledger IN PLACE: distinguish source PAPER proof,
+native MECHANIZED theorem, admitted corollary, and remaining full-LJ obligations.
+Do not append another chronological ledger section or describe old N2/N3 as new.
+No executable cache or benchmark is requested until this source bridge is settled.

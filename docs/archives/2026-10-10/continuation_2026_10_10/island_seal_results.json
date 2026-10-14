@@ -1,0 +1,64 @@
+{
+  "status": "BOUNDED_CHECKS_PASS",
+  "policy": "hide maximal pure islands; full beta eta normalize opaque shell; restore each as identity seal",
+  "totals": {
+    "terms": 4228,
+    "residual_states": 16916,
+    "cut_terms": 60042
+  },
+  "carrier_gates": [
+    {
+      "name": "eta_app_push",
+      "same_canonical_representative": true
+    },
+    {
+      "name": "dependent_cut_cut",
+      "same_canonical_representative": true
+    },
+    {
+      "name": "general_material_passenger",
+      "same_canonical_representative": true
+    },
+    {
+      "name": "lambda_passenger",
+      "same_canonical_representative": true
+    },
+    {
+      "name": "unsafe_material_fusion",
+      "same_canonical_representative": false
+    }
+  ],
+  "shadow_reification": [
+    {
+      "name": "binary",
+      "source_antichain_terms": 5,
+      "residual_states": 5,
+      "cut_terms": 14
+    },
+    {
+      "name": "repeated",
+      "source_antichain_terms": 5,
+      "residual_states": 5,
+      "cut_terms": 14
+    },
+    {
+      "name": "nested",
+      "source_antichain_terms": 6,
+      "residual_states": 6,
+      "cut_terms": 20
+    },
+    {
+      "name": "hypothetical",
+      "source_antichain_terms": 3,
+      "residual_states": 3,
+      "cut_terms": 6
+    }
+  ],
+  "checks": [
+    "idempotence",
+    "ordinary normal identity",
+    "exact material coaction",
+    "hereditary normal image"
+  ],
+  "scope": "finite evidence, not mechanized general theorem"
+}

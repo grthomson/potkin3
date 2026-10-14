@@ -1,0 +1,7 @@
+{
+  "status": "finite exact integer checks, not Lean",
+  "scope_aware_template_instances": 1532,
+  "physical_multiaffinity_checks": 1532,
+  "two_layer_binding_masking_fixture": true,
+  "integer_hasse_chain_instances": 2560
+}

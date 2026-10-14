@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "accepted_replacement": true,
+  "refused_normal_equivalent_replacement": true,
+  "explicit_refusal_filler": "s(a,b)",
+  "paired_nested_terms": 53,
+  "accepted_intact_composites": [
+    "r",
+    "s"
+  ],
+  "refused_lost_composite": "r(s(a,b))",
+  "installed_cut_terms": 11,
+  "composite_expansion_terms": 11,
+  "nonprimitive_coefficient": "s(a,b)",
+  "strict_nested_flag": "a then s(hole_a,b)",
+  "staged_refill_equals_composed_refill": true,
+  "inside_detached_factor_flags_checked": true,
+  "namespace_collision_rejected": true,
+  "tampering_rejected": 9,
+  "verification_cut_engine": "independent subset/ancestry enumeration",
+  "scope": "implicational occurrence-linear bridge client; finite validation, not process/deadlock semantics"
+}

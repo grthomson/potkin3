@@ -1,5 +1,20 @@
 # Potkin 3
 
+## Documentation and current working state
+
+The [documentation index (12 October 2026)](docs/2026-10-12-index.md) is the
+entry point for current reports, dated research checkpoints and preserved archives.
+For the latest recorded M1/M2 status, read the
+[native material-record audit](docs/reports/2026-10-12/native-material-record-audit.md),
+especially section 10. The [Mathlib exploration report](docs/reports/2026-10-12/mathlib-exploration.md)
+records the subsequent exploration separately. These are source records, not a
+fresh build or verification claim.
+
+## Foundational P3-0 to P3-2 overview
+
+The overview below describes the foundational milestones; it is not the latest
+working-tree status. The dated reports above record subsequent work and open gates.
+
 `potkin3` is the Lean 4 foundation for Potkin. Milestones P3-0 through P3-2 deliberately
 contain a small, proof-producing vertical slice rather than a port of the
 whole Racket workbench or the whole `nonmonlogics` development.
@@ -161,7 +176,7 @@ elimination, proof quotients, or parity with either source repository.
 `ValidAddressCut` is the P3-2 public cut identity. Empty cuts are retained, but
 no linear combinations, tensor endpoints, or coproduct are introduced. See
 `SEMANTIC_CONTRACT.md` for the conventions fixed for those later layers and
-`MIGRATION_LEDGER.md` for declaration-level provenance.
+the [migration ledger](docs/reference/migration-ledger.md) for declaration-level provenance.
 
 Direct equality of arbitrary legacy dependent `CKCutPlan` values remains an
 awkward eliminator problem. P3-2 resolves identity at the correct public

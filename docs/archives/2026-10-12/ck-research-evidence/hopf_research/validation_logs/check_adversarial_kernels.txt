@@ -1,0 +1,9 @@
+{
+  "networks": 512,
+  "nested_region_checks": 32768,
+  "whole_network_comparisons": 512,
+  "nonconsecutive_port_identity": true,
+  "incompatible_siblings_detected": true,
+  "shared_copy_count": 2,
+  "fresh_copy_count": 4
+}

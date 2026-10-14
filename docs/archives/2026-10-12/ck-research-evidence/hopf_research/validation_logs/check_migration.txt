@@ -1,0 +1,208 @@
+{
+  "status": "finite checks; not Lean and not native eligibility bridge",
+  "exhaustive_small_terms_checked": 570,
+  "source": {
+    "nodes": 15,
+    "free_variables": [
+      "k",
+      "z"
+    ],
+    "b_spectrum": {
+      "0": 289
+    }
+  },
+  "reduct": {
+    "nodes": 31,
+    "free_variables": [
+      "k",
+      "z"
+    ],
+    "b_spectrum": {
+      "0": 9217,
+      "1": 37056,
+      "2": 37249
+    }
+  },
+  "reduct_selected_root_eligibility_variants": {
+    "all_positive_nodes": {
+      "0": 9217,
+      "1": 37056,
+      "2": 37249
+    },
+    "applications_only": {
+      "0": 9,
+      "1": 36,
+      "2": 36
+    },
+    "session_roots_only": {
+      "0": 2,
+      "1": 2,
+      "2": 1
+    }
+  },
+  "typed_context_separator": {
+    "source_common_spectrum": {
+      "0": 7
+    },
+    "adapted_first": {
+      "0": 6,
+      "1": 10
+    },
+    "adapted_second": {
+      "0": 4,
+      "1": 9
+    },
+    "types": "x,g:A; h:H; b:B\u2192A; y:B; both outputs A\u2227(H\u2192A)"
+  },
+  "typed_canonical_channel_fixture": {
+    "encoding": "channel application is one unary node with channel identity in label; no standalone channel term",
+    "common_checked_output_type": "E",
+    "source_nodes": 17,
+    "target_nodes": 35,
+    "free_variables": [
+      "k",
+      "r",
+      "w",
+      "z"
+    ],
+    "source_spectrum": {
+      "0": 436
+    },
+    "target_spectrum": {
+      "0": 55681,
+      "1": 122272,
+      "2": 67072
+    },
+    "target_branch_spectra": [
+      {
+        "0": 232,
+        "1": 262
+      },
+      {
+        "0": 240,
+        "1": 256
+      }
+    ]
+  },
+  "canonical_context_separator": {
+    "adapter_spectrum": {
+      "0": 2,
+      "1": 1
+    },
+    "adapted_first": {
+      "0": 6,
+      "1": 4
+    },
+    "adapted_second": {
+      "0": 4,
+      "1": 5
+    }
+  },
+  "budgeted_externalization": {
+    "eligibility": "subtree has no session constructor",
+    "cost": "one per selected task with free b",
+    "benefit": "node count minus two units of task overhead",
+    "optimal_exact_cost": {
+      "0": {
+        "benefit": 12,
+        "selected_addresses": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "1": {
+        "benefit": 19,
+        "selected_addresses": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "2": {
+        "benefit": 24,
+        "selected_addresses": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "actual_typed_cross_separator": {
+    "status": "both complete source and target terms typecheck at E",
+    "cases": [
+      {
+        "source_nodes": 14,
+        "target_nodes": 29,
+        "source_spectrum": {
+          "0": 172
+        },
+        "target_spectrum": {
+          "0": 8209,
+          "1": 18048,
+          "2": 9660
+        },
+        "target_inner_session_spectra": [
+          {
+            "0": 36,
+            "1": 46
+          },
+          {
+            "0": 228,
+            "1": 210
+          }
+        ]
+      },
+      {
+        "source_nodes": 14,
+        "target_nodes": 29,
+        "source_spectrum": {
+          "0": 172
+        },
+        "target_spectrum": {
+          "0": 5473,
+          "1": 15920,
+          "2": 11408
+        },
+        "target_inner_session_spectra": [
+          {
+            "0": 36,
+            "1": 46
+          },
+          {
+            "0": 152,
+            "1": 248
+          }
+        ]
+      }
+    ]
+  }
+}

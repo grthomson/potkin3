@@ -1,0 +1,17 @@
+{
+  "started_utc": "2026-10-12T11:47:07+00:00",
+  "research_completed_utc": "2026-10-12T12:47:23.756722+00:00",
+  "elapsed_seconds": 3616.756722,
+  "minimum_requested_seconds": 3600,
+  "research_agents": [
+    "revival_algebra",
+    "migration_algebra",
+    "hopf_consequences",
+    "revival_compiler",
+    "polynomial_bridge",
+    "adversarial_framework"
+  ],
+  "status": "paper mathematics and independently audited executable evidence; no new Lean certification",
+  "validated_scripts": 14,
+  "native_checkout_modified": false
+}

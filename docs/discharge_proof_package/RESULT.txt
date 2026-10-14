@@ -1,0 +1,143 @@
+OPEN DERIVATION REPLACEMENT AND CK EXTRACTION
+Paper result and mechanization specification — 13 October 2026
+
+STATUS
+Theorems below have explicit paper proofs and independent agent review. They are not Lean-verified. No native POTKIN3 checkout or Lean executable is available in this session. Earlier native results are known from the supplied reports; exact source signatures must be checked before integration. Literature novelty is not established.
+
+MAIN RESULT
+For the explicitly annotated LJ + Sys(com) calculus defined below, a finite discharge summary is sufficient to preserve AND reflect correctness under every subsequent filling and surrounding derivation, after one consistent occurrence transport. This summary composes under native CK extraction and reconstruction. It validates the actual implication-right/system-bottom permutation on unfinished proofs, including later tops discharged by the bottom inside the transformed fragment.
+
+1. INDEPENDENT CALCULUS AND LEGALITY
+Use finite rooted, ordered, sequent-labelled derivation trees, root at the conclusion. Ordinary vertices are actual instances of the propositional LJ rules. A hole has a specified sequent. Bottom applications have globally distinct identifiers b and a parameter pack p_b=(Phi_b,Psi_b). The Sys(com) rules are:
+
+  top role 1:  Phi,Gamma => Pi    /    Psi,Gamma => Pi
+  top role 2:  Psi,Gamma => Pi    /    Phi,Gamma => Pi
+  bottom:     S       S         /    S
+
+Each top application has a physical occurrence ID t, designated bottom ID o(t), pack p(t), and role i(t) in {0,1} (role 1 above is index 0). The local sequent schemas are checked independently of discharge. The pack is fixed for all tops assigned to a bottom. The common sequent S of a bottom is not part of that shared pack.
+
+A top t is discharged correctly precisely when its designated bottom exists, p(t)=p_b, and addr(b) followed by branch i(t) is a prefix of addr(t). Multiple tops may use the same bottom; nested system instances are allowed. This is not a nearest-bottom or first-hit condition. Legality additionally includes all local rule instances and unique bottom IDs. Holes are obligations, not axioms.
+
+This is an independently specified, explicitly annotated fragment motivated by Ciabattoni–Genco, Definition 2.1 and Example 3.2. We do not silently claim that erasing these annotations yields an already-proved equivalence with every derivation convention in the source paper. That source-adequacy theorem is separate. Likewise this is not yet a complete Curry–Howard translation.
+
+2. FINITE SUMMARY
+For an open piece P with unique internal bottom IDs let sigma(P) contain:
+  (a) its conclusion and its physical hole IDs with their sequents;
+  (b) I_P, the finite inventory of ALL internal bottom IDs;
+  (c) R_P, the occurrence-indexed outstanding top records (t,o(t),p(t),i(t)) for exactly those tops whose owner is not in I_P;
+  (d) A_P(h,b)=(p_b,i), when bottom b is an ancestor of hole h through its branch i; otherwise no entry;
+  (e) ok_P, true exactly when local rule checking succeeds, bottom IDs are unique, and all tops whose owner belongs to I_P satisfy the independent discharge condition.
+
+The summary omits ordinary interior vertices, absolute addresses, internal discharged tops, and bottom common sequents. Physical address maps are retained by the derivations/extraction certificates, not encoded by this summary. Occurrence-indexed R is necessary for the stated certificate transport; a set of demands alone would lose repeated top occurrences.
+
+WHY THE INVENTORY IS NECESSARY. Suppose a filling names an internal bottom that lies in a different branch of P. That owner is absent from A_P(h), but is not an external obligation. I_P makes this a permanent failure. Exposure tables and unresolved requirements alone would allow an erroneous later resolution. The same issue occurs when a top in P names a bottom later inserted above that top, or in another hole.
+
+Finite does not mean bounded independently of the fragment. The inventory grows with internal bottom occurrences. We claim a sufficient summary, not a minimal or fully abstract one. For example, inserting arbitrarily many locally valid left-weakening/left-contraction roundtrips along an appropriate edge changes the interior without changing the summary. The nontrivial logical permutation in section 6 supplies a more relevant pair.
+
+3. EXPLICIT SUMMARY COMPOSITION
+Let Q_h fill each chosen hole h of P, respecting its sequent. Bottom inventories of all pieces must be pairwise disjoint; give physical top and surviving-hole occurrences tagged IDs as necessary. Reference renaming is global and consistent. References across pieces need not be well scoped: the operation detects incorrect ones.
+
+The composite inventory is I=I_P disjoint-union all I_Qh. Start its success flag with the conjunction of all input flags and the boundary checks. Process outstanding requirements as follows:
+
+  • A record in R_P whose owner occurs in any I_Qh causes failure and is no longer external. A descendant bottom cannot discharge a top in P.
+  • A record in R_Qh targeting I_P is removed from the external list and checked against A_P(h). Missing entry, wrong role, or wrong pack causes failure.
+  • A record in R_Qh targeting I_Qk for k distinct from h causes failure and is no longer external. Sibling pieces cannot discharge one another's tops.
+  • All other outstanding records remain outstanding, with their actual occurrence tags.
+
+An input's own internal failures remain failures. At a surviving hole (h,k), the exposure table is the disjoint union A_P(h) union A_Qh(k). Unfilled parent holes retain their old exposure. The conclusion is the parent conclusion. On pieces with unique IDs and pairwise-disjoint inventories this defines a total computation with a failure flag, rather than a partial computation that silently drops ill-scoped references. Duplicate declarations are rejected before constructing a functional exposure table.
+
+THEOREM 1 — EXACT COMPOSITION.
+sigma(P[Q_h]) = compose(sigma(P), (sigma(Q_h))_h),
+up to the canonical physical-hole/top tagging bijections.
+
+PROOF. Local schemas are unaffected except that inserted roots must match holes. Inventories are disjoint unions. For a top whose owner was already internal to its original piece, insertion changes neither ancestry nor pack/role, so its check remains unchanged. For each outstanding top, classify the owner by its final piece: outside the composite; in the parent; in its own filling; or in a different filling. Own-piece ownership was already checked. A parent owner is a valid ancestor of a filling top exactly when its exposure entry at the attachment hole matches. A filling owner cannot be an ancestor of a parent top, and a sibling owner cannot be an ancestor of a filling top. These are exactly the listed cases. Ancestors of a surviving hole are precisely its ancestors inside the filling plus the parent ancestors of the attachment hole. This proves every field, including the failure flag and occurrence-indexed requirements. QED.
+
+COROLLARY 1 — ASSOCIATIVITY.
+For three or more levels of typed filling, all parenthesizations give the same summary under canonical reindexing. This assertion concerns summaries of actual pieces; an algebraic law on arbitrary unrealizable summary records is not claimed.
+
+PROOF. Apply Theorem 1 at each node of the parenthesized expression, then associativity of actual tree filling. Equivalently, for each top/owner pair the first piece containing both determines the same ancestry test; a failure is permanent because no later insertion changes the relation between existing occurrences. This covers cross-sibling and reverse ownership, not only initially valid diagrams. QED.
+
+4. UNIVERSAL REPLACEMENT
+Assume P and P' have verified internal correctness and matching conclusions. Let f be a bijection of their physical holes preserving sequents, beta a single bijection of their entire internal bottom inventories, and rho a bijection of their outstanding top occurrences. Require exact equality of their R and A records under these correspondences. Extend beta to references throughout the surrounding derivation and all fillings; keep external IDs fixed and choose fresh names to avoid capture. Hole correspondence is physical, not merely equality of boundary sequents. No copying or erasure is admitted here.
+
+THEOREM 2 — REPLACEMENT UNDER ALL FUTURE COMPLETIONS.
+For every locally typed exterior E and every matching tuple F of subsequent fillings with fresh, disjoint bottom IDs:
+
+  Legal(E[P[F]]) iff Legal(transport(E)[P'[transport(F)]])
+
+when the resulting derivations are closed. If they remain open, their summaries correspond and hence their sets of further legal completions correspond. Exterior references are transported as well.
+
+PROOF. The initial summaries are equal under the declared maps. The explicit operation of section 3 is equivariant under a global ID bijection: membership, equality of packs/roles, and exposure lookup commute with it. Compose first with all F and then with E; Theorem 1 gives equal resulting summaries. A closed derivation is legal iff its flag is true and its outstanding list is empty. For open results, repeat the same argument with any further completion. Exact equality, rather than inclusion of exposure possibilities, gives the reverse implication. QED.
+
+This does not assert a bijection of all internally chosen correctness certificates for P and P'. Their interior discharged tops may differ. In the designated-owner presentation, preserve the actual owner-resolution entries for filling and exterior tops and the corresponding outstanding fragment tops. The original fragments supply their separately verified internal tables. Existence of a valid decoration is a separate quantification, not an automatic bijection of choices.
+
+5. CK EXTRACTION DOES THE STAGING WORK
+Use existing native admissible cuts: physical address antichains, their ordered detached packets, the typed open remainder, and their literal reconstruction. Distinguish a CK cut from the logical Cut inference. For a cut c of T, write R_c for its open remainder and (P_c,h) for its detached factors. Previously original holes are retained; every cut-created hole has its specified boundary and physical origin.
+
+THEOREM 3 — DISCHARGE EVALUATION THROUGH CK EXTRACTION.
+For each such cut,
+
+  sigma(T) = compose(sigma(R_c), (sigma(P_c,h))_h).
+
+For a native two-stage cut flag, both iterated decompositions evaluate to this same summary after the already established native flag reindexing. For legal occurrence-resolved assignments, restriction and gluing commute with that flag reindexing. For illegal trees the summary theorem still gives agreement of the failure flags; it does not supply a correctness certificate.
+
+PROOF. Native reconstruction identifies T with the indicated filling; apply Theorem 1. For the two-stage case apply Corollary 1 and the existing branchFlagEquiv, including ordered factor, original-hole, and physical-address preservation. Restrict the owner table by the physical location of each top. When its owner leaves that factor, the entry becomes an outstanding record, not a deleted dependency. Gluing reunites owner IDs and performs exactly the checks of section 3. For a fixed top, either its owner was already in the same smallest factor, appears at the next enclosing piece, or remains external. Both stagings produce the same actual resolved pair and the same failure test. Table union over these disjoint top occurrences proves the map equation; it is not equality of Prop proofs. QED.
+
+This extends to finite nested native extractions by induction. It does not by itself prove equivalence of every arbitrary noncrossing schedule or an ordinary undecorated forest coaction.
+
+COPRODUCT INTERPRETATION. The native finite extraction sum records each physical cut with its detached packet and remainder, preserving multiplicities. Decorate its terms by the summaries above. The existing full addressed two-stage sum equality now remains valid after coefficientwise discharge evaluation. Thus CK decomposition supplies all admissible extraction choices and its iterates allow staged checking with the same occurrence-resolved result. Incompatible crossing discharge assignments are rejected during reconstruction, even though individual factors may each be internally correct.
+
+Do not claim sigma is automatically a Hopf character, that all terms collapse to a single copy of sigma(T), or that a normalization permutation preserves the coproduct. Reassembling each of N cut terms would give N copies if one sums them. A Hopf algebra quotient/coaction on the desired final carrier remains separate. We use the CK coproduct/iterated extraction combinatorics substantively here; there is no antipode application in this theorem.
+
+6. ACTUAL STRUCTURAL APPLICATION
+Take implication-right R: S=(Gamma,A => B) to T=(Gamma => A -> B). Let B_b denote the Sys(com) bottom with parameters (Phi,Psi). Consider
+
+  R(B_b(?0,?1))   -->   B_b'(R(?0),R(?1)).
+
+Both holes have sequent S and both entire fragments have sequent T. The source bottom's common sequent is S; the target bottom's is T. They are corresponding applications, not identical labelled rule instances. Their shared top parameters are equal.
+
+THEOREM 4 — OPEN IMPLICATION-RIGHT PERMUTATION.
+This conversion preserves and reflects legality under every subsequent filling and surrounding derivation, including fillings containing tops discharged by b. It preserves absence of logical Cut. Its discharge certificates can be checked through the staged native extractions of Theorem 3.
+
+PROOF. Each shell is locally typed by the displayed ordinary rule and bottom schema. Both have exactly one bottom and no tops. Their outstanding lists are empty. The hole bijection sends source address 0.i to target i.0, for i=0,1. The bottom map sends source address 0 to the target root. At corresponding hole i, exposure is precisely (b,Phi,Psi,i), respectively (b',Phi,Psi,i). Thus all summary fields agree. Theorem 2 applies. A filling occurrence with address suffix a is transported from 0.i.a to i.0.a, and its designated reference b goes globally to b'. No premise is copied; only an ordinary logical inference is duplicated. Neither shell contains logical Cut. Theorem 3 supplies staged certificate evaluation on each resulting derivation. QED.
+
+NONVACUOUS FILLINGS. Set Phi={p}, Psi={q}, S=p,q=>p, and R discharge q to obtain p=>q->p. In the left filling, derive p,p=>p by weakening identity and use top role 1 to reach q,p=>p. In the right filling, derive q,q,p=>p by weakening identity twice; role 2 yields p,q,p=>p; contraction gives q,p=>p. Assign both tops to b. Both fillings require the internal bottom, so a theorem assuming exclusively external discharge does not cover them. The permutation preserves these assignments, and the universal result is not restricted to this witness.
+
+The same proof works for any fixed chain U of m ordinary unary propositional LJ inferences with endpoints S,T, valid side conditions, and no system tops/bottoms. It also works for the analogous independently specified fixed-arity bottom schema; this is a schematic generalization, not source adequacy for every higher-level system. Binary transformations that duplicate bottom applications require a separate copying theorem.
+
+HISTORICAL ANTECEDENT. Aschieri–Ciabattoni–Genco explicitly use the term permutation lambda x(u parallel_a v) -> (lambda x u) parallel_a (lambda x v), and prove subject reduction. Our sequent conversion is its structural counterpart; we have not established a full translation identifying their term calculus with this annotation model. The ordinary permutation and its normalization motivation are established mathematics. The project increment is the universal unfinished-derivation theorem, finite sufficiency with negative scope checks, and occurrence-resolved CK staging for this conversion.
+
+7. EXACT CK COST COROLLARY AND ITS LIMIT
+For the physical full-cut frontier polynomial use F_hole(z)=1 and F_node(z)=z+product F_children(z), including logical axioms as positive zero-child vertices. This explicitly chosen convention counts the whole detached subtree as one component; it is a projection of extraction data, not the entire coproduct.
+
+For a unary chain of m positive vertices, induction gives F_U(X)=F_X+mz. Consequently for completed or still-open P,Q,
+
+  F_source = (m+1)z + F_P F_Q,
+  F_target = z + (F_P+mz)(F_Q+mz),
+  F_target - F_source = mz(F_P+F_Q-1) + m^2 z^2.
+
+Every F has constant term 1 and nonnegative coefficients (induction on the tree). Thus the difference is coefficientwise nonnegative; for m>0 it is nonzero. At z=1 the added number of physical full cuts is m(F_P(1)+F_Q(1)-1)+m^2. The forward normalization direction creates decomposition choices. The reverse factors a repeated unary chain and reduces this cost; it is not the literature's indicated normalization orientation.
+
+This does not prove coefficientwise order on the full typed packet basis. Bottom boundary labels change, and the two coproducts are not equal. Use the existing context-extraction operators separately for the two shells:
+  delta(C[P,Q]) = K_C(delta(P),delta(Q)).
+Their difference is the signed difference of these existing operators, with typing/occurrence transports made explicit. Do not apply the positive-linear macro-compiler theorem to this rewrite without proving that its hypotheses hold. The generic K law and substitution–extraction defect laws are dependencies, not new discoveries. The new integration is that discharge evaluation of every extraction term computes the independently specified rule condition and survives native reassociation.
+
+8. PRECISE PROJECT DELTA AND IMPLEMENTATION PAYOFF
+Earlier: DependencyInterface.native_replacement and related interface_replacement (names per supplied report) treat a fixed external discharge environment. Native filling, installation, certificate gluing and branchFlagEquiv already exist. macro_defect.md Theorems 1–4 already supply general defect/composition/coherence; context_coaction.md already supplies context K operators.
+
+Added at paper level: a sufficient summary including internal-owner inventory and per-hole exposure; exact composition with cross-sibling/reverse-reference failure; universal later filling; explicit instantiation for implication-right normalization; certificate evaluation through native CK flags. The polynomial identity is an application under an explicit convention, not a replacement for the structural theorem.
+
+Payoff: certify this rewrite before the open premises are completed. A future implementation can cache summaries of proof fragments, accept or reject subsequent fillings using finite ID and role/pack checks, and recompute through a chosen CK decomposition after a local edit. It need not rescan the interior of an unchanged certified fragment. Actual complexity and useful speedup remain to be measured; no implementation benchmark is claimed. An implementation must retain/retrieve the internal certificates if it is expected to reconstruct full proof evidence.
+
+REMAINING LIMITS. Lean verification; exact adaptation to the native module definitions; source erasure/decorability adequacy; copying/erasure of owners; formula substitution and eigenvariable conditions outside this fixed propositional instance; general process semantics; full ordinary Hopf/coaction packaging; literature priority. None is silently discharged by this paper proof. D1–D6 labels are not redefined here: their exact project ledger definitions must govern the mechanization report.
+
+PRIMARY SOURCES
+Ciabattoni and Genco, Hypersequents and Systems of Rules: Embeddings and Applications, arXiv:1805.04852, Definition 2.1, Example 3.2, section 4. https://arxiv.org/html/1805.04852v1
+Aschieri, Ciabattoni and Genco, Goedel Logic: from Natural Deduction to Parallel Computation, arXiv:1607.05120, Figure 1, Theorem IV.2, appendix subject-reduction case 7. https://arxiv.org/pdf/1607.05120
+
+REVIEW RECORD
+Three independent agents reviewed the finite-summary theorem, the structural application, and adversarial scope/certificate cases. A further adversarial review of the completed draft also checked the concrete filling and polynomial. Corrections include restricting functional summaries to unique-ID inputs, transporting exterior references in the theorem statement, and scoping certificate equations to legal assignments. Their principal corrections were incorporated: retain hidden internal owner IDs; reject reverse and sibling ownership; restrict source-adequacy claims; distinguish certificate entries from Prop proofs; use the actual normalization orientation; do not claim coproduct invariance.
+
+
+FINITE DEBUGGING (NOT MECHANIZATION)
+check_summary.py implements a direct address-based checker independently of summary composition. With deterministic seed 20261013 it passed 1,000 direct/compositional comparisons and 1,000 nested-composition comparisons, including 423 invalid random cases, plus explicit hidden-owner, sibling-owner and unary-permutation checks. This untyped finite model does not check LJ rule instances and is not evidence of universal validity. Exact output is in summary_checks.json.

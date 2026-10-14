@@ -1,0 +1,141 @@
+{
+  "logical_cases": 16,
+  "typed_residual_and_refill_checks": 232,
+  "material_profile": [
+    "g",
+    "tR"
+  ],
+  "coefficient_sensitive_material_record_equality": true,
+  "full_cut_equality_rejected_in_every_case": true,
+  "cases": [
+    {
+      "case": "Wb_material_shape_0",
+      "source_nodes": 2,
+      "target_nodes": 6,
+      "material_cut_witnesses": 2,
+      "full_source_pointed_cuts": 3,
+      "full_target_pointed_cuts": 13
+    },
+    {
+      "case": "nested_Wb_material_shape_0",
+      "source_nodes": 3,
+      "target_nodes": 11,
+      "material_cut_witnesses": 2,
+      "full_source_pointed_cuts": 4,
+      "full_target_pointed_cuts": 57
+    },
+    {
+      "case": "Ca_over_Wb_shape_0",
+      "source_nodes": 5,
+      "target_nodes": 9,
+      "material_cut_witnesses": 2,
+      "full_source_pointed_cuts": 6,
+      "full_target_pointed_cuts": 22
+    },
+    {
+      "case": "Cb_material_shape_0",
+      "source_nodes": 8,
+      "target_nodes": 13,
+      "material_cut_witnesses": 2,
+      "full_source_pointed_cuts": 22,
+      "full_target_pointed_cuts": 73
+    },
+    {
+      "case": "Wb_material_shape_1",
+      "source_nodes": 4,
+      "target_nodes": 8,
+      "material_cut_witnesses": 5,
+      "full_source_pointed_cuts": 6,
+      "full_target_pointed_cuts": 25
+    },
+    {
+      "case": "nested_Wb_material_shape_1",
+      "source_nodes": 5,
+      "target_nodes": 13,
+      "material_cut_witnesses": 5,
+      "full_source_pointed_cuts": 7,
+      "full_target_pointed_cuts": 105
+    },
+    {
+      "case": "Ca_over_Wb_shape_1",
+      "source_nodes": 7,
+      "target_nodes": 11,
+      "material_cut_witnesses": 5,
+      "full_source_pointed_cuts": 9,
+      "full_target_pointed_cuts": 34
+    },
+    {
+      "case": "Cb_material_shape_1",
+      "source_nodes": 10,
+      "target_nodes": 15,
+      "material_cut_witnesses": 5,
+      "full_source_pointed_cuts": 52,
+      "full_target_pointed_cuts": 163
+    },
+    {
+      "case": "Wb_material_shape_2",
+      "source_nodes": 6,
+      "target_nodes": 10,
+      "material_cut_witnesses": 11,
+      "full_source_pointed_cuts": 12,
+      "full_target_pointed_cuts": 49
+    },
+    {
+      "case": "nested_Wb_material_shape_2",
+      "source_nodes": 7,
+      "target_nodes": 15,
+      "material_cut_witnesses": 11,
+      "full_source_pointed_cuts": 13,
+      "full_target_pointed_cuts": 201
+    },
+    {
+      "case": "Ca_over_Wb_shape_2",
+      "source_nodes": 9,
+      "target_nodes": 13,
+      "material_cut_witnesses": 11,
+      "full_source_pointed_cuts": 15,
+      "full_target_pointed_cuts": 58
+    },
+    {
+      "case": "Cb_material_shape_2",
+      "source_nodes": 12,
+      "target_nodes": 17,
+      "material_cut_witnesses": 11,
+      "full_source_pointed_cuts": 112,
+      "full_target_pointed_cuts": 343
+    },
+    {
+      "case": "Wb_material_shape_3",
+      "source_nodes": 6,
+      "target_nodes": 10,
+      "material_cut_witnesses": 11,
+      "full_source_pointed_cuts": 12,
+      "full_target_pointed_cuts": 49
+    },
+    {
+      "case": "nested_Wb_material_shape_3",
+      "source_nodes": 7,
+      "target_nodes": 15,
+      "material_cut_witnesses": 11,
+      "full_source_pointed_cuts": 13,
+      "full_target_pointed_cuts": 201
+    },
+    {
+      "case": "Ca_over_Wb_shape_3",
+      "source_nodes": 9,
+      "target_nodes": 13,
+      "material_cut_witnesses": 11,
+      "full_source_pointed_cuts": 15,
+      "full_target_pointed_cuts": 58
+    },
+    {
+      "case": "Cb_material_shape_3",
+      "source_nodes": 12,
+      "target_nodes": 17,
+      "material_cut_witnesses": 11,
+      "full_source_pointed_cuts": 112,
+      "full_target_pointed_cuts": 343
+    }
+  ],
+  "scope": "Python checked literal typed cut bijections; not Lean or a general linear coaction theorem"
+}

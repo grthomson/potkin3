@@ -1,0 +1,24 @@
+{
+  "physical_certificates": 4,
+  "exact_debt_counts": [
+    0,
+    1,
+    1,
+    2
+  ],
+  "seen_acceptance_counts": [
+    0,
+    1,
+    1,
+    4
+  ],
+  "mobius_recovered_counts": [
+    0,
+    1,
+    1,
+    2
+  ],
+  "union_convolution_becomes_pointwise_product": true,
+  "formal_boolean_domain_includes_unrealizable_ancestor_flags": true,
+  "status": "bounded check of universal paper identity, not Lean"
+}

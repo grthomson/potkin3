@@ -1,0 +1,87 @@
+D3 SOURCE ADEQUACY: RULE DISCHARGE BEFORE IDENTIFIER ANNOTATION
+14 October 2026. Paper proof; NOT Lean-verified.
+
+Desired theorem
+---------------
+For a specified ordinary sequent rule family R, finite Sys(com) derivations with explicit grouping of discharged top occurrences correspond to locally exact, globally legal designated-bottom trees, up to injective naming of bottom occurrences. The correspondence preserves every sequent, premise order, top occurrence, system parameter and discharge group. With exact per-rule encoding and registry admission this correspondence transfers the existing native replacement theorem to the source calculus. It is not an equivalence between raw ungrouped proof drawings and uniquely annotated trees.
+
+Literature anchor
+-----------------
+Ciabattoni–Genco, Hypersequents and Systems of Rules: Embeddings and Applications, https://arxiv.org/html/1805.04852v1 Definition 2.1, Remark 2.1, Example 3.2, §4.1.1. The system permits repeated tops within each bottom premise, fixed shared multiset parameters, and unrestricted nesting before normalization. The restriction excluding two tops of the same instance on one path belongs to Lemma 4.2's NORMAL FORM, not original correctness. Consequently neither nearest-bottom discharge nor one-top-per-branch belongs in source adequacy.
+
+Independent source presentation
+-------------------------------
+Fix ordinary sequents Gamma => Pi with finite-multiset antecedent and at most one succedent. Specify R by its actual inference schemes, independently of native CKTree/summary evaluation. For the immediate existing fragment take identity A=>A, IW, IC, and implication right Gamma,A=>B / Gamma=>A->B. Formula equality and multiset conventions must match the native presentation; any claimed larger R requires its additional encoding lemmas.
+
+A source derivation has a finite ordered tree, exact R rule instances, Sys(com) top instances and bottom instances. Tops have these schemes for fixed finite multisets Phi,Psi:
+  top_1: Phi,Gamma=>Pi / Psi,Gamma=>Pi
+  top_2: Psi,Gamma=>Pi / Phi,Gamma=>Pi.
+A bottom has two premises S,S and conclusion S, with a chosen system parameter (Phi,Psi). This parameter remains part of the instance even when no top is discharged. The following inductive rule-discharge construction defines grouping, WITHOUT naming bottom owners or inspecting ancestor addresses:
+
+Every constructed partial derivation carries a finite set U of its still-undischarged physical top occurrences, each retaining its role and parameter instance. Occurrences are distinguished, even for identical rules/formulas.
+* An R axiom has U empty. At an R inference take the disjoint union of its premise U's; prefix occurrence paths by the premise number.
+* A top_i inference has its sole premise's U plus its new root occurrence, labelled (i,Phi,Psi).
+* At a bottom B_(Phi,Psi)(D1,D2), choose finite subsets V_i of U(D_i), containing ONLY occurrences of role i and EXACT parameter (Phi,Psi). Discharge V_i at this bottom; return the disjoint union of U(D_i) minus V_i. Store these choices as the source grouping. V_i may be empty. No top is discharged twice because discharged occurrences are removed. Tops not selected may pass through this or other systems and be discharged farther down the proof.
+A closed source derivation has U empty. An open source derivation allows typed holes; these are leaves with no present top occurrence. Unresolved top occurrences may be carried at its root. This representation deliberately distinguishes current unresolved tops from potential future tops introduced by filling.
+
+This construction records genuine rule-discharge choices in the sense of systems of rules; it does not define source correctness by native legality or finite-summary success. Its equivalent geometric condition is a theorem below. Ordinary axioms/inferences remain independently specified.
+
+Theorem A (grouping/ancestor equivalence)
+----------------------------------------
+Fix any finite locally correct tree T and the parameter of every bottom. Valid complete source groupings are in bijection with maps f from physical top occurrences to physical bottom occurrences such that:
+  (a) f(t) has the same parameter as t;
+  (b) t lies strictly in the role-i premise subtree of f(t), where i is the role of t.
+Neither injectivity nor surjectivity of f is required.
+Proof. From the inductive construction send each selected occurrence to the bottom selecting it. Selected occurrences are in that premise's pending set, hence that premise subtree; the subset condition supplies role/parameter agreement. Removal makes discharge unique; root emptiness makes the assignment total. Conversely, given f, process the tree bottom-up. In each processed subtree the pending set consists EXACTLY of those top occurrences whose assigned bottom lies strictly outside this subtree. At a bottom b select precisely the occurrences with f(t)=b in the appropriate premise. The induction invariant proves each such top remains pending and no other top is selected. At an ordinary/top node the invariant is immediate. At the root no pending top remains. These maps are inverse, including the literal selected occurrence subsets, not merely derivability propositions. QED.
+
+Theorem B (faithful naming)
+--------------------------
+Let nu be any injection from the physical bottom occurrences of T into a supply of owner IDs. Label bottom b with nu(b); label top t with nu(f(t)). The resulting designated-bottom tree satisfies unique ownership and the independent global discharge condition. Conversely, any such legal annotation determines f uniquely by inverting the unique declaration of the referenced owner, hence recovers its source grouping by Theorem A. Naming is the only freedom if all non-owner metadata is preserved. Thus grouped source derivations correspond to alpha-equivalence classes of legal named trees, with alpha-equivalence restricted to bijections between the DECLARED owner inventories (including every bottom that discharges zero tops) and all their top references. There is no assertion that this bijection fixes arbitrary external names or extends capture-free to arbitrary future fillings.
+Proof. Directly combine Theorem A with injectivity of nu. Every bottom inventory is finite, so natural-number names suffice, or use canonical bottom preorder ranks. The inverse preserves grouping exactly. Canonical redecoration may change numeric names, hence the round trip is literal only on canonically named trees, otherwise it is up to this explicit closed-tree renaming. QED.
+
+Why raw erasure is insufficient
+------------------------------
+Take Phi=Psi={p}, S=p=>p, so a top_1 may have premise and conclusion S. Let inner bottom b lie in the first premise of outer bottom a; put one top_1 t in b's first premise, and close every other leaf with identity S. Both bottoms use the same parameter. The top t can be discharged at b or at a; unused bottoms select empty sets. Both are valid source groupings of the same raw unlabelled tree. The designated owner annotations differ, although every displayed sequent and rule label agrees. This example uses legal degenerate equal parameter multisets and needs no extra ordinary rules. It proves no unique reconstruction from raw trees, and no nearest-owner convention can be imposed without narrowing the source calculus. A nondegenerate example can be added but is unnecessary for refuting injectivity.
+
+The native bridge and its exact proof obligations
+------------------------------------------------
+Theorems A/B do not themselves prove that POTKIN3's ExactInstance matches R. Let enc map each independent source rule instance to its native node data, exact premise boundaries, conclusion and ordered children. Require:
+  1. local soundness: every encoded source instance satisfies native ExactInstance;
+  2. local reflection on the image: native metadata retained by enc decode to the same source inference and parameter choices;
+  3. structural encoding preserves physical vertices, ordered premises, holes and sequents;
+  4. registry admission: each encoded instance is admitted by the chosen frozen registry.
+Then structural induction on the source derivation, combined with A/B and the already mechanized independent Legal relation, proves source soundness/completeness ON THE ENCODING IMAGE. Completeness for every native Legal tree requires additionally that every allowed native tag/instance be in this image. Existing ten-instance admission is not enough to discharge (4) for a schema family. A per-proof finite registry can give a theorem parameterized by admission of precisely the finitely many source/target instances, without claiming one finite registry contains every formula instance.
+
+This bridge should be mechanized for the existing actual fragment first, with R explicitly enumerated; a parametric proof over a locally adequate R can avoid duplication, but it does not credit unproved full-LJ adequacy. Adding full propositional LJ is a subsequent finite set of local encoding obligations, not a theorem obtained merely by naming R 'LJ'.
+
+Open replacement transfer (safe statement)
+-----------------------------------------
+For source fragments with matched physical holes, encode with FIXED owner IDs and with every reference/parameter retained. If the existing native FixedOwnerInterface holds and all encoded source, target, fillings and exterior instances pass their respective admission checks in a compatible registry, native replacement gives equivalence of independent global Legal conditions for the assembled trees. Decode via Theorem A to conclude existence of valid source discharge groupings compatible with the retained designated references on either assembly. This is an existence equivalence, not a bijection of all possible grouping choices. The source encoding of a closed assembled grouping may be used directly; do not attempt to infer arbitrary future references from an unannotated empty hole.
+
+More precise open formalization for Lean: keep the partially specified source discharge groups (including declared bottom occurrences intended to discharge future fillers), and require fillings to carry the explicit designated grouping references; this is ordinary rule-discharge annotation. Prove source filling/encoding commutation before transferring arbitrary-filling replacement. The currently proved native theorem has this information already. Erasing all grouping data before filling discards the information needed for the assertion.
+
+CK relevance and limits
+-----------------------
+These adequacy results do not newly prove CK structure. Their role is to justify interpreting the existing native cut/summary/certificate laws as theorems about actual source rule-system derivations. Applying them to the already verified replacement theorem and implication permutation makes the logical conclusion independent of a hand-picked instance inventory. They preserve actual proof geometry and physical occurrences, so existing cut correspondence can transport along the encoding; no quotient by proof equivalence or identification of different groupings is licensed.
+
+No full cut elimination, hypersequent equivalence algorithm, antipode use, automatic source adequacy for all R, or runtime speed claim follows. Literature novelty is not claimed for the annotation equivalence itself. The research increment is removing a source-representation gate from the previously proved CK-compatible modular replacement theorem.
+
+Additional corollary: raw admissibility for the unary permutation
+--------------------------------------------------------------
+This corollary is stronger than merely transferring ONE fixed-ID summary equality to grouped source derivations.
+
+Let u be any specified ordinary unary rule instance S/T whose side conditions remain valid when the same instance is applied separately to each of two derivations of S; implication-right in the existing propositional fragment has this property. The rule u introduces no system bottom and no system top. For ANY parameter (Phi,Psi), compare the source fragments
+  C(P,Q) = u(B_(Phi,Psi),S(P,Q))
+  C'(P,Q) = B_(Phi,Psi),T(u(P),u(Q)).
+Here P and Q have end-sequent S. Regard their physical occurrences as distinct even if they are identical displayed derivations. Put either fragment in any unchanged typed source exterior and fill all corresponding holes by any same donor trees. Both assembled trees have exactly the same physical system-bottom and system-top occurrences under the evident map: the distinguished bottom moves, the payload/exterior occurrences retain their provenance, and only ordinary u occurrences are duplicated.
+
+Lemma: this occurrence map preserves and reflects, for EVERY top t and EVERY bottom b, the relation 't lies in premise i of b' and the pair of system parameters/role labels. Proof by cases. For the distinguished bottom, the tops in P lie in its first premise on both sides and those in Q in its second; tops outside these payloads lie in neither. For a bottom inside P or Q, no top outside its own subtree becomes a descendant; its internal ordered geometry is unchanged. For a bottom in the exterior, both replacements occupy the same single contextual hole, hence all transported occurrences remain in the same premise branch of that bottom. The copied u nodes introduce no system occurrence. These cases exhaust the bottoms. Parameter and top-role agreement is literal. QED.
+
+Consequently Theorem A transports ANY complete discharge grouping in either direction. Its two transports are inverse, since they send the same physical top-to-bottom assignment through inverse occurrence maps. Thus the two assembled RAW trees admit a valid source grouping iff the other does; indeed their grouping sets are in bijection. This quantified grouping corollary is justified here because the transformation preserves the full system-occurrence ancestry relation, not because equal summaries generally imply such a bijection. It extends to partial groupings with corresponding unresolved occurrences by the same argument.
+
+An arbitrary fixed-owner replacement theorem does NOT automatically have this stronger conclusion: it can forget interior top choices and certify just the chosen designated references. State the universal grouping corollary specifically for the unary permutation, and avoid claiming it for all summary-equivalent fragments.
+
+Native lift: instantiate the ordinary unary scheme and both bottom schemes in the registry, encode the source/target and matched donors/exterior, and use per-instance admission. Quantifying over all formula and parameter instances requires the schema admission bridge, not the present fixed ten-instance registry. No eigenvariable or global side-condition copying is justified by this propositional argument. The result applies in particular to Gamma,A=>B / Gamma=>A->B, with arbitrary formulas and antecedent multiset Gamma, once the formula-constructor encoding is faithful.
+
+
+Open transport addendum: open_encoding_lemma.txt supplies an explicit source diagram syntax and a structural-induction filling/encoding commutation proof. Concrete native formula, incidence and admission gates remain conditional, as stated there.

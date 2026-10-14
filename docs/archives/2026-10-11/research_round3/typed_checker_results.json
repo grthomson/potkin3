@@ -1,0 +1,40 @@
+{
+  "correlated_provider": {
+    "trees": 255,
+    "literal_cuts": 2678,
+    "all_context_state_counts": {
+      "P": 15,
+      "Q": 17
+    },
+    "context_saturation_rounds": 5,
+    "distinct_skeletons": 683,
+    "reachable_states": {
+      "P": 3,
+      "Q": 4
+    },
+    "saturation_rounds": 4
+  },
+  "ancestry": {
+    "trees": 255,
+    "literal_cuts": 2678,
+    "all_context_state_counts": {
+      "P": 7,
+      "Q": 7
+    },
+    "context_saturation_rounds": 5,
+    "distinct_skeletons": 683,
+    "reachable_states": {
+      "P": 3,
+      "Q": 3
+    },
+    "saturation_rounds": 5
+  },
+  "special_checks": [
+    "correlation versus independent projections",
+    "same multiset different ancestry",
+    "typed root versus empty endpoints",
+    "sort rejection",
+    "vacuous residual explicit"
+  ],
+  "scope": "Exact finite state saturation; exhaustive literal cuts and representative fillings for all sorted closed trees of size <= 6; not Lean mechanization."
+}

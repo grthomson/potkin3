@@ -1,0 +1,17 @@
+{
+  "budget": 2,
+  "reachable_joint_states": {
+    "B": 4,
+    "C": 4,
+    "O": 16
+  },
+  "provider_saturation_rounds": 6,
+  "typed_terms_native_checked": 831,
+  "literal_ck_cuts_checked": 12696,
+  "max_tree_size": 7,
+  "universal_let_contract_nonvacuous": true,
+  "outer_g_counterexample_actual_cost": 3,
+  "correlation_cross_product_counterexample": true,
+  "seven_level_normal_form_g_nodes": 128,
+  "scope": "Finite types and scope; unbounded terms. Natural observer checked against independent substitution normalizer. Tests are not a general cut-elimination theorem or time-cost model."
+}

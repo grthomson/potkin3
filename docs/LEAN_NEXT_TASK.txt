@@ -1,0 +1,27 @@
+POTKIN3: CK-certified contraction postponement, additive scoped milestone
+
+Read AGENTS.MD, the current ledger and 2026-10-12 context-revival-hopf report before editing. Inspect existing native proof, cut, Box, scope and context-action definitions. Preserve unrelated changes and protected files. The accompanying NORMALIZATION_REPORT.html gives paper proofs; none of its new theorems is claimed Lean-verified.
+
+Goal: a proof-producing structural compiler improving Ciabattoni–Genco Lemmas 4.6–4.7, with a useful CK observation and contextual reuse theorem. Reuse verified gluing/K laws. Do not redo them, replace proofs by DAGs, collapse physical multiplicities, or treat typed Boxes as coefficient units.
+
+First inspect whether a REAL admitted native hypersequent rule supports arbitrary external-context extension and the stated one-active-component-per-premise shape. Explicitly identify EW/EC availability and rule side conditions. Choose one actual rule for the concrete fixture. If unavailable, formalize a clearly parameterized typed rule interface and state the missing native instantiation; never invent an admission theorem.
+
+Inputs: n positive, mi>=1, Di:G|G'i|Ci^mi, all G'i components in G, G'' their multiset union, q=1+sum(mi-1). State at alpha has boundary G|G''|H^(q-|alpha|)|product Ci^alpha_i. Stop with Di when alpha_i>=mi, by a specified EW script. Continue when |alpha|<q via all alpha+ei children and the actual r instance. At depth q prove threshold existence. Final EC contracts to G|H.
+
+Module 1 targets, in order:
+1. Inductive canonical Plan and proof-producing interpretation, termination by q-|alpha|.
+2. Boundary correctness, and EC only in terminal queue provided donors are EC-free.
+3. Logical-Cut-free preservation provided donors are Cut-free and r is not Cut.
+4. Exact node costs: wi=|G''|-|G'i|+(q-|alpha|)|H|+|alpha|-mi; stop size=|Di|+wi; continue size=1+sum child sizes; final queue |G''|+(q-1)|H|.
+5. Bellman minimum attained by a Plan and optimal among THIS language. Do not claim global proof optimality. Optional later first-hit multinomial formula; not a prerequisite for core correctness.
+
+Module 2 targets:
+6. For the actual full structural native CK cut convention, prove Q_stop=Q_Di+wi*z, Q_continue=z+product Q_child, final EC adds c*z. If native eligibility differs, state the corrected recurrence and interface rather than asserting equality. Preserve full physical cut multiplicity. Scalar Q is a projection, not a replacement coproduct.
+7. One-hole context Q_C[P]=a_C+b_C Q_P with nonnegative coefficients; derive coefficientwise and total-count dominance under compatible replacement. Connect this to existing K_C only via proved adapters. Retain jointly admitted interfaces for multiple holes.
+8. Lexicographic minimization of (nodes,Q(1)) or a clearly scoped equivalent. Produce a concrete actual admitted-rule example. The attached equal-size four-component schematic fixture is not evidence of a registered rule.
+
+Concrete paper-level target now available: HLJ+com with Phi=A, Psi=B, empty Gammas and G, Pi1=A, Pi2=B. C1=A=>A, C2=B=>B, H=(B=>A)|(A=>B); m=(2,2). Each donor is identity+EW deriving Ci twice. First-hit yields29 nodes including final4EC, versus35 uniform; full CK counts7401 versus84105. Verify the native com rule and node/cut conventions before reproducing. This compares compiler outputs, not optimal logical proofs: donor interiors deliberately remain opaque to the Plan grammar.
+
+Key obstruction tests: early-stop can lose on total size due to EW; profiles with equal summaries can have different remainders; copying witnesses is correlated; EC postponement need not have positive CK defect. Avoid all four errors. Report new facts against D1-D6 explicitly, including what enables relative Cut later and what does not.
+
+Use targeted checks with adequate timeouts informed by existing 100-second module checks; comply with repository gates. Do not call a timeout a mathematical failure. Check headline axiom closures and no sorryAx/custom axioms. Independent review should target boundary substitutions, multiplicity and optimality scope. No full test campaign without a concrete need. Keep changes uncommitted unless instructed otherwise. Deliver exact commands, durations, theorem names, passed/blocked status, and a short comparison with the existing milestone.

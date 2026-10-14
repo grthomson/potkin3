@@ -1,0 +1,137 @@
+{
+  "status": "FINITE_CHECKS_PASS",
+  "policy": "N_imp plus atomic Cut passenger inward through a selected material root",
+  "totals": {
+    "terms": 4228,
+    "rewrite_states": 7611,
+    "residual_states": 16916,
+    "cut_terms": 60042,
+    "changed_from_Nimp": 412
+  },
+  "rewrite_edge_labels": {
+    "passenger": 1448,
+    "beta": 2368,
+    "eta": 600
+  },
+  "general_passenger_eta_peak_joins": true,
+  "direct_shadow_reification": [
+    {
+      "name": "binary_old_rule",
+      "status": "PASS",
+      "source_antichain_terms": 5,
+      "normal_output_kind": "prim",
+      "rewrite_states": 3,
+      "material_residual_states": 5,
+      "residual_cut_terms": 14
+    },
+    {
+      "name": "repeated_atomic_boundary",
+      "status": "PASS",
+      "source_antichain_terms": 5,
+      "normal_output_kind": "prim",
+      "rewrite_states": 3,
+      "material_residual_states": 5,
+      "residual_cut_terms": 14
+    },
+    {
+      "name": "nested_nonprimitive_material",
+      "status": "PASS",
+      "source_antichain_terms": 6,
+      "normal_output_kind": "prim",
+      "rewrite_states": 3,
+      "material_residual_states": 6,
+      "residual_cut_terms": 20
+    },
+    {
+      "name": "old_hypothetical_atomic_discharge",
+      "status": "PASS",
+      "source_antichain_terms": 3,
+      "normal_output_kind": "prim",
+      "rewrite_states": 4,
+      "material_residual_states": 3,
+      "residual_cut_terms": 6
+    }
+  ],
+  "reference_passenger_probes": [
+    {
+      "argument": "pure",
+      "slot": 0,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "pure",
+      "slot": 0,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "pure",
+      "slot": 1,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "pure",
+      "slot": 1,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "ref",
+      "slot": 0,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "ref",
+      "slot": 0,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "ref",
+      "slot": 1,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "ref",
+      "slot": 1,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "logical",
+      "slot": 0,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "logical",
+      "slot": 0,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "logical",
+      "slot": 1,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "logical",
+      "slot": 1,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    }
+  ],
+  "discharge_capture_side_condition": "primitive bound tokens disjoint from argument free context",
+  "hypothetical_fixture": {
+    "rewrite_states": 4,
+    "residual_states": 3,
+    "cut_terms": 6
+  },
+  "termination_measure_checked": "lex(positive size,total material vertices inside explicit beta bodies)",
+  "scope": "exploratory bounded evidence; no general confluence or all-permutation quotient theorem claimed"
+}

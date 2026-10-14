@@ -1,0 +1,53 @@
+{
+  "fixture": [
+    {
+      "modules": "pp",
+      "nodes": 21,
+      "count": 1,
+      "polynomial": {
+        "0": 1
+      },
+      "ordinary_rules_checked": true
+    },
+    {
+      "modules": "pq",
+      "nodes": 21,
+      "count": 0,
+      "polynomial": {},
+      "ordinary_rules_checked": true
+    },
+    {
+      "modules": "qp",
+      "nodes": 21,
+      "count": 0,
+      "polynomial": {},
+      "ordinary_rules_checked": true
+    },
+    {
+      "modules": "qq",
+      "nodes": 21,
+      "count": 1,
+      "polynomial": {
+        "0": 1
+      },
+      "ordinary_rules_checked": true
+    }
+  ],
+  "abstract_random_checks": 2000,
+  "inventory_separator": {
+    "nodes_each": 43,
+    "exact_local_inventory_equal": true,
+    "good_count": 1,
+    "bad_count": 0
+  },
+  "weak_excluded_middle": {
+    "root": "(~p|~~p)",
+    "polynomial": {
+      "0": 3,
+      "1": 1
+    },
+    "raw_certificates": 4,
+    "q_2_count": 5,
+    "nodes": 17
+  }
+}

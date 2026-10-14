@@ -1,0 +1,18 @@
+{
+  "seed": 110326,
+  "typed_normalization_comparisons": 1000,
+  "clipped_semiring_comparisons": 6000,
+  "antichain_and_staged_contracts": 3000,
+  "joint_cut_contracts": 48,
+  "same_histogram_costs": [
+    1,
+    0
+  ],
+  "scalar_summary_counterexample": [
+    2,
+    0
+  ],
+  "nested_duplication_cost": 4,
+  "fixed_type_seven_level_duplication": 128,
+  "overflow_erasure_cost": 0
+}

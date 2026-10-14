@@ -1,0 +1,39 @@
+{
+  "fixtures": [
+    {
+      "name": "binary_old_rule",
+      "status": "PASS",
+      "source_atomic_type": "w",
+      "native_antichain_terms": 5,
+      "normal_output_kind": "app",
+      "excluded_atomic_step_new_terms": 1
+    },
+    {
+      "name": "repeated_atomic_boundary",
+      "status": "PASS",
+      "source_atomic_type": "w",
+      "native_antichain_terms": 5,
+      "normal_output_kind": "app",
+      "excluded_atomic_step_new_terms": 1
+    },
+    {
+      "name": "nested_nonprimitive_material",
+      "status": "PASS",
+      "source_atomic_type": "w",
+      "native_antichain_terms": 6,
+      "normal_output_kind": "app",
+      "excluded_atomic_step_new_terms": 1
+    },
+    {
+      "name": "old_hypothetical_atomic_discharge",
+      "status": "PASS",
+      "source_atomic_type": "w",
+      "native_antichain_terms": 3,
+      "normal_output_kind": "app",
+      "excluded_atomic_step_new_terms": 0
+    }
+  ],
+  "old_shadow_collision_rejected": true,
+  "hidden_compound_input_hole_rejected": true,
+  "scope": "Finite source App/target NIMLL checks including one genuine old hypothetical atomic discharge; no support completeness or all-rules proof."
+}

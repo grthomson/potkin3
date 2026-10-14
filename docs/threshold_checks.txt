@@ -1,0 +1,7 @@
+PASS: 39 threshold trees; physical recursion/profile DP/count formula agreement; explicit antichains when internal nodes <=13
+threshold (2, 2) q 3 r_nodes 5 full_r_nodes 7 source_copies 6 opaque-leaf CK spectrum {0: 1, 1: 5, 2: 4}
+threshold (3, 3) q 5 r_nodes 19 full_r_nodes 31 source_copies 20 opaque-leaf CK spectrum {0: 1, 1: 19, 2: 119, 3: 366, 4: 577, 5: 456, 6: 144}
+threshold (2, 2, 2) q 4 r_nodes 16 full_r_nodes 40 source_copies 33 opaque-leaf CK spectrum {0: 1, 1: 16, 2: 87, 3: 245, 4: 348, 5: 240, 6: 64}
+threshold (1, 3) q 3 r_nodes 3 full_r_nodes 7 source_copies 4 opaque-leaf CK spectrum {0: 1, 1: 3}
+EW-complete shape fixture H components 1 early/all-depth nodes 17 23 full positive CK cuts 962 10202
+EW-complete shape fixture H components 20 early/all-depth nodes 55 23 full positive CK cuts 48842 10202

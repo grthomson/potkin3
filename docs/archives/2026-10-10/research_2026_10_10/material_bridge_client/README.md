@@ -1,0 +1,37 @@
+# Finite material-normalization bridge checker
+
+Run `python check_bridge.py` with Python 3.10 or newer. The standard library is sufficient. The command checks seven fixtures and writes `results.json`.
+
+The checked syntax is occurrence-linear implication natural deduction with typed variables, abstraction/application, and finite-arity primitive atomic constructors. The fixtures include an actual binary material rule and several nested material composites. Every constructor is checked; complete assumption contexts use distinct occurrence names, and repeated atomic formulas do not identify variables or cut seams.
+
+Global proof-occurrence identifiers must be unique, including for closed material constants. Normal-form comparison canonically renames bound variables while retaining free indexed inputs, material occurrence names, and hole seams. One fixture checks a beta/eta overlap whose two reductions leave differently named but alpha-equivalent binders.
+
+The program enumerates actual admissible antichains of selected material rooted subtrees. It makes complete typed vacancies, keeps native ordered detached tuples, and compares the commutative forest observation. This distinction is necessary: compound-domain beta can reorder independent factors in traversal order. Actual material-origin holes have empty free input contexts and atomic outputs. The initial checker rejects compound-input holes; the stronger runners also reject arbitrary atomic-input holes, which do not arise from the permitted material cuts.
+
+For each fixture it checks the coaction-profile equation after restricted normalization, explores every residual state obtained by repeated material opening, and explores every rewrite sequence to check the fixture's normal form is unique. The normalizer admits implication beta only at compound domain and admits implication eta. A separate unrestricted step exhibits the blocked atomic-beta defect: four material-cut summands become five when the positive-arity composite becomes newly material.
+
+`profile` compares source residuals after applying the normalizer against the normal target's material profile; it retains every material factor and its occurrence identity. No idempotent set approximation is used. The actual ordered tuple enumeration remains available through `coaction`.
+
+This is a small executable witness, not a general confluence proof, a GGP support-semantics implementation, or proof-assistant mechanization. The checker now supports explicitly routed old atomic discharge, with one executed hypothetical-rule fixture in the source runner below. It does not execute the full coassociativity tensor equation. The paper proof remains responsible for the general normalization and material-interface invariant.
+
+## Generated validation
+
+Run `python enumerated_validation.py` for independent type-directed generation using exact linear resource partitions. It constructs 4,228 candidate terms of at most ten nodes, under an explicit cap of 45 terms per generator state. Structural stratification selects 410 terms rather than repeating one beta-expansion template. The retained sample includes 242 terms with free input contexts, 116 with compound beta, 153 with eta, 58 with multiple/nested redexes, four with disjoint redexes, and 256 with positive-arity material applications.
+
+All 410 terms pass all-normal-form exploration up to alpha, exact material-profile comparison against the raw normal target, and hereditary normality across 838 material residual states and 1,647 cut terms. Six malformed signature/occurrence/hole cases are rejected. The retained search is bounded and capped; these numbers are finite evidence, not an exhaustive theorem for all terms of the stated size.
+
+## Actual shadow-source reification
+
+Run `python source_reification.py` for four independently checked atomic source witnesses with explicit shadow implication-introduction/elimination rules. Source App typing checks their discharged assumption routes. Direct naturalisation preserves ordered cut witnesses, and subsequent restricted normalization preserves the declared commutative material profile. The examples include binary and nested nonprimitive material rules, repeated atomic boundary types, and one genuine old hypothetical atomic-discharge rule. Deliberately colliding old/shadow signatures and hidden compound-input holes are rejected. The hypothetical fixture's excluded atomic beta is actually transparent; it illustrates that the type-only policy is sufficient rather than necessary for individual steps.
+
+## Stronger normalizer and exact failure boundaries
+
+`python impure_normalizer.py` tests a separate policy: allow beta when its argument contains a positive logical or Ref vertex, and allow implication eta. An unselected primitive alone does not enable this guard. The compound-domain baseline is unchanged. All 4,228 generated candidates pass, covering 6,069 rewrite states, 16,916 material-residual states and 60,042 cut terms. The stronger policy changes 857 normal forms. Its internal holes must actually originate in material cuts and have empty free contexts; an arbitrary atomic-input hole is rejected. The runner verifies the repaired reference-passenger/eta peak and also the exact generalized Cut/material-rule permutation on which this stronger normalizer still fails to descend.
+
+`python dynamic_safe_experiment.py` verifies that admitting every host-relative exactly material-transparent beta step is not confluent. It checks exact cut batches, marked coefficients and residual reductions, not just term counts. It executes both n-ary guard families and a family in one fixed binary primitive signature, with exponentially many distinct terminal safe forms.
+
+`python sequent_gate.py` checks two native sequent derivations related by nonprincipal Cut through a binary material rule, with the same exact generalized rule/Cut incidence. Their explicit-Cut ND elaborations have different compound-guard normal forms. A mixed permutation/eta peak further proves non-descent on the specified permutation quotient by a node-count invariant. This is a declared generalized atomic-rule graph, not a claimed identification with the old pure MLL fixed-net carrier.
+
+`python impure_plus_passenger.py` implements the final combined normalizer, adding inward atomic Cut/material-rule permutations to the impurity-guarded normalizer. The finite run passes all 4,228 retained generated terms: 7,611 rewrite states, 16,916 material residual states and 60,042 cut terms, with 412 normal forms changed from the impurity-only policy. Every tested step decreases the stated lexicographic termination measure. The generalized permutation/eta counterexample now joins, and one genuine hypothetical old-rule fixture passes. The executable reports finite evidence; it does not itself establish general confluence or all-permutation quotient descent.
+
+The final paper theorem and its precise primitive-Cut quotient are in `../material_cut_push_normalizer.md`. It includes termination, mixed critical pairs, exact antichain correspondence and hereditary residual normality. `python push_reification.py` checks its composition with direct source naturalisation on four actual shadow-source witnesses, including hypothetical discharge. Read this completion before interpreting the earlier negative gates: the counterexamples refute the earlier normalizers, and the final combined normalizer repairs the declared primitive-passenger family. Full historical sequent/proof-net comparison remains open.

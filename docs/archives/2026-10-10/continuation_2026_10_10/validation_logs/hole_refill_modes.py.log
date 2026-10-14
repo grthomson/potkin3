@@ -1,0 +1,1 @@
+{'status': 'FINITE_CHECKS_PASS', 'counts': {'island_refinement_checks': 560, 'refill_coaction_equalities': 280, 'simultaneous_fillings': 280, 'impure_fillings': 214, 'nested_vacancy_fillings': 132}, 'scope': 'closed atomic material-origin holes; no extra hole-mode coordinates', 'proof': 'hole_refill_modes.md'}

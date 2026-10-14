@@ -1,0 +1,68 @@
+D3 OPEN SOURCE TRANSPORT: EXPLICIT CONDITIONAL BRIDGE
+14 October 2026. Paper proof, not a native Lean result.
+
+Purpose. The closed grouping/annotation equivalence is not alone an open-source
+adequacy theorem. This note supplies the missing paper-level filling lemma and
+states exactly which native encoding premises remain to be checked.
+
+Source diagrams. A diagram is a finite locally typed ordered source rule tree
+with typed holes. Each bottom declaration carries a stable token and its pack;
+each top carries a designated token as well as its role and pack. Tokens may
+refer outside the current fragment. A diagram need not be a correct derivation:
+duplicate declarations, unresolved references, and wrong-branch references are
+permitted as input diagrams. At complete assemblies, SourceCorrect means there
+exists an independent inductive discharge grouping from source_bridge.txt whose
+selected bottom for each top has its designated token, with distinct bottom declaration
+tokens and no undischarged tops. It is NOT defined by native Legal.
+
+Filling preserves every existing declaration and reference token, substitutes
+matching-sequent diagrams at physical holes, and prefixes physical occurrence
+addresses by the attachment addresses. It neither freshens names independently
+nor infers new discharge choices. Bottom declarations in different pieces may
+collide; such assemblies fail SourceCorrect. Local inference instances remain
+unchanged because the hole and inserted conclusion sequents match.
+
+Encoding premises. Let e encode formulas injectively, encode source sequents as
+singleton native hypersequents with explicit occurrence/incidence data, and map
+each source rule instance to a locally faithful native constructor with the same
+ordered premise list. It preserves declaration and reference tokens. The native
+Imp relation must characterize the encoded source implication, not be arbitrary.
+Each constructor's occurrence decoration is fixed before recursive tree encoding;
+it must not depend on a traversal-wide fresh-number counter. Registry admission
+is proved separately for the actual finite set of those constructors.
+
+LEMMA — ENCODING COMMUTES WITH TYPED FILLING.
+For every source diagram P and corresponding source fillings F_h,
+  enc(P[F_h]) = fillAssignment(enc(P), enc(F)_h),
+with the canonical boundary casts and physical-hole correspondence.
+It also commutes with insertion into a typed puncture context.
+
+PROOF. Induct on P. If P is a hole h, both sides are enc(F_h). At a rule vertex,
+source filling preserves the exact local inference descriptor and substitutes
+recursively in each ordered premise. Constructor preservation reduces equality
+to the induction hypothesis at each premise. Their hole maps are the same ordered
+dependent concatenation; corresponding occurrence addresses concatenate the same
+prefixes. Tokens and incidence descriptors are unchanged. The puncture result is
+the same induction along its distinguished path, with siblings unchanged. No
+freshness or validity assumption is used. QED.
+
+THEOREM — SOURCE CONTEXTUAL REPLACEMENT, CONDITIONAL ON LOCAL ENCODING ADEQUACY.
+Suppose enc(P) and enc(P') satisfy the mechanized FixedOwnerInterface, and source
+donors match its physical-hole map. Then every completion by these donors and a
+source exterior has SourceCorrect on one side iff on the other, provided the
+assembled diagrams are complete. If they remain open, the statement applies to
+every further complete filling under the same reference correspondence.
+
+PROOF. By the lemma both assemblies encode to precisely the assemblies used by
+fixedOwner_replacement. Closed grouping/annotation adequacy identifies their
+SourceCorrect predicates with native independent Legal, on the encoding image.
+Apply the existing native iff and reflect it back. For remaining holes quantify
+over another completion and repeat. Checked quotations additionally need all
+actual instance admissions; no quotation for an unfilled hole is fabricated.
+QED.
+
+This is a genuine conditional paper theorem. It removes an unstated naturality
+assumption but does NOT discharge the concrete native formula, incidence, local
+reflection or registry gates. Those are the next Lean tasks. It is not full LJ
+adequacy and not equivalence of arbitrary ungrouped raw derivations. The special
+unary permutation has the stronger all-groupings bijection proved separately.

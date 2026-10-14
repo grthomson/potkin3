@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "seed": 20261013,
+  "direct_vs_composed_trials": 1000,
+  "nested_associativity_trials": 1000,
+  "invalid_cases_in_random_trials": 423,
+  "unary_permutation": true,
+  "global_bottom_and_hole_reindexing": true,
+  "hidden_owner_rejection": true,
+  "sibling_owner_rejection": true,
+  "scope": "Finite untyped debugging checks; no universal theorem or LJ typing claim."
+}

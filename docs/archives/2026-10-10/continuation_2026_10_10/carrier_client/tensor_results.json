@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "scope": "unit-free linear tensor + explicit Cut + atomic primitives; no implication",
+  "cases": [
+    {
+      "name": "tensor_principal_material_fusion",
+      "ordinary_equal": true,
+      "material_profile_equal": false,
+      "left_terms": 4,
+      "right_terms": 5
+    },
+    {
+      "name": "tensor_eta",
+      "ordinary_equal": true,
+      "material_profile_equal": true,
+      "left_terms": 1,
+      "right_terms": 1
+    },
+    {
+      "name": "cut_pair_left",
+      "ordinary_equal": true,
+      "material_profile_equal": true,
+      "left_terms": 4,
+      "right_terms": 4
+    },
+    {
+      "name": "cut_pair_right",
+      "ordinary_equal": true,
+      "material_profile_equal": true,
+      "left_terms": 4,
+      "right_terms": 4
+    },
+    {
+      "name": "cut_let_scrutinee",
+      "ordinary_equal": true,
+      "material_profile_equal": true,
+      "left_terms": 4,
+      "right_terms": 4
+    },
+    {
+      "name": "cut_let_body",
+      "ordinary_equal": true,
+      "material_profile_equal": true,
+      "left_terms": 8,
+      "right_terms": 8
+    },
+    {
+      "name": "compound_cut_pair",
+      "ordinary_equal": true,
+      "material_profile_equal": true,
+      "left_terms": 8,
+      "right_terms": 8
+    },
+    {
+      "name": "tensor_principal_sealed",
+      "ordinary_equal": true,
+      "material_profile_equal": true,
+      "left_terms": 4,
+      "right_terms": 4
+    }
+  ],
+  "free_input_modes": 28,
+  "nested_tensor_eta": true,
+  "independent_let_exchange": true
+}

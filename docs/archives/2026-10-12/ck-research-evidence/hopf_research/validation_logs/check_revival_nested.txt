@@ -1,0 +1,109 @@
+[
+  {
+    "fixture": "nested_WEM",
+    "compatible_colour_routing_witnesses": 5,
+    "witnesses": [
+      {
+        "colours": [
+          "p",
+          "p",
+          "p"
+        ],
+        "source_nodes": 17,
+        "output_nodes": 29,
+        "audit": {
+          "L": 2,
+          "R": 2,
+          "Wadd": 6
+        },
+        "checked_source_cuts": 442,
+        "canonical_boundary_adapter_checks": 17
+      },
+      {
+        "colours": [
+          "p",
+          "p",
+          "p"
+        ],
+        "source_nodes": 17,
+        "output_nodes": 28,
+        "audit": {
+          "L": 2,
+          "R": 2,
+          "Wadd": 5
+        },
+        "checked_source_cuts": 442,
+        "canonical_boundary_adapter_checks": 17
+      },
+      {
+        "colours": [
+          "p",
+          "p",
+          "p"
+        ],
+        "source_nodes": 17,
+        "output_nodes": 28,
+        "audit": {
+          "L": 2,
+          "R": 2,
+          "Wadd": 5
+        },
+        "checked_source_cuts": 442,
+        "canonical_boundary_adapter_checks": 17
+      },
+      {
+        "colours": [
+          "p",
+          "p",
+          "p"
+        ],
+        "source_nodes": 17,
+        "output_nodes": 27,
+        "audit": {
+          "L": 2,
+          "R": 2,
+          "Wadd": 4
+        },
+        "checked_source_cuts": 442,
+        "canonical_boundary_adapter_checks": 17
+      },
+      {
+        "colours": [
+          "q",
+          "p",
+          "p"
+        ],
+        "source_nodes": 17,
+        "output_nodes": 27,
+        "audit": {
+          "L": 2,
+          "R": 2,
+          "Wadd": 4
+        },
+        "checked_source_cuts": 442,
+        "canonical_boundary_adapter_checks": 17
+      }
+    ]
+  },
+  {
+    "fixture": "nested_empty",
+    "compatible_colour_routing_witnesses": 1,
+    "witnesses": [
+      {
+        "colours": [
+          "p",
+          "p"
+        ],
+        "source_nodes": 10,
+        "output_nodes": 18,
+        "audit": {
+          "L": 1,
+          "R": 2,
+          "Wadd": 3
+        },
+        "checked_source_cuts": 53,
+        "canonical_boundary_adapter_checks": 10
+      }
+    ]
+  }
+]

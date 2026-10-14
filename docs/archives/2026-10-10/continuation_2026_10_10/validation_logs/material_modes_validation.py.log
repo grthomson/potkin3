@@ -1,0 +1,20 @@
+{
+  "status": "BOUNDED_CHECKS_PASS",
+  "totals": {
+    "generated_terms": 2183,
+    "mode_unequal_pairs_rejected": 360,
+    "mode_equal_pairs": 274,
+    "substitution_probes": 1340,
+    "direct_coaction_checks": 1340,
+    "two_stage_flag_checks": 180,
+    "two_stage_flag_terms": 927,
+    "nonempty_two_stage_flag_terms": 215,
+    "open_filler_probes": 656,
+    "compound_input_probes": 450,
+    "logical_context_probes": 274,
+    "material_context_probes": 126,
+    "hypothetical_discharge_probes": 70,
+    "binder_context_probes": 328
+  },
+  "scope": "mode-equal one-step beta/eta pairs; generated finite substitutions and contexts; no universal theorem claimed"
+}

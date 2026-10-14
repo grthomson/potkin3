@@ -1,0 +1,22 @@
+{
+  "status": "CONCRETE_COMPARISON_NON_DESCENT_CONFIRMED",
+  "source_rule": "nonprincipal Cut through binary atomic material r",
+  "source_complete_judgment": "empty |- s",
+  "same_fixed_generalized_incidence": true,
+  "same_normalized_alpha_only_ND_class": false,
+  "both_Nc_normal": true,
+  "material_cut_terms_matched_modulo_explicit_passenger_cell": 4,
+  "mixed_eta_passenger_peak": {
+    "source_sizes": [
+      7,
+      7
+    ],
+    "Nc_image_sizes": [
+      4,
+      7
+    ],
+    "Nc_does_not_descend_to_passenger_quotient": true,
+    "separating_invariant": "all contextual passenger/alpha equations preserve positive node count"
+  },
+  "scope": "generalized primitive-rule incidence; not identification with pure MLL fixed-net carrier; not impossibility of other comparison maps"
+}

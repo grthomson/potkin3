@@ -1,0 +1,119 @@
+{
+  "status": "finite exact executable evidence; no Lean or native theorem claim",
+  "all_passed": true,
+  "results": [
+    {
+      "script": "check_adversarial_kernels.py",
+      "started_utc": "2026-10-12T12:36:25.665359+00:00",
+      "duration_seconds": 0.2464,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_adversarial_kernels.txt",
+      "source_sha256": "63e2b259a2ef5f2a1a1b3233a6f6f3ec3c63c96101fa7c38f6427d6dbdc8d519"
+    },
+    {
+      "script": "check_checkpoint_mobius.py",
+      "started_utc": "2026-10-12T12:36:25.912446+00:00",
+      "duration_seconds": 0.0368,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_checkpoint_mobius.txt",
+      "source_sha256": "5e4a169fff212ee6456b0224ce43445a947db2ed273968bf3adf15e0d56e4e25"
+    },
+    {
+      "script": "check_context_calculus.py",
+      "started_utc": "2026-10-12T12:36:25.949671+00:00",
+      "duration_seconds": 1.7872,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_context_calculus.txt",
+      "source_sha256": "0396c70428524186b41e913d1f5da871a2d8f5ed7a61e04b3eed892c7ef6d7b0"
+    },
+    {
+      "script": "check_context_coaction.py",
+      "started_utc": "2026-10-12T12:36:27.737375+00:00",
+      "duration_seconds": 0.0867,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_context_coaction.txt",
+      "source_sha256": "a9f409c46041e622169bdb535852999e4442ceb03331d816e3df2684660ffc7b"
+    },
+    {
+      "script": "check_cut_bridge_fixture.py",
+      "started_utc": "2026-10-12T12:36:27.824475+00:00",
+      "duration_seconds": 0.0497,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_cut_bridge_fixture.txt",
+      "source_sha256": "e542841f5769c57181b80b90304480ac67ffc4b5d235cebbbf943f7b5387d4f7"
+    },
+    {
+      "script": "check_ghostification.py",
+      "started_utc": "2026-10-12T12:36:27.874789+00:00",
+      "duration_seconds": 0.0682,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_ghostification.txt",
+      "source_sha256": "0565b1fdca686958667abe908973636e86d960f8e64778f2567b79c77efe4a12"
+    },
+    {
+      "script": "check_hopf_consequences.py",
+      "started_utc": "2026-10-12T12:36:27.943474+00:00",
+      "duration_seconds": 5.0869,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_hopf_consequences.txt",
+      "source_sha256": "b60ea04a9a724bffe4739d1694141e119928f116cfa548d0349374b15bfa0e3f"
+    },
+    {
+      "script": "check_lq_certificates.py",
+      "started_utc": "2026-10-12T12:36:33.031307+00:00",
+      "duration_seconds": 0.1396,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_lq_certificates.txt",
+      "source_sha256": "f5748b0998b383b4292f7dbbba025bb175bfbf9f50affdc20282b8508f142450"
+    },
+    {
+      "script": "check_lq_symbolic.py",
+      "started_utc": "2026-10-12T12:36:33.171375+00:00",
+      "duration_seconds": 0.1837,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_lq_symbolic.txt",
+      "source_sha256": "0d5fb4854220a82dce0ce85766512e2f7241858a3a9a4cb3510170cc8d824b9a"
+    },
+    {
+      "script": "check_migration.py",
+      "started_utc": "2026-10-12T12:36:33.355487+00:00",
+      "duration_seconds": 0.0901,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_migration.txt",
+      "source_sha256": "04ad11773f1e363b29db56f5a58c597f1cac76aa45c5362299fa07497437fe33"
+    },
+    {
+      "script": "check_polynomial_bridge.py",
+      "started_utc": "2026-10-12T12:36:33.446003+00:00",
+      "duration_seconds": 0.0638,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_polynomial_bridge.txt",
+      "source_sha256": "d0f8a02c72eea90ac732b7e9380eecf88227ae7ea6e5b971b97ea4f526948928"
+    },
+    {
+      "script": "check_revival_compiler.py",
+      "started_utc": "2026-10-12T12:36:33.510309+00:00",
+      "duration_seconds": 0.5323,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_revival_compiler.txt",
+      "source_sha256": "6be3b2d24c17fc476036c572ff453d980e76e96834375971f642a4e0b5b7dc08"
+    },
+    {
+      "script": "check_revival_nested.py",
+      "started_utc": "2026-10-12T12:36:34.043039+00:00",
+      "duration_seconds": 0.6106,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/check_revival_nested.txt",
+      "source_sha256": "1ead14700e0529361405618a0e3d3d0984a470ba4f0a70b131ac57b50b1efcf6"
+    },
+    {
+      "script": "partition_kernels.py",
+      "started_utc": "2026-10-12T12:36:34.654066+00:00",
+      "duration_seconds": 1.2756,
+      "exit_code": 0,
+      "stdout_file": "validation_logs/partition_kernels.txt",
+      "source_sha256": "e64fd0040d76b6d35453d1be9e4a7e386e1f0b36e7848d7af0397ab2ca206714"
+    }
+  ],
+  "finished_utc": "2026-10-12T12:36:35.930339+00:00"
+}

@@ -1,0 +1,57 @@
+POTKIN3: mechanize open discharge replacement and its actual normalization application
+
+Read the accompanying RESULT.txt as a PAPER PROPOSAL, not an already verified theorem. Your task is to validate, correct if necessary, and mechanize its precise increment using existing native code. Do the mathematics and source audit before naming new abstractions. Follow repository AGENTS instructions, protected-file restrictions, and targeted-check discipline. No broad test/build campaign or repeated timeout attempts without diagnosing the cause. Previous relevant native checks needed more than 60 seconds; report timeout separately from elaboration failure and seek the permitted targeted verification path.
+
+GOAL
+An independently defined annotated LJ + Sys(com) discharge relation; finite-summary sufficiency for replacement under every future filling; composition through existing native CK cuts and flags; actual implication-right/system-bottom permutation with proved hypotheses. The research goal is structural proof theory using CK, not a new generic framework or an ATP.
+
+FIRST: TARGETED ANTI-REPETITION AUDIT
+Search existing Lean, Racket and mathematical notes by ideas, not just prescribed filenames: designated bottom owners; internal and external discharge; physical holes; bottom visibility; arbitrary future filling; scope ancestry; occurrence transport; restriction/gluing; branch flags; unary logical permutation; context-cut operator; macro defect. Consult the existing D1–D6 ledger/dictionary and preserve their meanings. Do not invent missing historical definitions.
+Find the strongest existing theorem for each obligation and cite its actual signature. The report mentions native_replacement/interface_replacement, branchFlagEquiv, addressed iterated sums, installed filling and certificate gluing. Confirm rather than assume their names/types. macro_defect.md Theorems 1–4 and context K composition are established dependencies. If the entire result already exists, instantiate the unfinished application or consolidate; do not rename it.
+
+INDEPENDENT SEMANTICS
+Reuse the actual derivation syntax and actual LJ rule relation if available. Do not define Legal to mean that the proposed summary succeeds. The semantic discharge check must inspect the actual tree: each top's designated bottom exists, has the shared Phi/Psi, and is an ancestor through the prescribed ordered premise branch. Unique bottom IDs are global. Repeated assigned tops and nested instances are permitted. Ordinary LJ schema checks are independent.
+First identify whether the current code's annotated fragment captures exactly this relation. Preserve the distinction between the explicitly annotated fragment and full source erasure/decorability adequacy. Do not claim the latter without a separate proof. The paper's rule presentation is Ciabattoni–Genco Definition 2.1 and Example 3.2; confirm parameter sharing.
+
+OBLIGATION A — SUMMARY ADEQUACY AND EXACT COMPOSITION
+Use native finite structures for: root/hole sequents, all internal bottom IDs, occurrence-indexed external top demands, per-hole exposure (owner ID -> pack and branch), and internal/local correctness or explicit failure.
+Do not omit hidden internal owner IDs: a filling may name an owner in another branch, which must be rejected, not exported as external.
+Prove directSummary(fill P Q)=composeSummary(directSummary P)(directSummary Q), with actual native hole/address transport. Handle simultaneous filling, including:
+  1. filling demand resolved by a matching parent exposure;
+  2. internal parent owner invisible at that hole;
+  3. wrong pack or role;
+  4. sibling owner;
+  5. parent top naming a descendant filling owner;
+  6. genuine external requirement;
+  7. failure already inside an input.
+Require unique internal bottom IDs before defining exposure as a function; require pairwise-disjoint inventories across pieces. Associativity for realizable summaries suffices initially. Certificate-map equations concern legal assignments; failure-flag equality covers invalid trees. Global freshness means distinct bottom declarations, not a restriction prohibiting all cross-piece references: legitimate cross-piece discharge is the point. Requirements targeting newly internal owners cease to be external even when they produce failure. Verify associativity under native reindexing. A direct semantic theorem plus exact composition should avoid fragile invented algebra.
+
+OBLIGATION B — UNIVERSAL REPLACEMENT
+One global bijection of internal bottom occurrences and physical holes, exact exposure/requirement correspondence, fixed conclusion and matched hole sequents, separately valid interiors. Extend the owner map consistently into fillings AND exterior references. Prove preservation and reflection for arbitrary future fillings and exterior contexts. State both the closed legality iff and an open residual-summary version, or derive one clearly from the other.
+No copying/erasure shortcut, no independent owner renaming per hole. No equality of Prop proofs as certificate coherence. Do not assert a bijection of arbitrary internal certificate choices; prove the actual correspondence of boundary-facing assignment entries plus separately supplied internal certificates.
+
+OBLIGATION C — CK-COMPOSITIONAL DISCHARGE CHECKING
+Use native cut packet/remainder and original-hole handling, not a separately defined toy tree. For every admissible cut, prove that composing summaries of its native pieces yields the direct summary. Then extend existing two-stage native flag equivalence with the new summary and actual assignment restriction/gluing maps. Reuse the addressed finite-sum equality by coefficientwise evaluation; retain order, addresses and multiplicity until an explicit projection.
+The new result is the compatibility of the independently defined discharge semantics with that decomposition. The native flag equivalence/coassociativity itself is old work. Do not package an ordinary forest coaction or a Hopf character unless its carrier, typing and laws are actually proved. Do not identify one summed cut expansion with one direct summary: coefficients count cuts.
+
+OBLIGATION D — ACTUAL LOGICAL PERMUTATION
+Use R = implication-right from Gamma,A=>B to Gamma=>A->B and the actual Sys(com) bottom:
+    R(B_b(P,Q)) -> B_b'(R(P),R(Q)).
+Verify all local rule applications in the independent calculus. The bottom common sequent changes but Phi/Psi does not. Two physical holes are preserved: source 0.i.a maps to target i.0.a; bottom 0 maps to root. Prove the summary hypotheses, then apply B for arbitrary future fillings whose tops may reference b. Preserve absence of logical Cut. This is the main application, not a closed small example.
+Provide a nonvacuous checked instance Phi={p}, Psi={q}, holes p,q=>p, root p=>q->p, with role-1 and role-2 tops assigned to the internal bottom. The paper spells out fillings using identity, weakening, contraction; verify them rather than assuming them.
+If feasible generalize to a valid unary ordinary inference chain. Do not let that delay the actual implication-right instance. Binary permutations copying system bottoms are a separate theorem.
+Historical antecedent: Aschieri–Ciabattoni–Genco arXiv:1607.05120 Figure 1 and subject-reduction case 7 already establish the related lambda/parallel permutation. Do not claim priority for the permutation itself or a full sequent/term translation.
+
+OPTIONAL E — PRECISE EXTRACTION COST
+Only after A–D, reuse the native physical full-cut frontier polynomial if its convention agrees with F_hole=1, F_node=z+product F_children. For a chain of m unary nodes prove:
+ F_target-F_source = mz(F_P+F_Q-1)+m^2 z^2.
+Prove coefficientwise nonnegativity in an actually available native coefficient representation; do not block on missing mathlib dependencies when existing structures suffice. This is a projection, not coefficientwise order on the full typed extraction basis. The forward normalization direction creates cuts; it is not coproduct invariant.
+For full records, use the existing K operators separately for source and target shells. Do not assume the generic positive-linear compiler defect applies to this rewrite without checking its hypotheses.
+
+DELIVERY AND VALIDATION
+Add minimal modules extending native definitions. Use meaningful negative scope cases, not a broad finite campaign; universal Lean proofs are the acceptance criterion. Run targeted checks with permitted time budgets; inspect headline axiom closures for sorryAx/custom axioms. Record exact commands, durations, dependencies, theorem signatures, corrections and unproved obligations. Preserve unrelated files and changes; no commit unless separately authorized.
+Obtain independent review of: source-rule adequacy and parameter sharing; completeness of negative ownership cases; universal filling and global occurrence transport; substantive CK use; historical non-duplication.
+If the paper theorem fails, produce a concrete native counterexample and the smallest repaired statement, explaining the change. Do not silently weaken arbitrary future filling to an assumed well-scoped subclass, preservation to one-way inclusion, or actual certificates to propositions.
+
+NEXT IMPLEMENTATION, AFTER PROOFS
+Expose a finite summary evaluator and composition/check operation suitable for caching fragments. Keep executable data separate from proof witnesses but prove refinement against the independent native legality relation. First demonstrate incremental rechecking of this actual permutation and subsequent fillings; performance claims await measurement. No full UI/ATP/process interpreter is requested at this stage.

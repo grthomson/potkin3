@@ -1,0 +1,1 @@
+{'terms': 562, 'matched_open_states': 1304, 'pure_impure_refill_tests': 3464, 'status': 'PASS (bounded, at most8 patterns per state)'}

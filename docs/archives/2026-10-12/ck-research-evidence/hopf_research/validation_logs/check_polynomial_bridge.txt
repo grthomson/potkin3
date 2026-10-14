@@ -1,0 +1,13 @@
+{
+  "grammar_states": 2,
+  "operation_constructors": 6,
+  "max_positive_nodes": 3,
+  "trees_including_typed_edges": 98,
+  "physical_cuts": 374,
+  "distinct_crown_remainder_pairs": 332,
+  "full_green_cut_graft_identity": true,
+  "quotient_leg_comodule_flag_identity_on_all_trees": true,
+  "closed_input_specialization": true,
+  "zero_node_states_retained": true,
+  "native_proof_claim": false
+}

@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "scope": "finite native syntax/material-cut evidence",
+  "observer": "commutative material forest; native ordered tuples retained",
+  "vacancy_domain": "atomic complete interfaces; cuts originate in checked native trees",
+  "cases": [
+    {
+      "name": "compound_beta_binary_material",
+      "material_terms": 4,
+      "residual_states": 4,
+      "residual_cut_terms": 9,
+      "rewrite_states": 2
+    },
+    {
+      "name": "eta_binary_material",
+      "material_terms": 2,
+      "residual_states": 2,
+      "residual_cut_terms": 3,
+      "rewrite_states": 2
+    },
+    {
+      "name": "nested_beta_eta_overlap",
+      "material_terms": 4,
+      "residual_states": 4,
+      "residual_cut_terms": 9,
+      "rewrite_states": 4
+    },
+    {
+      "name": "beta_function_eta_critical_pair",
+      "material_terms": 2,
+      "residual_states": 2,
+      "residual_cut_terms": 3,
+      "rewrite_states": 3
+    },
+    {
+      "name": "eta_body_beta_critical_pair",
+      "material_terms": 1,
+      "residual_states": 1,
+      "residual_cut_terms": 1,
+      "rewrite_states": 5
+    },
+    {
+      "name": "eta_beta_persistent_alpha_overlap",
+      "material_terms": 2,
+      "residual_states": 2,
+      "residual_cut_terms": 3,
+      "rewrite_states": 3
+    },
+    {
+      "name": "eta_nested_material_flags",
+      "material_terms": 11,
+      "residual_states": 11,
+      "residual_cut_terms": 53,
+      "rewrite_states": 2
+    }
+  ],
+  "blocked_atomic_beta": {
+    "old_terms": 4,
+    "new_terms": 5,
+    "new_root": "r",
+    "two_equal_atomic_boundaries_distinct": true
+  },
+  "not_claimed": [
+    "full base-extension semantics implementation",
+    "proof-assistant mechanization",
+    "full beta normalization descent"
+  ]
+}

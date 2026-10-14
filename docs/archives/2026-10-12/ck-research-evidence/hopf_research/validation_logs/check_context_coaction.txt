@@ -1,0 +1,10 @@
+{
+  "status": "finite exact checks, not Lean",
+  "typed_cut_counit_constructor_cases": 16,
+  "arbitrary_signed_record_context_compositions": 64,
+  "full_positive_macro_defect_cases": 6,
+  "separate_typed_boxes": [
+    "A",
+    "B"
+  ]
+}

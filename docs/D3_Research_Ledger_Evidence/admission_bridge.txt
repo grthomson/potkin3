@@ -1,0 +1,212 @@
+D3: SCHEMA-GENERAL ADMISSION AND UNARY DISCHARGE PERMUTATION
+Status: paper argument and Lean obligations; no new Lean verification claimed.
+Evidence inspected: latest 14 October open-discharge report, including completed
+continuation and its explicit ten-instance-registry limitation. Native source is
+not present locally, so native API details below must be checked in POTKIN3.
+
+1. The theorem we should prove
+
+FORMULA GATE. The generic mechanized result quantifies over an arbitrary relation
+Imp : Formula -> Formula -> Formula -> Prop. Source adequacy cannot inherit that
+arbitrariness. For an independently chosen source formula grammar and encoding e,
+prove both directions
+  Imp(e A)(e B)(e C) iff C = (A -> B)
+on the encoded fragment (or an equivalent native constructor characterization).
+If native formulas do not contain implication directly, exhibit its encoding and
+prove injectivity/distinctness and this characterization. A schematic Imp predicate
+with no adequacy theorem only proves a conditional result for a decorated registry.
+
+SEQUENT GATE. Encode each source sequent as the appropriate singleton native
+hypersequent, retaining context multisets and their local occurrence information.
+For weakening/contraction, preserve the actual native incidence witness identifying
+the added/contracted formula occurrences. Equal displayed multisets alone do not
+prove equality of an admitted rule instance. All schema descriptors below include
+the native incidence field; the registry construction is conditional on producing
+that witness from each independently specified source rule application.
+
+Fix the represented propositional fragment: identity, internal weakening and
+contraction, implication-right, and the two tops and bottom of Sys(com). Fix
+arbitrary finite formula multisets Phi, Psi, Gamma, formulas A,B, and system
+identifier u. Set S = Gamma,A => B and T = Gamma => A -> B. Let R:S->T be
+implication-right and let B(u,Phi,Psi;X) have ordered premises X,X and conclusion
+X. Define two native open shells
+
+  C  = R(B(u,Phi,Psi;S)(Box_S,Box_S)),
+  C' = B(u,Phi,Psi;T)(R(Box_S),R(Box_S)).
+
+SCHEMA-GENERAL OPEN PERMUTATION. For arbitrary typed native P,Q:S and arbitrary
+typed puncture context E expecting T,
+
+  Legal(E[C[P,Q]]) iff Legal(E[C'[P,Q]]).
+
+The owner UID u is unchanged. All top references in P,Q,E are unchanged.
+There is no freshness premise: duplicate declarations, inaccessible references,
+and malformed fillers must remain equivalent failures. Local exactness and
+registry admission are separate from this arbitrary-input legality equivalence.
+
+ADMITTED COROLLARY. For any immutable registry Rg that contains exact validated
+instances for the two bottoms and implication-right, and for donors/context
+admitted in that same Rg, both constructions are admitted and the displayed
+equivalence holds for their realized native trees. Each shell rule is checked
+against the independently specified source schema; membership in an arbitrary
+registry alone is not a proof of logical validity.
+
+FINITE COMMON REGISTRY EXISTENCE. Given a finite schema-valid source derivation,
+its finite transformed derivation, and finite schema-valid donors/exterior, one
+can construct a single finite immutable registry admitting all of them, without
+changing any system UID or rule-discharge reference. If an existing registry is
+to be retained, use a conflict-free conservative extension of its finite instance
+table and an explicit checked-derivation lifting theorem.
+
+These are the correct quantifiers. A single fixed finite registry cannot contain
+all arbitrary formula instances. Do not silently substitute the ten-instance
+fixture for either quantified statement.
+
+2. Proof of the semantic theorem using the already mechanized dependency
+
+Use NativeDischargeReplacement.fixedOwner_replacement, not another bespoke
+global event induction. Its FixedOwnerInterface is exhibited as follows.
+
+Both conclusions are T. The two physical holes have boundary S and are ordered
+left then right. The source addresses 0.0 and 0.1 correspond respectively to
+target addresses 0.0 and 1.0. Thus both the boundary and ordered-port conditions
+hold even though literal full summaries need not coincide.
+
+Both inventories contain exactly the same one owner declaration with UID u and
+parameters Phi,Psi (subject to the existing inventory definition's projections).
+The bottom's exact rule-instance boundary changes S to T; that information belongs
+to local rule validation, not the owner parameters used by discharge checking.
+Neither shell contains a system top, so both rooted pending-demand multisets are
+empty. Both locally exact shells have the same successful correctness flag.
+At corresponding hole i, exposure is the one declaration (u,Phi,Psi,role i), with
+the concrete address field transported as required by the existing interface.
+No other owner or demand is introduced by R. All multiplicities agree.
+
+These constructor calculations establish the finite interface uniformly in all
+parameters. Applying the existing theorem gives arbitrary fillings and arbitrary
+exteriors at once, including failure reflection. Do not assert literal equality
+of the full addressed summaries: the hole and bottom addresses have moved.
+
+This proof generalizes the application, not the generic replacement theorem.
+The scientific increment is source/schema-wide applicability of the existing
+CK-compatible structural theorem, replacing a single concrete registration.
+
+3. Independent schema validation and finite admission
+
+A rule descriptor records the schema tag, concrete formula/multiset parameters,
+ordered premise boundaries, conclusion boundary, and the exact incidence data
+required by the native registry. Sys(com) descriptors additionally record system
+UID, role where applicable, and shared parameters. Exact logical validity is the
+independently defined schema relation. It is NOT defined to mean that a registry
+lookup succeeds, and it is NOT defined by discharge-summary success.
+
+Take the finite list of descriptor occurrences used by the derivations. Allocate
+fresh RULE-INSTANCE identifiers for these descriptors (deduplication of literally
+equal descriptors is optional and unnecessary for existence). Store each with its
+schema-validation witness. For a fixed existing registry retain all its bindings
+literally and allocate new keys outside its domain. Structural induction on each
+derivation constructs its quotation/admission witness from the lookup witnesses
+and the admitted ordered children. Typed holes use the existing open-interface
+mechanism; only complete derivations may use a constructor requiring completeness.
+
+Rule-instance keys are lookup names. System UIDs express discharge identity.
+Allocating fresh rule-instance keys never freshens or changes a system UID.
+The source and target bottom descriptors usually need distinct keys because their
+common boundary changes from S to T; they nevertheless carry the SAME UID u.
+The two target R occurrences can use the SAME exact rule-instance key because
+rule-instance keys need not be unique occurrence IDs. Physical occurrences remain
+distinct through native addresses.
+
+If the native instance-key type does not supply arbitrarily many fresh keys, the
+extension theorem must assume the needed capacity or use the project's actual
+schema-backed presentation mechanism. Do not claim an unverified allocation API.
+
+4. Registry extension theorem and its exact limits
+
+Define Rg <= Rg' to mean every old admitted exact instance lookup is preserved
+with identical conclusion, ordered premises, payload, and incidence; the logical
+signature/formula interpretation is unchanged. Under that relation:
+
+  (a) every Rg-admitted native quotation can be lifted to Rg';
+  (b) realization of the lifted quotation equals the old realization;
+  (c) all independent Legal facts and direct summaries are unchanged.
+
+Proof of (a,b): induction on the quotation, replacing each membership witness by
+the extension witness and keeping constructors/children. Proof of (c): substitution
+along (b), since those relations inspect the actual tree, not registry membership.
+
+This is conservative ADMISSION, not a theorem that adding rules is a conservative
+logical extension. New derivations may be admitted in Rg'. No base-change/Hopf-map
+claim follows. An inclusion that changes an old rule's descriptor is not adequate.
+If realization embeds presentation-specific labels, prove exact forgetful equality
+or the already available representation transport; do not assume definitional
+equality across snapshots.
+
+5. Repeated UIDs and contextual normalization
+
+UID42 in the fixture is harmless for its one transformed owner. It is not a
+universal owner name to reuse in a larger derivation. For multiple disjoint
+systems, choose u1,...,un pairwise distinct, or retain the already unique names
+from a legal input derivation. A local transformation retains its selected u.
+The generic failure-reflecting theorem needs no added freshness assumption; if
+the whole source is legal, its owner uniqueness already implies the necessary
+noncollision with other bottoms. Source and target each contain exactly one copy
+of this bottom, not both alternatives simultaneously.
+
+Sequentially transform any finite chosen sequence of eligible unary/bottom redexes.
+At every stage use the exterior-context theorem. Induction gives endpoint legality
+equivalence and preservation of the owner inventory. Compile a common registry
+from all finitely many stage descriptors, or extend incrementally with the lifting
+lemma. This is closure under finite transformation sequences, NOT termination or
+confluence, and NOT copying bottom owners. D1 cut elimination remains open.
+
+6. CK connection retained, not reproved or embellished
+
+Once arbitrary source/schema instances are realized as the existing native trees,
+the existing summary cut-evaluation and certificate-gluing theorems apply. Their
+hypotheses (exact local checks, owner uniqueness and completeness where stated)
+are discharged from the source adequacy bridge. This is the main benefit of D3:
+the CK theorem applies to a genuine rule fragment uniformly, not only a ten-rule
+fixture. Cutting does not make detached factors independently closed. The native
+scoped provider from the same remainder still supplies cross-piece discharge.
+
+Do not state coproduct invariance of the permutation: its tree shapes differ.
+Do not claim a Hopf morphism, antipode application, or full LJ source adequacy.
+
+7. Minimum Lean work, with gates before additional abstraction
+
+A. Inspect Data/ExactInstance, the existing exact implication-right and bottom
+constructors, registry lookup/admission types, and FixedOwnerInterface. Record
+whether UID is inside the immutable instance payload and exactly which fields
+owner inventory retains. Inspect the existing quotation extension/lifting APIs.
+
+B. Parameterize the two existing shells by Phi,Psi,Gamma,A,B,u, retaining native
+CKTree/CKChildren/LeafOccurrence. Prove their exact-instance lemmas and the
+FixedOwnerInterface constructor tables. Target names may be
+  implicationShell_interface,
+  implication_permutation_schema_exterior.
+Names are proposals, not declarations already verified.
+
+C. Prove the admitted theorem under explicit shell-membership hypotheses in any
+registry. This is already a substantial removal of the concrete ten-instance
+restriction; do not block it on a universal registry builder.
+
+D. Prove finite schema-validated registry realization, or reuse an existing
+schema-backed checker and prove its finite-instance specialization. If existing
+native API prevents extension, state that obstruction precisely instead of
+silently retagging or replacing native carriers.
+
+E. Coordinate with the independent source-syntax/erasure agent: source derivation
+and discharge assignment must be specified independently of CK summary success.
+Forward realization and backward erasure should preserve ordered rule structure,
+physical holes and owner declarations/references. No circular definition of
+source correctness as native Legal is acceptable.
+
+F. Targeted negative and positive examples: two nested distinct owner UIDs; two
+disjoint eligible permutations with different UIDs; same UID collision rejected;
+target bottom descriptor absent from registry then explicitly added; changed old
+lookup rejected as nonextension. These test statements, not replace universal
+proofs. Keep verification bounded per the repo's actual current AGENTS policy.
+
+No new source-calculus datatype is a new CK carrier: source syntax is necessary
+for adequacy, while all extraction/filling still uses the existing native objects.

@@ -1,0 +1,69 @@
+{
+  "finite_instances_checked": 56,
+  "equal_size_fixture": {
+    "before_final_EC_nodes": 10,
+    "after_final_EC_nodes": 14,
+    "early_spectrum": [
+      1,
+      14,
+      22,
+      10
+    ],
+    "uniform_spectrum": [
+      1,
+      14,
+      26,
+      26,
+      8
+    ],
+    "early_cut_count": 47,
+    "uniform_cut_count": 75
+  },
+  "identity_plus_EW_donors": {
+    "after_final_EC_nodes": 15,
+    "early_spectrum": [
+      1,
+      15,
+      29,
+      20
+    ],
+    "uniform_spectrum": [
+      1,
+      15,
+      33,
+      40,
+      16
+    ],
+    "early_cut_count": 65,
+    "uniform_cut_count": 105,
+    "qualification": "Concrete identity/EW donors; four-component external rule remains an assumed schema."
+  },
+  "HLJ_com_fixture": {
+    "early_nodes": 29,
+    "uniform_nodes": 35,
+    "early_spectrum": [
+      1,
+      29,
+      218,
+      960,
+      2233,
+      2664,
+      1296
+    ],
+    "uniform_spectrum": [
+      1,
+      35,
+      359,
+      2262,
+      8431,
+      19314,
+      26730,
+      20412,
+      6561
+    ],
+    "early_cut_count": 7401,
+    "uniform_cut_count": 84105,
+    "qualification": "Paper-level communication-rule instantiation, not a native Lean admission check."
+  },
+  "status": "Executable finite checks only; universal proofs are in the report."
+}

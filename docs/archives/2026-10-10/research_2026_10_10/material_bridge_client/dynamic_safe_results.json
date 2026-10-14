@@ -1,0 +1,92 @@
+{
+  "status": "COUNTEREXAMPLE_CONFIRMED",
+  "claim_refuted": "host-relative exact material-transparent beta/eta has unique normal forms",
+  "step_test": "same actual cut root batches, identical marked material factors, and exact corresponding residual beta/eta step",
+  "families": [
+    {
+      "arity": 2,
+      "safe_states": 3,
+      "safe_edges": 2,
+      "distinct_terminal_normal_forms": 2,
+      "material_terms_every_safe_state": 4,
+      "material_terms_after_forbidden_last_step": 5,
+      "terminal_remaining_guard_slots": [
+        0,
+        1
+      ],
+      "rejected_last_steps": 2
+    },
+    {
+      "arity": 3,
+      "safe_states": 7,
+      "safe_edges": 9,
+      "distinct_terminal_normal_forms": 3,
+      "material_terms_every_safe_state": 8,
+      "material_terms_after_forbidden_last_step": 9,
+      "terminal_remaining_guard_slots": [
+        0,
+        1,
+        2
+      ],
+      "rejected_last_steps": 3
+    },
+    {
+      "arity": 4,
+      "safe_states": 15,
+      "safe_edges": 28,
+      "distinct_terminal_normal_forms": 4,
+      "material_terms_every_safe_state": 16,
+      "material_terms_after_forbidden_last_step": 17,
+      "terminal_remaining_guard_slots": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "rejected_last_steps": 4
+    },
+    {
+      "arity": 5,
+      "safe_states": 31,
+      "safe_edges": 75,
+      "distinct_terminal_normal_forms": 5,
+      "material_terms_every_safe_state": 32,
+      "material_terms_after_forbidden_last_step": 33,
+      "terminal_remaining_guard_slots": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_last_steps": 5
+    }
+  ],
+  "fixed_binary_signature_families": [
+    {
+      "binary_blocks": 1,
+      "safe_states": 3,
+      "safe_edges": 2,
+      "distinct_terminal_normal_forms": 2,
+      "material_terms_every_safe_state": 4,
+      "new_terms_after_one_forbidden_last_step": 1
+    },
+    {
+      "binary_blocks": 2,
+      "safe_states": 9,
+      "safe_edges": 12,
+      "distinct_terminal_normal_forms": 4,
+      "material_terms_every_safe_state": 16,
+      "new_terms_after_one_forbidden_last_step": 4
+    },
+    {
+      "binary_blocks": 3,
+      "safe_states": 27,
+      "safe_edges": 54,
+      "distinct_terminal_normal_forms": 8,
+      "material_terms_every_safe_state": 64,
+      "new_terms_after_one_forbidden_last_step": 16
+    }
+  ],
+  "baseline_compound_guard_normalizer": "unchanged; counterexample has only atomic-domain beta redexes"
+}

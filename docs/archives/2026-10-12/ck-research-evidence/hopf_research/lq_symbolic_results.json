@@ -1,0 +1,26 @@
+{
+  "fixture_polynomials": {
+    "pp": {
+      "0": 1
+    },
+    "pq": {},
+    "qp": {},
+    "qq": {
+      "0": 1
+    }
+  },
+  "random_symbolic_checks": 1481,
+  "closed_free_components": [
+    {
+      "1": 1
+    },
+    {
+      "2": 1
+    }
+  ],
+  "max_owners_checked": 7,
+  "weak_excluded_middle": {
+    "0": 3,
+    "1": 1
+  }
+}

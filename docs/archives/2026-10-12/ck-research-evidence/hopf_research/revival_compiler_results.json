@@ -1,0 +1,75 @@
+[
+  {
+    "colour": "p",
+    "source_nodes": 21,
+    "output_nodes": 29,
+    "output_rule_counts": {
+      "orL": 3,
+      "W": 13,
+      "notL": 6,
+      "ax": 4,
+      "C": 1,
+      "notR": 2
+    },
+    "checked_full_source_cuts": 963,
+    "endsequent": {
+      "antecedent": [
+        "(p|p)",
+        "(~p|~~p)",
+        "q",
+        "~p",
+        "~q"
+      ],
+      "succedent": null
+    },
+    "all_output_rules_ordinary_LJ": true,
+    "cut_free": true
+  },
+  {
+    "colour": "q",
+    "source_nodes": 21,
+    "output_nodes": 29,
+    "output_rule_counts": {
+      "orL": 3,
+      "W": 13,
+      "notL": 6,
+      "ax": 4,
+      "C": 1,
+      "notR": 2
+    },
+    "checked_full_source_cuts": 963,
+    "endsequent": {
+      "antecedent": [
+        "(p|p)",
+        "(~q|~~q)",
+        "q",
+        "~p",
+        "~q"
+      ],
+      "succedent": null
+    },
+    "all_output_rules_ordinary_LJ": true,
+    "cut_free": true
+  },
+  {
+    "fixture": "zero_structural_debt_WEM",
+    "source_nodes": 8,
+    "output_nodes": 11,
+    "output_rule_counts": {
+      "orL": 1,
+      "orR": 2,
+      "notR": 3,
+      "notL": 3,
+      "ax": 2
+    },
+    "checked_full_source_cuts": 21,
+    "endsequent": {
+      "antecedent": [
+        "(~p|~~p)"
+      ],
+      "succedent": "(~p|~~p)"
+    },
+    "all_output_rules_ordinary_LJ": true,
+    "cut_free": true
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "generator": "type-directed linear resource partition enumeration",
+  "maximum_nodes": 10,
+  "per_state_cap": 45,
+  "candidate_terms": 4228,
+  "feature_strata": 180,
+  "totals": {
+    "checked_terms": 410,
+    "free_context_terms": 242,
+    "terms_with_compound_beta": 116,
+    "terms_with_eta": 153,
+    "terms_with_multiple_redexes": 58,
+    "terms_with_nested_redexes": 58,
+    "terms_with_disjoint_redexes": 4,
+    "terms_with_positive_arity_material": 256,
+    "residual_states": 838,
+    "residual_cut_terms": 1647,
+    "rewrite_states": 767
+  },
+  "negative_checks": [
+    "compound_material_input",
+    "wrong_material_premise_type",
+    "compound_material_output",
+    "duplicate_closed_occurrence",
+    "compound_input_hidden_in_hole",
+    "compound_hole_output"
+  ],
+  "scope": "bounded retained enumeration; no exhaustive general theorem claim"
+}

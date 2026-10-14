@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "definition": "Phi=(id_H tensor unrestricted_beta_eta_nf) rho",
+  "cases": [
+    {
+      "name": "eta_app_push",
+      "same_ordinary_normal_form": true,
+      "same_CK_cofree_profile": true,
+      "left_profile_terms": 2,
+      "right_profile_terms": 2,
+      "new_right_terms": 0,
+      "lost_right_terms": 0
+    },
+    {
+      "name": "dependent_cut_cut",
+      "same_ordinary_normal_form": true,
+      "same_CK_cofree_profile": true,
+      "left_profile_terms": 2,
+      "right_profile_terms": 2,
+      "new_right_terms": 0,
+      "lost_right_terms": 0
+    },
+    {
+      "name": "general_material_passenger",
+      "same_ordinary_normal_form": true,
+      "same_CK_cofree_profile": true,
+      "left_profile_terms": 2,
+      "right_profile_terms": 2,
+      "new_right_terms": 0,
+      "lost_right_terms": 0
+    },
+    {
+      "name": "lambda_passenger",
+      "same_ordinary_normal_form": true,
+      "same_CK_cofree_profile": true,
+      "left_profile_terms": 2,
+      "right_profile_terms": 2,
+      "new_right_terms": 0,
+      "lost_right_terms": 0
+    },
+    {
+      "name": "unsafe_material_fusion",
+      "same_ordinary_normal_form": true,
+      "same_CK_cofree_profile": false,
+      "left_profile_terms": 2,
+      "right_profile_terms": 3,
+      "new_right_terms": 1,
+      "lost_right_terms": 0
+    }
+  ],
+  "scope": "finite actual-antichain profile evidence; cofree comodule proof separate"
+}

@@ -1,0 +1,12 @@
+{
+  "checked_forests": 381,
+  "identities": {
+    "B": 381,
+    "H": 381,
+    "lambda": 381,
+    "material": 381
+  },
+  "half_erasure_counterexample": true,
+  "max_positive_tree_vertices": 4,
+  "ordered_two_component_forests": 169
+}

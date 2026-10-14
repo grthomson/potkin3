@@ -1,0 +1,15 @@
+{
+  "source_nodes": 10,
+  "compiled_nodes": 13,
+  "normalized_nodes": 11,
+  "grounded_output_nodes": 8,
+  "audit": {
+    "L": 1,
+    "R": 1
+  },
+  "source_cut_is_right_leaf_first_empty_checkpoint": true,
+  "outer_owner_spans_Cut_premise": "Cut first premise ghost is not independently grounded",
+  "normalization": "one explicitly checked identity-Cut reduction, no general normalizer",
+  "new_certificate_checked": true,
+  "endsequent": " => (~p|~~p)"
+}

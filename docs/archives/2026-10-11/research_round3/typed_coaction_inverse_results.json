@@ -1,0 +1,16 @@
+{
+  "sources_checked": 150,
+  "coaction_terms_checked": 404,
+  "distinct_remainder_forests": 150,
+  "inverse_witnesses_checked": 1484,
+  "positive_pure_observer_states": {
+    "P": 6,
+    "Q": 6
+  },
+  "saturation_rounds": 3,
+  "root_counts_preserved": true,
+  "typed_edge_not_forest_unit": true,
+  "positive_open_coefficients_retained": true,
+  "complete_source_restriction": "regular implication: not complete OR safe",
+  "scope": "Exact finite witness-state saturation; bounded forward sources to three vertices plus two-component forests. No coefficient quotient claimed."
+}

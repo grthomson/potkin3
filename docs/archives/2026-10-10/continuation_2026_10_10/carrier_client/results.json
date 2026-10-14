@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "name": "dependent_cut_cut",
+      "left_material_terms": 2,
+      "right_material_terms": 2,
+      "exact_profile_equal": true
+    },
+    {
+      "name": "cut_right",
+      "left_material_terms": 2,
+      "right_material_terms": 2,
+      "exact_profile_equal": true
+    },
+    {
+      "name": "independent_cut_cut",
+      "left_material_terms": 4,
+      "right_material_terms": 4,
+      "exact_profile_equal": true
+    },
+    {
+      "name": "cut_left_argument",
+      "left_material_terms": 2,
+      "right_material_terms": 2,
+      "exact_profile_equal": true
+    },
+    {
+      "name": "cut_left_continuation",
+      "left_material_terms": 4,
+      "right_material_terms": 4,
+      "exact_profile_equal": true
+    },
+    {
+      "name": "primitive_passenger",
+      "left_material_terms": 4,
+      "right_material_terms": 4,
+      "exact_profile_equal": true
+    }
+  ],
+  "principal_identity_material_fusion_rejected": true,
+  "exact_identity_cell_defect_terms": 1,
+  "missing_left_discharge_rejected": true,
+  "nested_context_comparisons": 18,
+  "free_atomic_purity_mode_comparisons": 18,
+  "canonical_sigma_generator_comparisons": 12,
+  "scope": "linear intuitionistic implication + atomic primitive rules; origin-tagged macros; material coaction only"
+}

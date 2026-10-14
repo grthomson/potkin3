@@ -1,0 +1,142 @@
+{
+  "status": "PASS",
+  "policy": "beta iff argument has a positive nonmaterial vertex; all implication eta",
+  "bounded_generator": {
+    "maximum_nodes": 10,
+    "per_state_cap": 45
+  },
+  "totals": {
+    "terms": 4228,
+    "rewrite_states": 6069,
+    "residual_states": 16916,
+    "cut_terms": 60042,
+    "strict_improvements_over_type_guard": 857
+  },
+  "passenger_eta_peak_joins": true,
+  "pure_material_and_zero_positive_hole_beta_blocked": true,
+  "artificial_atomic_input_hole_rejected": true,
+  "general_passenger_non_descent": {
+    "source_sizes": [
+      7,
+      7
+    ],
+    "normal_image_sizes": [
+      7,
+      4
+    ],
+    "invariant": "contextual general Cut/r permutation preserves node count"
+  },
+  "direct_shadow_reification": [
+    {
+      "name": "binary_old_rule",
+      "status": "PASS",
+      "source_antichain_terms": 5,
+      "normal_output_kind": "app",
+      "rewrite_states": 2,
+      "material_residual_states": 5,
+      "residual_cut_terms": 14
+    },
+    {
+      "name": "repeated_atomic_boundary",
+      "status": "PASS",
+      "source_antichain_terms": 5,
+      "normal_output_kind": "app",
+      "rewrite_states": 2,
+      "material_residual_states": 5,
+      "residual_cut_terms": 14
+    },
+    {
+      "name": "nested_nonprimitive_material",
+      "status": "PASS",
+      "source_antichain_terms": 6,
+      "normal_output_kind": "app",
+      "rewrite_states": 2,
+      "material_residual_states": 6,
+      "residual_cut_terms": 20
+    },
+    {
+      "name": "old_hypothetical_atomic_discharge",
+      "status": "PASS",
+      "source_antichain_terms": 3,
+      "normal_output_kind": "prim",
+      "rewrite_states": 3,
+      "material_residual_states": 3,
+      "residual_cut_terms": 6
+    }
+  ],
+  "reference_passenger_probes": [
+    {
+      "argument": "pure",
+      "slot": 0,
+      "envelope": "bare",
+      "normalized_relation": "same_explicit_passenger_cell"
+    },
+    {
+      "argument": "pure",
+      "slot": 0,
+      "envelope": "material_parent",
+      "normalized_relation": "same_explicit_passenger_cell"
+    },
+    {
+      "argument": "pure",
+      "slot": 1,
+      "envelope": "bare",
+      "normalized_relation": "same_explicit_passenger_cell"
+    },
+    {
+      "argument": "pure",
+      "slot": 1,
+      "envelope": "material_parent",
+      "normalized_relation": "same_explicit_passenger_cell"
+    },
+    {
+      "argument": "ref",
+      "slot": 0,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "ref",
+      "slot": 0,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "ref",
+      "slot": 1,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "ref",
+      "slot": 1,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "logical",
+      "slot": 0,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "logical",
+      "slot": 0,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "logical",
+      "slot": 1,
+      "envelope": "bare",
+      "normalized_relation": "equal"
+    },
+    {
+      "argument": "logical",
+      "slot": 1,
+      "envelope": "material_parent",
+      "normalized_relation": "equal"
+    }
+  ],
+  "scope": "finite exact typed/material-coaction evidence; general confluence remains a paper theorem"
+}

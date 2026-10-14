@@ -1,0 +1,293 @@
+POTKIN3: mechanize the CK / revival / context framework developed on 12 October 2026
+
+PURPOSE
+
+Advance the existing programme, rather than restart a generic Hopf-algebra or
+tactic demonstration. The intended object is a meaningful combinatorial CK
+Hopf/coaction framework for scoped proof/process syntax, with concrete proof
+reconstruction and incremental verification/analysis applications.
+
+The accompanying research package contains paper proofs and Python evidence,
+not Lean results. Treat every proposed theorem as something to verify, refine
+or refute. Do not promote finite checks to universal claims. Read the actual
+POTKIN3 AGENTS.MD, exploration ledger, D1–D6 definitions, dictionary, latest
+structural-transformation report and protected-file list before editing. Keep
+the user's unrelated changes. The Windows paths mentioned in the conversation
+are references to their checkout, not evidence that those files are accessible
+in your current environment. Record the actual checkout and revision.
+
+PROGRAMME DISCIPLINE
+
+D4 leads: decomposition and typed analytic-rule compilation. D1 tests relative
+Cut obligations; D5 tests stable interfaces/fragments. D2 supplies controlled
+copying/normalization. D3 supplies actual weakening/contraction/context lifts.
+D6 compares presentations and bases with their hypotheses intact. Recover the
+local authoritative definitions if their wording is more precise than this.
+
+Keep every physical native cut and occurrence multiplicity. An observer may
+assign zero to an uncertified provider; this is not permission to filter the
+coproduct. Typed Box is a state, not the coefficient unit. Do not replace trees
+with dependency graphs or quotient the coalgebra by equal boundary summaries.
+Do not assume primitive-to-macro expansion is a Hopf morphism. No Grossman–Larson
+carrier pivot. Do not revive the rule-permission/inventory observer that was
+already proved to factor through exact inventory.
+
+READ THE NEW MATHEMATICS IN THIS ORDER
+
+1. context_coaction.md and macro_defect.md: full cut packets, affine context
+   action, positive linear-compiler defect and its composition/coherence.
+2. revival_algebra.md and symbolic_lq_solver.md: Lang certificate semantics,
+   partition kernels, multiplicities, checkpoint debts and actual fixtures.
+3. debt_polynomial_bridge.md: the compiler-aligned local grammar. Its bottom-up
+   pending-debt bit is NOT the top-down already-seen-checkpoint bit in the
+   earlier polynomial_bridge.md. Preserve this distinction in type names.
+4. revival_compiler.md: marked compiler, exact W/C costs, canonical interface.
+5. hopf_consequences.md: boundary-valued cache convolution, inverse/rebase,
+   connected sensitivity and cooperative second-order example.
+6. migration_algebra.md and migration_hasse.md: typed Lin examples and exact
+   physical-copy substitution. Do not use the superseded raw 83,522-cut fixture
+   as a typed operational example. The corrected benchmark has 245,025 cuts.
+7. polynomial_bridge.md, scope_quotient_addendum.md and the generic 2-system
+   note: larger framework and naming discipline. Do not start by building a
+   general category-theory library or infinite Green-function completion.
+8. ghostification_bridge.md if present: inverse proof reconstruction and the
+   conditional relative-Cut algorithm. This is a later milestone, not an excuse
+   to assume native Cut elimination or fabricate an axiom.
+
+FIRST DELIVERABLE: A NATIVE FULL-PACKET CONTEXT THEOREM
+
+Inspect existing installed-cut reindexing, native cuts/address antichains,
+literal remainder/refill and multiplicity results. Reuse their carrier.
+Establish a finite equivalence before introducing tensors or Finsupp:
+
+  Cuts(C[P]) ≃
+    (Cuts(P) × product of Cuts(S) for all sibling regions on the hole spine)
+    ⊔ (sum over spine node k of product of Cuts(S) strictly above k).
+
+The first case has no selected ancestor of the hole. The second selects the
+unique selected spine ancestor k, which swallows the installed tail; there
+are NO independent cuts in the swallowed payload or lower siblings. Prove
+that the equivalence preserves the complete ordered pruning packet, literal
+typed remainder, factor-to-hole matching and refill certificate. If macro
+holes permute premise order, retain the explicit permutation.
+
+After this equivalence, derive the native linearized identity
+
+  delta ∘ G_C = L_C ∘ delta + A_C,
+  L_(C[D]) = L_C ∘ L_D,
+  A_(C[D]) = L_C ∘ A_D + A_C ∘ G_D.
+
+The strongest next target absorbs the affine term using the counit. Set
+e = epsilon tensor id and prove e L_C = G_C e and e A_C = 0. Define
+
+  K_C = L_C + A_C e.
+
+Then prove, on arbitrary tensor records including signed linear combinations,
+
+  K_(C[D]) = K_C K_D,
+  e K_C = G_C e,
+  delta G_C = K_C delta.
+
+The counit picks the empty-pruning contribution; adding the swallowed-payload
+case once per input cut would overcount it. For several physical holes, apply
+e to records in slots masked by a selected ancestor, keeping unmasked records.
+Prove typed template substitution compatibility. Do not claim H-linearity, a
+Hopf morphism, or a Beck distributive law without the additional structure.
+
+Do not call A a Hochschild cocycle without specifying that structure. If linear-algebra dependencies remain
+unavailable, prove exact finite indexed-sum/packet versions; report which
+linearization is still blocked. Avoid rewriting the native carrier merely to
+make a generic tensor theorem easy.
+
+IMPORTANT NATIVE ELIGIBILITY CHECK
+
+The research's abstract P-tree theorem allows all positive rule vertices.
+POTKIN3 may have a narrower material-root eligibility predicate. Do not silently
+equate the two. Determine the precise hereditary/installation assumptions needed
+for the native packet theorem. If eligibility depends on ancestry or an installed
+scope, carry that inherited state. Give a concrete instance satisfying each
+assumption, or explicitly report the missing adapter. Never make the theorem
+vacuous by assuming the desired equivalence as a hypothesis.
+
+A concrete sufficient condition is recorded in native_eligibility_adapter.md:
+eligibility is an occurrence mark determined by the literal rule and inherited
+interface state, and those data persist under typed installation, detachment
+with inherited scope, and same-state Box replacement on surviving vertices.
+The spine sum then ranges over marked spine nodes. Check these local laws for
+the actual native predicate. Installation stability alone is insufficient for
+the iterated coaction: eligibility defined by having a positive child can
+disappear after cutting that child. Carrying inherited depth repairs a parity
+predicate that would otherwise change when a subtree is detached.
+Restricted state cuts must use a compatible coefficient coproduct with stable
+marks (for example eligible-root generators). Do not pair a restricted native
+state coaction with an unrelated all-positive coefficient coproduct.
+
+SECOND DELIVERABLE: ONE ACTUAL REVIVAL INTERFACE INSTANCE
+
+Use Lang 2023 Definition 5 exactly. For each physical ghost-disjunction owner i,
+its left/right slots share one colour x_i. Ghost p⇒ adds x_i=p at its assigned
+left owner; ghost ⇒p adds x_j=p at its right owner; ghost ⇒ adds x_i=x_j. Every
+owner exists even when no ghost leaf chooses it. Roles are actual ancestor
+premise roles. Right leaves require a permitted empty-succedent checkpoint
+strictly above their owner, including the empty ghost leaf endpoint.
+
+Prove the fixed-assignment equality-network equivalence and one of the two
+universal solver presentations, not merely a fixture evaluation:
+
+  Rev_T(q) = sum over consistent, checkpoint-correct owner maps omega
+               q^(number of unforced connected components),
+
+or its exact local state/partition dynamic programme. A finite nonempty palette
+containing all forced atoms suffices for existence. Rev_T(1) formally counts
+raw ownership witnesses; this does NOT identify distinct forced atoms with one
+colour. Certificate counts are not counts of distinct revived proofs.
+
+For interfaces retain partition blocks, forced labels, the exponent for closed
+unforced components, and checkpoint state. A seam shared by two regions is one
+joint assignment, not two independent ones. A hidden free component contributes
+q once. Existing ports remain live through constraint-free intermediate regions.
+
+The key universal target is a bijection between global satisfying assignments
+and matching piece assignments at every native cut. Then prove the cut-flag
+compatibility. Use this to obtain actual kernel composition and contextual
+replacement, keeping proof-producing witnesses separate from numeric summaries.
+
+REQUIRED NONTRIVIAL FIXTURES
+
+The 43-node LQ pair has equal multisets of complete local inference instances
+but different certificate feasibility (1 versus 0). Mechanize the multiset
+equality and the separating theorem. This is the anti-regression test against
+the previously closed inventory query.
+
+The 21-node actual LQ example has two same-root modules. Either p-forcing
+replacement alone conflicts with the retained q-forcing sibling; replacing
+both succeeds. Its full source carrier has 963 cuts. With only those module
+providers cached, the compatible residual-source-cost polynomial is
+
+  z^21 + u^2 z^11.
+
+All other cuts still exist; their provider coefficients are zero. Do not call
+21→11 a measured runtime or a target compiled-proof node count. The compiler
+and original skeleton cost are different observations. Adding the new library
+to an old q-library has first derivative zero at the origin but a nonzero
+second Hasse coefficient; retain this cooperative update as a success test.
+
+PROOF-PRODUCING MILESTONE
+
+Mechanize C1 before claiming genuine proof synthesis. It constructs cutfree
+ordinary LJ with marked WEM assumptions from a grounded cutfree ghost proof.
+It uses each source proof premise once, and adds explicit W/C and negation
+macros. Prove soundness by induction on actual inference instances.
+
+Then derive full SOURCE-cut compile/refill coherence through the packet theorem.
+Target macro-internal cuts are additional; no Hopf-morphism theorem is implied.
+Check the exact size identity
+
+  |compile(T)| = |T| + L + 2R + W_added + C_added.
+
+L counts left-assigned ghost initials (including empty); R counts right-assigned
+ones. Charges are attached to inherited local compiler states. Do not compute
+these occurrence-sensitive costs from the compact debt bit alone.
+
+For reusable compiled modules, use C4's canonical finite-palette interface:
+
+  original antecedent + W(A)
+  + one ¬colour(i) for each active LEFT owner
+  + one ¬¬colour(i) for each active RIGHT owner
+  + one raw colour(i) exactly when that RIGHT owner's pending debt is true.
+
+Normalize with explicit W/C after every source node. This aligns fragments with
+different internal-owner and token multiplicities. Merely equal Boolean kernels
+do not produce matching proof terms. Every cache entry must include a generator
+for an actually realised boundary state. Formal typed holes need not all have
+closed inhabitants.
+
+Keep the eight-node WEM fixture: it compiles to an eleven-node ordinary proof
+with NO added weakening or contraction. This is a constructive zero-debt test,
+not a theorem about every substructural base.
+
+FULL MACRO COMPATIBILITY, AFTER THE PACKET RESULT
+
+For a positive linear typed macro compiler f on coefficients and g on states,
+define
+
+  D = Delta_target f − (f⊗f) Delta_source,
+  E = delta_target g − (f⊗g) delta_source.
+
+Prove D,E are exactly the positive sums over target cuts containing a nonseam
+selected root. Source cuts biject seam-aligned cuts. Include mixed seam/nonseam
+frontiers. Require nonempty macros, one use of each premise, exact typing and
+coherent origin/freshness transport. Then prove compiler composition and
+
+  (Delta_target⊗id)E + (D⊗g)delta_source
+    = (id⊗delta_target)E + (f⊗E)delta_source.
+
+The coefficient defect D term must remain. A macro that erases a node or copies
+a premise violates positivity of this correction; the notes contain exact
+counterexamples. Copying is handled by a linear template in distinct physical
+holes followed by the provider map/renaming, not by pretending f is a coalgebra
+morphism. Native eligibility may weaken the all-positive classification; state
+that explicitly rather than importing it unmodified.
+
+Over the connected graded Hopf coefficients, also test the antipode transport
+identity from macro_defect.md. With K = mu_target (S_target tensor id) D,
+
+  S_target f = f S_source - K *_source (f S_source).
+
+Keep this K distinct in names and types from the context-action K_C above.
+Prove the convolution order and sign rather than trusting notation. For a
+primitive source generator expanded to b(c), the correction contributes
++ c times b(Box). The defect contains proper target cuts, so required target
+antipodes concern strictly smaller pruning forests. Establish this decrease;
+do not claim an automatic complexity improvement.
+
+HOPF PAYOFF, WHEN THE EXISTING DEPENDENCIES PERMIT
+
+Use the already proved native coaction to show U_phi U_psi=U_(phi*psi), inverse
+U_(phi o S), and C_psi=U_(psi*(phi o S)) C_phi. Coefficients must preserve shared
+constraints through signed cancellation. Apply existence/min-cost observations
+only after compatible joins and, for inverse updates, after cancellation.
+Arbitrary rectangular kernels are not elements of a commutative coefficient
+ring; use the properly typed kernel composition or a justified fixed-boundary
+commutative algebra.
+
+The abstract P-tree route is H=B_P/(e_i−1), with rho=(q⊗id)Delta on M_i. Only the
+COEFFICIENT leg quotients trivial typed edges; M_i retains Box_i. This resolves
+connected Hopf coefficients versus typed proof holes. Do not take it as an
+already proved comparison to the native POTKIN3 definitions.
+
+MATHLIB EXPLORATION MUST BE TARGETED
+
+Inspect available declarations/imports locally. Useful neighbourhoods include
+finite indexed equivalences/sums, Finset antichains and address prefix order,
+Multiset multiplicity, equivalence relations/quotients, Finsupp and monoid
+algebras, polynomial/Hasse derivatives, coalgebra/comodule convolution, and
+connected graded antipode recursion. Report exact useful declarations and
+whether they compile with current dependencies. Do not invent names. Do not
+repeat the former broad tactic survey or spend the main budget packaging an
+abstract Hopf structure while the source-specific theorem stays unproved.
+
+VALIDATION AND STOPPING
+
+Use additive modules unless local instructions say otherwise. Compile each
+changed module and the minimal affected dependency slice. Print headline
+theorem statements and #print axioms closures. No sorry, sorryAx, custom axioms,
+hidden admitted hypotheses, or 'proved' labels for #eval. A theorem parameter
+for an existing base Cut-elimination operation is acceptable only if its
+conditional status is explicit in the statement and report.
+
+Do not launch a full build/test campaign without a concrete remaining risk or
+required gate. Once the chosen universal native targets and their meaningful
+regression fixtures compile, stop optional testing and report. If blocked,
+state the first missing declaration/bridge with exact error and a concrete
+next theorem, preserving all completed work.
+
+FINAL REPORT
+
+Give: new mathematical choice versus prior approach; exact native definitions
+used; universal theorem statements; proof-producing versus observer-only
+status; commands/durations; axiom results; changed files; independent review;
+remaining D1–D6 obligations. Separate compiled results, paper-only claims and
+finite examples. Do not claim literature novelty merely because a theorem is
+new to this codebase. Do not commit or alter unrelated/protected files unless
+already authorised by the user and local policy.

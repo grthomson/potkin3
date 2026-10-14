@@ -1,0 +1,24 @@
+{
+  "status": "CONFIRMED_COUNTEREXAMPLE",
+  "judgment": "empty |- p -> q",
+  "source": "C_y(C_x(lambda z.r(x,z),s(y)),delta)",
+  "target": "C_x(lambda z.r(x,z),C_y(s(y),delta))",
+  "source_normal": "(lambda y.lambda z.r(s(y),z))delta",
+  "target_normal": "lambda z.r(s((lambda y.y)delta),z)",
+  "normal_classes_distinct": true,
+  "normal_sizes": [
+    8,
+    8
+  ],
+  "source_validation": {
+    "rewrite_states": 2,
+    "residual_states": 2,
+    "cut_terms": 3
+  },
+  "target_validation": {
+    "rewrite_states": 4,
+    "residual_states": 2,
+    "cut_terms": 3
+  },
+  "scope": "failure of representative invariance under this additional Cut-Cut reassociation; bounded primitive-passenger theorem remains intact"
+}

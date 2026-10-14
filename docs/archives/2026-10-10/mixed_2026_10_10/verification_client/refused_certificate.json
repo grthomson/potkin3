@@ -1,0 +1,3836 @@
+{
+  "schema": "ck-material-replacement/1",
+  "old": {
+    "kind": "prim",
+    "uid": "refusal_r",
+    "type": "p",
+    "meta": [
+      "r",
+      [
+        "p"
+      ]
+    ],
+    "children": [
+      {
+        "kind": "var",
+        "uid": "x",
+        "type": "p",
+        "meta": [],
+        "children": []
+      }
+    ]
+  },
+  "new": {
+    "kind": "app",
+    "uid": "bad_app",
+    "type": "p",
+    "meta": [],
+    "children": [
+      {
+        "kind": "lam",
+        "uid": "bad_lam",
+        "type": [
+          "p",
+          "p"
+        ],
+        "meta": [
+          "z",
+          "p"
+        ],
+        "children": [
+          {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "var",
+                "uid": "z",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "var",
+        "uid": "x",
+        "type": "p",
+        "meta": [],
+        "children": []
+      }
+    ]
+  },
+  "substitutions": {
+    "x": {
+      "kind": "prim",
+      "uid": "s",
+      "type": "p",
+      "meta": [
+        "s",
+        [
+          "p",
+          "p"
+        ]
+      ],
+      "children": [
+        {
+          "kind": "prim",
+          "uid": "a",
+          "type": "p",
+          "meta": [
+            "a",
+            []
+          ],
+          "children": []
+        },
+        {
+          "kind": "prim",
+          "uid": "b",
+          "type": "p",
+          "meta": [
+            "b",
+            []
+          ],
+          "children": []
+        }
+      ]
+    }
+  },
+  "old_signature": "f3d99762650e85fc33b818ec16934d4177be6cbf0df74c5c6b9a902ef8a4eb12",
+  "new_signature": "0b96fdc9d29e981f049db240aa1b836e0cb3774f88c7ec82502c5fc61a09c59b",
+  "decision": "REFUSE",
+  "installed_old": [
+    {
+      "roots": [],
+      "forest": [],
+      "residual": {
+        "kind": "prim",
+        "uid": "refusal_r",
+        "type": "p",
+        "meta": [
+          "r",
+          [
+            "p"
+          ]
+        ],
+        "children": [
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "residual_signature": "6995bd8dd3291fa83a159e4215b900379f77c6140e62d540c55ea4565fb92b3e"
+    },
+    {
+      "roots": [
+        "a"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "a",
+          "type": "p",
+          "meta": [
+            "a",
+            []
+          ],
+          "children": []
+        }
+      ],
+      "residual": {
+        "kind": "prim",
+        "uid": "refusal_r",
+        "type": "p",
+        "meta": [
+          "r",
+          [
+            "p"
+          ]
+        ],
+        "children": [
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "hole",
+                "uid": "a",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "residual_signature": "ddde8ad2a6a2652c4a3205d8a5c7daf7226e6d17f41ef60283ffe36a12af8cfa"
+    },
+    {
+      "roots": [
+        "a",
+        "b"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "a",
+          "type": "p",
+          "meta": [
+            "a",
+            []
+          ],
+          "children": []
+        },
+        {
+          "kind": "prim",
+          "uid": "b",
+          "type": "p",
+          "meta": [
+            "b",
+            []
+          ],
+          "children": []
+        }
+      ],
+      "residual": {
+        "kind": "prim",
+        "uid": "refusal_r",
+        "type": "p",
+        "meta": [
+          "r",
+          [
+            "p"
+          ]
+        ],
+        "children": [
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "hole",
+                "uid": "a",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              {
+                "kind": "hole",
+                "uid": "b",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "residual_signature": "79430c7b91b0246e1894a157448434b7e0f7da4a5f2eb30ad4fde57fd1d785d2"
+    },
+    {
+      "roots": [
+        "b"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "b",
+          "type": "p",
+          "meta": [
+            "b",
+            []
+          ],
+          "children": []
+        }
+      ],
+      "residual": {
+        "kind": "prim",
+        "uid": "refusal_r",
+        "type": "p",
+        "meta": [
+          "r",
+          [
+            "p"
+          ]
+        ],
+        "children": [
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              {
+                "kind": "hole",
+                "uid": "b",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "residual_signature": "7ceab9cbb875dbe6a8af2dc72e9588b7957d912b2881c0e546b129a6e8cdc44e"
+    },
+    {
+      "roots": [
+        "refusal_r"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "refusal_r",
+          "type": "p",
+          "meta": [
+            "r",
+            [
+              "p"
+            ]
+          ],
+          "children": [
+            {
+              "kind": "prim",
+              "uid": "s",
+              "type": "p",
+              "meta": [
+                "s",
+                [
+                  "p",
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                },
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "residual": {
+        "kind": "hole",
+        "uid": "refusal_r",
+        "type": "p",
+        "meta": [],
+        "children": []
+      },
+      "residual_signature": "7baf7d83d9d877aef9052af861d203052279f114c120915ea1dc98a0ef5da3f5"
+    },
+    {
+      "roots": [
+        "s"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "s",
+          "type": "p",
+          "meta": [
+            "s",
+            [
+              "p",
+              "p"
+            ]
+          ],
+          "children": [
+            {
+              "kind": "prim",
+              "uid": "a",
+              "type": "p",
+              "meta": [
+                "a",
+                []
+              ],
+              "children": []
+            },
+            {
+              "kind": "prim",
+              "uid": "b",
+              "type": "p",
+              "meta": [
+                "b",
+                []
+              ],
+              "children": []
+            }
+          ]
+        }
+      ],
+      "residual": {
+        "kind": "prim",
+        "uid": "refusal_r",
+        "type": "p",
+        "meta": [
+          "r",
+          [
+            "p"
+          ]
+        ],
+        "children": [
+          {
+            "kind": "hole",
+            "uid": "s",
+            "type": "p",
+            "meta": [],
+            "children": []
+          }
+        ]
+      },
+      "residual_signature": "2e3543ea14faa61b98ffcf5891735d17adf108ad3658e84a6efc18240b498542"
+    }
+  ],
+  "installed_new": [
+    {
+      "roots": [],
+      "forest": [],
+      "residual": {
+        "kind": "app",
+        "uid": "bad_app",
+        "type": "p",
+        "meta": [],
+        "children": [
+          {
+            "kind": "lam",
+            "uid": "bad_lam",
+            "type": [
+              "p",
+              "p"
+            ],
+            "meta": [
+              "z",
+              "p"
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "var",
+                    "uid": "z",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "residual_signature": "e760f0139d5cda21aa08247dec5f1f6c7fdae5171a8a5f14db5bdd3ef37085f2"
+    },
+    {
+      "roots": [
+        "a"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "a",
+          "type": "p",
+          "meta": [
+            "a",
+            []
+          ],
+          "children": []
+        }
+      ],
+      "residual": {
+        "kind": "app",
+        "uid": "bad_app",
+        "type": "p",
+        "meta": [],
+        "children": [
+          {
+            "kind": "lam",
+            "uid": "bad_lam",
+            "type": [
+              "p",
+              "p"
+            ],
+            "meta": [
+              "z",
+              "p"
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "var",
+                    "uid": "z",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "hole",
+                "uid": "a",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "residual_signature": "7f791002a134a580aa4ce648e39db9405a5da1cbea54c1bf3d6e4d9e6a175119"
+    },
+    {
+      "roots": [
+        "a",
+        "b"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "a",
+          "type": "p",
+          "meta": [
+            "a",
+            []
+          ],
+          "children": []
+        },
+        {
+          "kind": "prim",
+          "uid": "b",
+          "type": "p",
+          "meta": [
+            "b",
+            []
+          ],
+          "children": []
+        }
+      ],
+      "residual": {
+        "kind": "app",
+        "uid": "bad_app",
+        "type": "p",
+        "meta": [],
+        "children": [
+          {
+            "kind": "lam",
+            "uid": "bad_lam",
+            "type": [
+              "p",
+              "p"
+            ],
+            "meta": [
+              "z",
+              "p"
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "var",
+                    "uid": "z",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "hole",
+                "uid": "a",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              {
+                "kind": "hole",
+                "uid": "b",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "residual_signature": "d3c1a7b1cc703f5802a59bc72c3814e852023a6a45d83096d0c5ebe5903ad70a"
+    },
+    {
+      "roots": [
+        "b"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "b",
+          "type": "p",
+          "meta": [
+            "b",
+            []
+          ],
+          "children": []
+        }
+      ],
+      "residual": {
+        "kind": "app",
+        "uid": "bad_app",
+        "type": "p",
+        "meta": [],
+        "children": [
+          {
+            "kind": "lam",
+            "uid": "bad_lam",
+            "type": [
+              "p",
+              "p"
+            ],
+            "meta": [
+              "z",
+              "p"
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "var",
+                    "uid": "z",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              {
+                "kind": "hole",
+                "uid": "b",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "residual_signature": "ef3ee26c0fda9a11346e21be465154983490f3d1265495766ae0680c2f01038d"
+    },
+    {
+      "roots": [
+        "s"
+      ],
+      "forest": [
+        {
+          "kind": "prim",
+          "uid": "s",
+          "type": "p",
+          "meta": [
+            "s",
+            [
+              "p",
+              "p"
+            ]
+          ],
+          "children": [
+            {
+              "kind": "prim",
+              "uid": "a",
+              "type": "p",
+              "meta": [
+                "a",
+                []
+              ],
+              "children": []
+            },
+            {
+              "kind": "prim",
+              "uid": "b",
+              "type": "p",
+              "meta": [
+                "b",
+                []
+              ],
+              "children": []
+            }
+          ]
+        }
+      ],
+      "residual": {
+        "kind": "app",
+        "uid": "bad_app",
+        "type": "p",
+        "meta": [],
+        "children": [
+          {
+            "kind": "lam",
+            "uid": "bad_lam",
+            "type": [
+              "p",
+              "p"
+            ],
+            "meta": [
+              "z",
+              "p"
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "var",
+                    "uid": "z",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "hole",
+            "uid": "s",
+            "type": "p",
+            "meta": [],
+            "children": []
+          }
+        ]
+      },
+      "residual_signature": "13208ce7701b5d6f42a246be08e72f645df018c77d4044329c6a7af0b8537996"
+    }
+  ],
+  "old_flags": [
+    {
+      "first": [
+        "a"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "prim",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [
+                      "b",
+                      []
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "ddde8ad2a6a2652c4a3205d8a5c7daf7226e6d17f41ef60283ffe36a12af8cfa"
+        },
+        {
+          "roots": [
+            "b"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "b",
+              "type": "p",
+              "meta": [
+                "b",
+                []
+              ],
+              "children": []
+            }
+          ],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "79430c7b91b0246e1894a157448434b7e0f7da4a5f2eb30ad4fde57fd1d785d2"
+        },
+        {
+          "roots": [
+            "refusal_r"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "refusal_r",
+              "type": "p",
+              "meta": [
+                "r",
+                [
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "prim",
+                  "uid": "s",
+                  "type": "p",
+                  "meta": [
+                    "s",
+                    [
+                      "p",
+                      "p"
+                    ]
+                  ],
+                  "children": [
+                    {
+                      "kind": "hole",
+                      "uid": "a",
+                      "type": "p",
+                      "meta": [],
+                      "children": []
+                    },
+                    {
+                      "kind": "prim",
+                      "uid": "b",
+                      "type": "p",
+                      "meta": [
+                        "b",
+                        []
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "hole",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [],
+            "children": []
+          },
+          "residual_signature": "7baf7d83d9d877aef9052af861d203052279f114c120915ea1dc98a0ef5da3f5"
+        },
+        {
+          "roots": [
+            "s"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "s",
+              "type": "p",
+              "meta": [
+                "s",
+                [
+                  "p",
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "hole",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                },
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          },
+          "residual_signature": "2e3543ea14faa61b98ffcf5891735d17adf108ad3658e84a6efc18240b498542"
+        }
+      ]
+    },
+    {
+      "first": [
+        "a",
+        "b"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "79430c7b91b0246e1894a157448434b7e0f7da4a5f2eb30ad4fde57fd1d785d2"
+        },
+        {
+          "roots": [
+            "refusal_r"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "refusal_r",
+              "type": "p",
+              "meta": [
+                "r",
+                [
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "prim",
+                  "uid": "s",
+                  "type": "p",
+                  "meta": [
+                    "s",
+                    [
+                      "p",
+                      "p"
+                    ]
+                  ],
+                  "children": [
+                    {
+                      "kind": "hole",
+                      "uid": "a",
+                      "type": "p",
+                      "meta": [],
+                      "children": []
+                    },
+                    {
+                      "kind": "hole",
+                      "uid": "b",
+                      "type": "p",
+                      "meta": [],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "hole",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [],
+            "children": []
+          },
+          "residual_signature": "7baf7d83d9d877aef9052af861d203052279f114c120915ea1dc98a0ef5da3f5"
+        },
+        {
+          "roots": [
+            "s"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "s",
+              "type": "p",
+              "meta": [
+                "s",
+                [
+                  "p",
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "hole",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                },
+                {
+                  "kind": "hole",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          },
+          "residual_signature": "2e3543ea14faa61b98ffcf5891735d17adf108ad3658e84a6efc18240b498542"
+        }
+      ]
+    },
+    {
+      "first": [
+        "b"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [
+                      "a",
+                      []
+                    ],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "7ceab9cbb875dbe6a8af2dc72e9588b7957d912b2881c0e546b129a6e8cdc44e"
+        },
+        {
+          "roots": [
+            "a"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "a",
+              "type": "p",
+              "meta": [
+                "a",
+                []
+              ],
+              "children": []
+            }
+          ],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "79430c7b91b0246e1894a157448434b7e0f7da4a5f2eb30ad4fde57fd1d785d2"
+        },
+        {
+          "roots": [
+            "refusal_r"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "refusal_r",
+              "type": "p",
+              "meta": [
+                "r",
+                [
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "prim",
+                  "uid": "s",
+                  "type": "p",
+                  "meta": [
+                    "s",
+                    [
+                      "p",
+                      "p"
+                    ]
+                  ],
+                  "children": [
+                    {
+                      "kind": "prim",
+                      "uid": "a",
+                      "type": "p",
+                      "meta": [
+                        "a",
+                        []
+                      ],
+                      "children": []
+                    },
+                    {
+                      "kind": "hole",
+                      "uid": "b",
+                      "type": "p",
+                      "meta": [],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "hole",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [],
+            "children": []
+          },
+          "residual_signature": "7baf7d83d9d877aef9052af861d203052279f114c120915ea1dc98a0ef5da3f5"
+        },
+        {
+          "roots": [
+            "s"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "s",
+              "type": "p",
+              "meta": [
+                "s",
+                [
+                  "p",
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                },
+                {
+                  "kind": "hole",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          },
+          "residual_signature": "2e3543ea14faa61b98ffcf5891735d17adf108ad3658e84a6efc18240b498542"
+        }
+      ]
+    },
+    {
+      "first": [
+        "refusal_r"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "hole",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [],
+            "children": []
+          },
+          "residual_signature": "7baf7d83d9d877aef9052af861d203052279f114c120915ea1dc98a0ef5da3f5"
+        }
+      ]
+    },
+    {
+      "first": [
+        "s"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "prim",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [
+              "r",
+              [
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          },
+          "residual_signature": "2e3543ea14faa61b98ffcf5891735d17adf108ad3658e84a6efc18240b498542"
+        },
+        {
+          "roots": [
+            "refusal_r"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "refusal_r",
+              "type": "p",
+              "meta": [
+                "r",
+                [
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "hole",
+                  "uid": "s",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "hole",
+            "uid": "refusal_r",
+            "type": "p",
+            "meta": [],
+            "children": []
+          },
+          "residual_signature": "7baf7d83d9d877aef9052af861d203052279f114c120915ea1dc98a0ef5da3f5"
+        }
+      ]
+    }
+  ],
+  "new_flags": [
+    {
+      "first": [
+        "a"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "prim",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [
+                      "b",
+                      []
+                    ],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "7f791002a134a580aa4ce648e39db9405a5da1cbea54c1bf3d6e4d9e6a175119"
+        },
+        {
+          "roots": [
+            "b"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "b",
+              "type": "p",
+              "meta": [
+                "b",
+                []
+              ],
+              "children": []
+            }
+          ],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "d3c1a7b1cc703f5802a59bc72c3814e852023a6a45d83096d0c5ebe5903ad70a"
+        },
+        {
+          "roots": [
+            "s"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "s",
+              "type": "p",
+              "meta": [
+                "s",
+                [
+                  "p",
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "hole",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                },
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          },
+          "residual_signature": "13208ce7701b5d6f42a246be08e72f645df018c77d4044329c6a7af0b8537996"
+        }
+      ]
+    },
+    {
+      "first": [
+        "a",
+        "b"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "d3c1a7b1cc703f5802a59bc72c3814e852023a6a45d83096d0c5ebe5903ad70a"
+        },
+        {
+          "roots": [
+            "s"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "s",
+              "type": "p",
+              "meta": [
+                "s",
+                [
+                  "p",
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "hole",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                },
+                {
+                  "kind": "hole",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          },
+          "residual_signature": "13208ce7701b5d6f42a246be08e72f645df018c77d4044329c6a7af0b8537996"
+        }
+      ]
+    },
+    {
+      "first": [
+        "b"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [
+                      "a",
+                      []
+                    ],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "ef3ee26c0fda9a11346e21be465154983490f3d1265495766ae0680c2f01038d"
+        },
+        {
+          "roots": [
+            "a"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "a",
+              "type": "p",
+              "meta": [
+                "a",
+                []
+              ],
+              "children": []
+            }
+          ],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          "residual_signature": "d3c1a7b1cc703f5802a59bc72c3814e852023a6a45d83096d0c5ebe5903ad70a"
+        },
+        {
+          "roots": [
+            "s"
+          ],
+          "forest": [
+            {
+              "kind": "prim",
+              "uid": "s",
+              "type": "p",
+              "meta": [
+                "s",
+                [
+                  "p",
+                  "p"
+                ]
+              ],
+              "children": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                },
+                {
+                  "kind": "hole",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [],
+                  "children": []
+                }
+              ]
+            }
+          ],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          },
+          "residual_signature": "13208ce7701b5d6f42a246be08e72f645df018c77d4044329c6a7af0b8537996"
+        }
+      ]
+    },
+    {
+      "first": [
+        "s"
+      ],
+      "second": [
+        {
+          "roots": [],
+          "forest": [],
+          "residual": {
+            "kind": "app",
+            "uid": "bad_app",
+            "type": "p",
+            "meta": [],
+            "children": [
+              {
+                "kind": "lam",
+                "uid": "bad_lam",
+                "type": [
+                  "p",
+                  "p"
+                ],
+                "meta": [
+                  "z",
+                  "p"
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "refusal_r",
+                    "type": "p",
+                    "meta": [
+                      "r",
+                      [
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "var",
+                        "uid": "z",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              }
+            ]
+          },
+          "residual_signature": "13208ce7701b5d6f42a246be08e72f645df018c77d4044329c6a7af0b8537996"
+        }
+      ]
+    }
+  ],
+  "old_factor_flags": [
+    {
+      "first": [
+        "a"
+      ],
+      "factors": [
+        {
+          "root": "a",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              "residual_signature": "2490e283e9a497eb3477dd5f7b260c0821763b1261f4b86ee2b4b3fc36f9b465"
+            },
+            {
+              "roots": [
+                "a"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "a",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "0bf5d6e12efb8665e2e859b41bcf6b4092e78a8591965e30ab61a77e9bb2d46d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "first": [
+        "a",
+        "b"
+      ],
+      "factors": [
+        {
+          "root": "a",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              "residual_signature": "2490e283e9a497eb3477dd5f7b260c0821763b1261f4b86ee2b4b3fc36f9b465"
+            },
+            {
+              "roots": [
+                "a"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "a",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "0bf5d6e12efb8665e2e859b41bcf6b4092e78a8591965e30ab61a77e9bb2d46d"
+            }
+          ]
+        },
+        {
+          "root": "b",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              },
+              "residual_signature": "a54fe9c98e62e74d8bd142f39bf6963a005be4efaeaee8eb57bcb33124c47b56"
+            },
+            {
+              "roots": [
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "b",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "5e4fda5b5db75226a6c62628ca273ed23ff61a9a8e7df170093a32ab1cd8f948"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "first": [
+        "b"
+      ],
+      "factors": [
+        {
+          "root": "b",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              },
+              "residual_signature": "a54fe9c98e62e74d8bd142f39bf6963a005be4efaeaee8eb57bcb33124c47b56"
+            },
+            {
+              "roots": [
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "b",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "5e4fda5b5db75226a6c62628ca273ed23ff61a9a8e7df170093a32ab1cd8f948"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "first": [
+        "refusal_r"
+      ],
+      "factors": [
+        {
+          "root": "refusal_r",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "s",
+                    "type": "p",
+                    "meta": [
+                      "s",
+                      [
+                        "p",
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "prim",
+                        "uid": "a",
+                        "type": "p",
+                        "meta": [
+                          "a",
+                          []
+                        ],
+                        "children": []
+                      },
+                      {
+                        "kind": "prim",
+                        "uid": "b",
+                        "type": "p",
+                        "meta": [
+                          "b",
+                          []
+                        ],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "residual_signature": "6995bd8dd3291fa83a159e4215b900379f77c6140e62d540c55ea4565fb92b3e"
+            },
+            {
+              "roots": [
+                "a"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "s",
+                    "type": "p",
+                    "meta": [
+                      "s",
+                      [
+                        "p",
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "hole",
+                        "uid": "a",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      },
+                      {
+                        "kind": "prim",
+                        "uid": "b",
+                        "type": "p",
+                        "meta": [
+                          "b",
+                          []
+                        ],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "residual_signature": "ddde8ad2a6a2652c4a3205d8a5c7daf7226e6d17f41ef60283ffe36a12af8cfa"
+            },
+            {
+              "roots": [
+                "a",
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                },
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "s",
+                    "type": "p",
+                    "meta": [
+                      "s",
+                      [
+                        "p",
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "hole",
+                        "uid": "a",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      },
+                      {
+                        "kind": "hole",
+                        "uid": "b",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "residual_signature": "79430c7b91b0246e1894a157448434b7e0f7da4a5f2eb30ad4fde57fd1d785d2"
+            },
+            {
+              "roots": [
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "s",
+                    "type": "p",
+                    "meta": [
+                      "s",
+                      [
+                        "p",
+                        "p"
+                      ]
+                    ],
+                    "children": [
+                      {
+                        "kind": "prim",
+                        "uid": "a",
+                        "type": "p",
+                        "meta": [
+                          "a",
+                          []
+                        ],
+                        "children": []
+                      },
+                      {
+                        "kind": "hole",
+                        "uid": "b",
+                        "type": "p",
+                        "meta": [],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "residual_signature": "7ceab9cbb875dbe6a8af2dc72e9588b7957d912b2881c0e546b129a6e8cdc44e"
+            },
+            {
+              "roots": [
+                "refusal_r"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "refusal_r",
+                  "type": "p",
+                  "meta": [
+                    "r",
+                    [
+                      "p"
+                    ]
+                  ],
+                  "children": [
+                    {
+                      "kind": "prim",
+                      "uid": "s",
+                      "type": "p",
+                      "meta": [
+                        "s",
+                        [
+                          "p",
+                          "p"
+                        ]
+                      ],
+                      "children": [
+                        {
+                          "kind": "prim",
+                          "uid": "a",
+                          "type": "p",
+                          "meta": [
+                            "a",
+                            []
+                          ],
+                          "children": []
+                        },
+                        {
+                          "kind": "prim",
+                          "uid": "b",
+                          "type": "p",
+                          "meta": [
+                            "b",
+                            []
+                          ],
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "7baf7d83d9d877aef9052af861d203052279f114c120915ea1dc98a0ef5da3f5"
+            },
+            {
+              "roots": [
+                "s"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "s",
+                  "type": "p",
+                  "meta": [
+                    "s",
+                    [
+                      "p",
+                      "p"
+                    ]
+                  ],
+                  "children": [
+                    {
+                      "kind": "prim",
+                      "uid": "a",
+                      "type": "p",
+                      "meta": [
+                        "a",
+                        []
+                      ],
+                      "children": []
+                    },
+                    {
+                      "kind": "prim",
+                      "uid": "b",
+                      "type": "p",
+                      "meta": [
+                        "b",
+                        []
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "refusal_r",
+                "type": "p",
+                "meta": [
+                  "r",
+                  [
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "s",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "2e3543ea14faa61b98ffcf5891735d17adf108ad3658e84a6efc18240b498542"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "first": [
+        "s"
+      ],
+      "factors": [
+        {
+          "root": "s",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [
+                      "a",
+                      []
+                    ],
+                    "children": []
+                  },
+                  {
+                    "kind": "prim",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [
+                      "b",
+                      []
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "3600595fba7e10583bb79b845224b8d0b7964a001984a6ebc1920af8be3c49e5"
+            },
+            {
+              "roots": [
+                "a"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "prim",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [
+                      "b",
+                      []
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "9f70104e6ab2913e620c9b4fcae8d94fdb832a564f055547f0636d92ca8533e5"
+            },
+            {
+              "roots": [
+                "a",
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                },
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "1b64fec1bb44d5db34690f7a02c09dbec22c1eacb6e889bff6c0b7e108b5e24d"
+            },
+            {
+              "roots": [
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [
+                      "a",
+                      []
+                    ],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "052437c8914c738f372bbca36e753fb6d913ad62eb50af7cb8f60fdd08bce0d5"
+            },
+            {
+              "roots": [
+                "s"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "s",
+                  "type": "p",
+                  "meta": [
+                    "s",
+                    [
+                      "p",
+                      "p"
+                    ]
+                  ],
+                  "children": [
+                    {
+                      "kind": "prim",
+                      "uid": "a",
+                      "type": "p",
+                      "meta": [
+                        "a",
+                        []
+                      ],
+                      "children": []
+                    },
+                    {
+                      "kind": "prim",
+                      "uid": "b",
+                      "type": "p",
+                      "meta": [
+                        "b",
+                        []
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "32e46bfe23f5a67d55c443c24b6ed38d95f20adcfd9b6b2540a43ae438f27c66"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "new_factor_flags": [
+    {
+      "first": [
+        "a"
+      ],
+      "factors": [
+        {
+          "root": "a",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              "residual_signature": "2490e283e9a497eb3477dd5f7b260c0821763b1261f4b86ee2b4b3fc36f9b465"
+            },
+            {
+              "roots": [
+                "a"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "a",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "0bf5d6e12efb8665e2e859b41bcf6b4092e78a8591965e30ab61a77e9bb2d46d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "first": [
+        "a",
+        "b"
+      ],
+      "factors": [
+        {
+          "root": "a",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              "residual_signature": "2490e283e9a497eb3477dd5f7b260c0821763b1261f4b86ee2b4b3fc36f9b465"
+            },
+            {
+              "roots": [
+                "a"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "a",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "0bf5d6e12efb8665e2e859b41bcf6b4092e78a8591965e30ab61a77e9bb2d46d"
+            }
+          ]
+        },
+        {
+          "root": "b",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              },
+              "residual_signature": "a54fe9c98e62e74d8bd142f39bf6963a005be4efaeaee8eb57bcb33124c47b56"
+            },
+            {
+              "roots": [
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "b",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "5e4fda5b5db75226a6c62628ca273ed23ff61a9a8e7df170093a32ab1cd8f948"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "first": [
+        "b"
+      ],
+      "factors": [
+        {
+          "root": "b",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              },
+              "residual_signature": "a54fe9c98e62e74d8bd142f39bf6963a005be4efaeaee8eb57bcb33124c47b56"
+            },
+            {
+              "roots": [
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "b",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "5e4fda5b5db75226a6c62628ca273ed23ff61a9a8e7df170093a32ab1cd8f948"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "first": [
+        "s"
+      ],
+      "factors": [
+        {
+          "root": "s",
+          "inside": [
+            {
+              "roots": [],
+              "forest": [],
+              "residual": {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [
+                      "a",
+                      []
+                    ],
+                    "children": []
+                  },
+                  {
+                    "kind": "prim",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [
+                      "b",
+                      []
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "3600595fba7e10583bb79b845224b8d0b7964a001984a6ebc1920af8be3c49e5"
+            },
+            {
+              "roots": [
+                "a"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "prim",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [
+                      "b",
+                      []
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "9f70104e6ab2913e620c9b4fcae8d94fdb832a564f055547f0636d92ca8533e5"
+            },
+            {
+              "roots": [
+                "a",
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "a",
+                  "type": "p",
+                  "meta": [
+                    "a",
+                    []
+                  ],
+                  "children": []
+                },
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "hole",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "1b64fec1bb44d5db34690f7a02c09dbec22c1eacb6e889bff6c0b7e108b5e24d"
+            },
+            {
+              "roots": [
+                "b"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "b",
+                  "type": "p",
+                  "meta": [
+                    "b",
+                    []
+                  ],
+                  "children": []
+                }
+              ],
+              "residual": {
+                "kind": "prim",
+                "uid": "s",
+                "type": "p",
+                "meta": [
+                  "s",
+                  [
+                    "p",
+                    "p"
+                  ]
+                ],
+                "children": [
+                  {
+                    "kind": "prim",
+                    "uid": "a",
+                    "type": "p",
+                    "meta": [
+                      "a",
+                      []
+                    ],
+                    "children": []
+                  },
+                  {
+                    "kind": "hole",
+                    "uid": "b",
+                    "type": "p",
+                    "meta": [],
+                    "children": []
+                  }
+                ]
+              },
+              "residual_signature": "052437c8914c738f372bbca36e753fb6d913ad62eb50af7cb8f60fdd08bce0d5"
+            },
+            {
+              "roots": [
+                "s"
+              ],
+              "forest": [
+                {
+                  "kind": "prim",
+                  "uid": "s",
+                  "type": "p",
+                  "meta": [
+                    "s",
+                    [
+                      "p",
+                      "p"
+                    ]
+                  ],
+                  "children": [
+                    {
+                      "kind": "prim",
+                      "uid": "a",
+                      "type": "p",
+                      "meta": [
+                        "a",
+                        []
+                      ],
+                      "children": []
+                    },
+                    {
+                      "kind": "prim",
+                      "uid": "b",
+                      "type": "p",
+                      "meta": [
+                        "b",
+                        []
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ],
+              "residual": {
+                "kind": "hole",
+                "uid": "s",
+                "type": "p",
+                "meta": [],
+                "children": []
+              },
+              "residual_signature": "32e46bfe23f5a67d55c443c24b6ed38d95f20adcfd9b6b2540a43ae438f27c66"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "composite_modules": [
+    {
+      "root": "refusal_r",
+      "factor": {
+        "kind": "prim",
+        "uid": "refusal_r",
+        "type": "p",
+        "meta": [
+          "r",
+          [
+            "p"
+          ]
+        ],
+        "children": [
+          {
+            "kind": "prim",
+            "uid": "s",
+            "type": "p",
+            "meta": [
+              "s",
+              [
+                "p",
+                "p"
+              ]
+            ],
+            "children": [
+              {
+                "kind": "prim",
+                "uid": "a",
+                "type": "p",
+                "meta": [
+                  "a",
+                  []
+                ],
+                "children": []
+              },
+              {
+                "kind": "prim",
+                "uid": "b",
+                "type": "p",
+                "meta": [
+                  "b",
+                  []
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      "old_boundary": {
+        "output": "p",
+        "free": [],
+        "holes": [
+          {
+            "seam": "refusal_r",
+            "type": "p",
+            "context": []
+          }
+        ]
+      },
+      "available_intact": false,
+      "new_boundary": null
+    },
+    {
+      "root": "s",
+      "factor": {
+        "kind": "prim",
+        "uid": "s",
+        "type": "p",
+        "meta": [
+          "s",
+          [
+            "p",
+            "p"
+          ]
+        ],
+        "children": [
+          {
+            "kind": "prim",
+            "uid": "a",
+            "type": "p",
+            "meta": [
+              "a",
+              []
+            ],
+            "children": []
+          },
+          {
+            "kind": "prim",
+            "uid": "b",
+            "type": "p",
+            "meta": [
+              "b",
+              []
+            ],
+            "children": []
+          }
+        ]
+      },
+      "old_boundary": {
+        "output": "p",
+        "free": [],
+        "holes": [
+          {
+            "seam": "s",
+            "type": "p",
+            "context": []
+          }
+        ]
+      },
+      "available_intact": true,
+      "new_boundary": {
+        "output": "p",
+        "free": [],
+        "holes": [
+          {
+            "seam": "s",
+            "type": "p",
+            "context": []
+          }
+        ]
+      }
+    }
+  ]
+}

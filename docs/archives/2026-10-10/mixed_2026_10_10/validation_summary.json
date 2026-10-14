@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "script": "mixed_checker/check_mixed.py",
+      "returncode": 0
+    },
+    {
+      "script": "verification_client/test_client.py",
+      "returncode": 0
+    }
+  ],
+  "scope": "finite checks; paper mixed theorem; implicational certificate implementation"
+}

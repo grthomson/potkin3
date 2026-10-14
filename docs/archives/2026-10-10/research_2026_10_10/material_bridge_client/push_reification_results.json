@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "normalizer": "N_push",
+  "source_cut_naturalisation_normalization_square": [
+    {
+      "name": "binary_old_rule",
+      "status": "PASS",
+      "source_antichain_terms": 5,
+      "rewrite_states": 3,
+      "rewrite_edge_labels": {
+        "beta": 1,
+        "passenger": 1
+      }
+    },
+    {
+      "name": "repeated_boundary",
+      "status": "PASS",
+      "source_antichain_terms": 5,
+      "rewrite_states": 3,
+      "rewrite_edge_labels": {
+        "beta": 1,
+        "passenger": 1
+      }
+    },
+    {
+      "name": "nested_nonprimitive",
+      "status": "PASS",
+      "source_antichain_terms": 6,
+      "rewrite_states": 3,
+      "rewrite_edge_labels": {
+        "beta": 1,
+        "passenger": 1
+      }
+    },
+    {
+      "name": "old_hypothetical_discharge",
+      "status": "PASS",
+      "source_antichain_terms": 3,
+      "rewrite_states": 4,
+      "rewrite_edge_labels": {
+        "beta": 3,
+        "passenger": 1
+      }
+    }
+  ],
+  "scope": "four exact native fixtures; paper theorem carries general claim"
+}

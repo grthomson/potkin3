@@ -1,0 +1,30 @@
+{
+  "status": "FINITE_CHECKS_PASS",
+  "purity_tag_not_open_substitution_congruence": true,
+  "formal_pure_mode_separates_counterexample": true,
+  "ordinary_uid_collision_probe_passes": true,
+  "formal_namespace": "tagged UID and rule-symbol classes; ordinary source UIDs validated as strings",
+  "carrier_gates": [
+    {
+      "name": "eta_app_push",
+      "same_mode_signature": true
+    },
+    {
+      "name": "dependent_cut_cut",
+      "same_mode_signature": true
+    },
+    {
+      "name": "general_material_passenger",
+      "same_mode_signature": true
+    },
+    {
+      "name": "lambda_passenger",
+      "same_mode_signature": true
+    },
+    {
+      "name": "unsafe_material_fusion",
+      "same_mode_signature": false
+    }
+  ],
+  "scope": "candidate symbolic base-extension observation only; universal substitution theorem unproved"
+}
