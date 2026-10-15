@@ -226,6 +226,9 @@ occurrence-level statements.
 Report: [contraction-postponement.md](../reports/2026-10-13/contraction-postponement.md).
 HEAD remains `93b4a9abce87692ac32665132144ba1cd602808c`; uncommitted.
 
+That is the historical 13 October snapshot. The [15 October continuation](../reports/2026-10-13/contraction-postponement.md#15-october-2026-strict-hlj-compilation-and-a-physical-lemma-frontier)
+was checked at HEAD `2835d448722e6e366c26003004b19b631984691b`, also uncommitted.
+
 | Result | Status and exact scope |
 | --- | --- |
 | Complete native public quotation | **MECHANIZED** in `Potkin/CompleteQuotation.lean`: complete `LocallyAdmittedTree P` sources quote through the existing checker and realize literally unchanged. No private checked constructor or unfilled-Box proof. |
@@ -233,7 +236,13 @@ HEAD remains `93b4a9abce87692ac32665132144ba1cd602808c`; uncommitted.
 | Attained Bellman and secondary optimum | **MECHANIZED** in `ContractionPlans.lean`; node minimum and lexicographic secondary minimum only in the fixed opaque-donor Plan language. Selection is noncomputable, not an executable optimized search. |
 | Exact multiset boundary substitutions and script costs | **MECHANIZED** in `ContractionBoundaries.lean`: literal continuation/premise boundaries, donor inclusion, prescribed EW count and terminal EC count, preserving aliases and multiplicity. |
 | Native proof-producing interpretation and checked output | **MECHANIZED** in `ContractionPostponement.lean`, conditional on the explicit admitted rule/EW/EC interface and finite registration of reached occurrences. `compile_realize` proves literal realization; exact node costs, completeness and occurrence-predicate avoidance are proved. |
-| Actual HLJ+com/external EW/EC instantiation | **OPEN**. Source audit finds no installed schema. The interface is a required input, not an admission theorem. Paper 29/35 and 7401/84105 numbers are not a registered native fixture. |
+| Actual HLJ+com/external EW/EC instantiation | **MECHANIZED in the identity/Com/EW/EC structural fragment**, 15 October: `HLJStructural.theory`, `HLJContraction.finish_strict`, actual three-entry `checkedCommunication`, and strict closed-donor compiler degree/Q adapters. The old unrestricted interface is proved incompatible with strict HLJ; the assembly envelope is not proof evidence. Reached exact registration remains required; full LJ and the paper 29/35, 7401/84105 admitted fixture are still OPEN. |
+| Native compiler lemma frontier | **MECHANIZED**, `StructuralLemmaCuts`: proper root-excluding native frontier, literal scaffold remainder/refill, physical site/hole equivalence, equality of the full aligned detached provider, exact filling degree and reuse of installed-cut classification. `HLJStructuralApplication.certifiedFrontier` applies it to the checked physical-hole compiler. Original Plan donor-index assignment and equality with the closed-donor compiler are now supplied by the next row. |
+| One costed output, one history-selected donor certificate | **MECHANIZED**, 15 October: `ContractionDonorFilling.RuleInterface.finish_fill` constructs original donor indices at physical holes from arbitrary-arity Plan history and proves literal native filling/compiler equality. `HLJDonorIntegration.checked_frontends_agree`, `original_provider_matching`, `compiledExtractionEquiv` and `compiled_certificate` attach the native frontier, full aligned provider, refill, installed-cut classification, degree and Q laws to the SAME strict checked compiler output. Registration of the scaffold is derived from the admitted completed output. Final targeted checks 52.244/66.333 s, standard axiom closures. This closes the donor-assignment/equality gap; it is not a new gluing theorem, arbitrary owner-copy legality or an allocator. |
+| Nontrivial fixed finite-registry compiler demonstration | **MECHANIZED**, final targeted check 76.834 s: `HLJPostponementExample` repairs dependent admission/substitution and proves the original ten-entry early output has 11 vertices/43 full physical cuts. A distinct delayed Plan has 13 vertices/103 full physical cuts. Both are checked against the same donors/problem in one strict twelve-entry registry; explicit re-quotation and registry inclusion avoid snapshot casts. Each checked output retains its proper native frontier, full provider matching, literal typed remainder/refill and installed-cut classification. |
+| Universal local pruning and its checked application | **MECHANIZED**, `ContractionPlanComparison` (65.368 s): binary rule interface, two output components, eligible donor and remaining depth; compare stopping with one continuation whose two children stop at that SAME donor. Arbitrary native donor families: exact node law, natural-valued pointwise Q dominance, nonnegative scalar defect and strict total-cut growth at z=1. `HLJPostponementExample.paired_Q_LE` applies it to the two Plans for arbitrary same-boundary donors; `checked_exterior_comparison` requires both actual fillings checked in one registry. No arbitrary child-donor comparison, global first-hit optimum, coefficientwise or tensor dominance is claimed. Both final modules' headline closures contain only propext/Classical.choice/Quot.sound. |
+| Certified whole-Plan pruning | **MECHANIZED / EXECUTABLE**, `ContractionPlanPruning` (83.642 s): bottom-up native Plan processing, explicit finite atomic rewrite path, redex-freeness and idempotence; same indexed state/boundary; node/Q nonincrease for arbitrary donor trees and natural z, strict nodes/Q(1) when changed. `HLJPlanPruning` (47.109 s) derives exact optimized registration from source membership and sufficient finite EW stock at original continued positions, with its own proper frontier/provider/remainder/refill/extraction certificate; checked exterior fillings remain explicit. `HLJPlanPruningExamples` (58.409 s) discharges the stock in the existing twelve-entry genuine Com/EW/EC registry and recovers 13/103 to 11/43 through this optimizer; a nested typed Plan executes child-exposed parent pruning (control sizes, not another checked hypersequent fixture). No automatic fresh allocation, global optimality, confluence, tensor positivity or remainder equality. All final headline closures contain only propext/Classical.choice/Quot.sound. |
+| Contextual CK change for this application | **MECHANIZED** signed `contextual_ck_difference`, applying the existing K law on native typed trees. It is not coproduct invariance, positivity, material-profile preservation or independently checked-exterior correctness. |
 | Universal physical CK observation and contextual action | **MECHANIZED** in `ContractionCutObservation.lean`: arbitrary commutative-semiring native witness sum, exact physical total, one-hole affine filling and total dominance, and the explicit scalar K adapter on the image of delta. |
 | Integrated native compiler cut objective | **MECHANIZED** in `ContractionCompilerCuts.lean`: stop/continue/final EC recurrences, checked-output adapter, and node-first/full-physical-cut-count-second optimum among fixed opaque-donor Plan outputs. |
 | Instantiated finite-coefficient/ coefficientwise comparison | **OPEN**. Exact Polynomial cache gate: `Mathlib.Data.Finset.Powerset.olean`; alternate existing MonoidAlgebra import gate: `Mathlib.Data.Finsupp.Basic.olean`. Scalar agreement is not a coefficientwise theorem. |
@@ -286,7 +295,10 @@ HEAD remains `93b4a9abce87692ac32665132144ba1cd602808c`; all changes uncommitted
 | New Sys(com) two-stage witness diagram | **MECHANIZED**: corrected `DischargeCutFlags.lean` passes with actual constructor-defined restriction/gluing commuting diagrams under native flag reindexing. Final check 176.532 s; closures `[propext, Quot.sound]`. |
 | Full summary evaluation joined to witness coherence | **MECHANIZED** in `DischargeSummaryCutEvaluation.lean`: actual native remainder/factor folds, inside-versus-serial all-field equality, addressed ordered packets and literal remainder, and the actual restriction/gluing diagrams. Joint piece certificate interpretation explicitly requires exact-local/unique/complete sources. Final check 106.325 s, standard clean closures. |
 | Independent selected source formula/rule interpretation | **MECHANIZED** in `D3SourceEncoding.lean`: actual implication constructor image, arbitrary formula/multiset schemes, local exactness soundness/reflection, physical hole boundary/address/order and literal filling/puncture-insertion commutation. Final check 59.410 s. Canonical supplied incidence concerns components, not individual formula-occurrence movement. |
-| Pending assignments and fixed-reference source replacement | **MECHANIZED** in `D3DischargeGrouping.lean` (70.890 s) and `D3SourceAdequacy.lean` (72.941 s): inverse pending-schedule/eligible-assignment maps, naming recovery, source annotation correctness iff native Legal, source fillings AND source exteriors. Ordinal physical occurrences preserve multiplicities; closed interpretation separately requires completeness. Recursive source-constructor erasure/decoration remains OPEN. |
+| Pending assignments and fixed-reference source replacement | **MECHANIZED** in `D3DischargeGrouping.lean` (70.890 s) and `D3SourceAdequacy.lean` (72.941 s): inverse pending-schedule/eligible-assignment maps, naming recovery, source annotation correctness iff native Legal, source fillings AND source exteriors. Ordinal physical occurrences preserve multiplicities; closed interpretation separately requires completeness. The recursive constructor connection is now proved in the additive modules below. |
+| Actual recursive ordinary/top/bottom grouping | **MECHANIZED** in `D3SelectionAssignments.lean` (59.015 s), `D3SystemOccurrences.lean` (67.171 s), `D3RecursiveGrouping.lean` (101.252 s), and integrated `D3SourceDecoration.recursiveScheduleEquiv`: literal selected-subset/assignment inverse maps and independent constructor checking. Actual address uniqueness discharges physical getter injectivity. No irrelevant off-tree choices; unused declarations retained. The pending invariant is membership equality, not literal queue equality. |
+| Actual source erasure/decoration | **MECHANIZED** in `D3SourceErasure.lean` (77.595 s) and `D3SourceDecoration.lean` (38.293 s): actual token syntax maps, all-declaration naming inverse maps, `decoration_correct`, explicit complete-source corollary, literal `erase_decoration` and `closed_erasure_decoration`, with grouping indexed by the erased diagram. Original names restore literal source syntax; bare erasure is not uniquely grouped. Registry re-admission remains separate. |
+| All-groupings implication-right permutation | **MECHANIZED** in `D3AllGroupingsPermutation.lean` (69.461 s) and integrated `recursiveAllGroupingsEquiv`: both inverse maps for every actual physical choice in an arbitrary typed source exterior, proved by preservation/reflection of every eligibility edge. Not inferred from summary equality or just existence. The ordinary-node topology/CK coproduct is not asserted invariant. |
 | Schema-general and source-encoded implication application | **MECHANIZED** in `D3SchemaPermutation.lean` (58.993 s), `D3SourcePermutation.lean` (69.456 s), and `D3SourceCK.source_implication_replacement`: arbitrary schema parameters, owner fixed, actual source implication, generic replacement applied rather than reproved. Any-registry checked corollary assumes the exact shell descriptors are admitted together with donors/exterior. The old ten-instance fixture remains unchanged. |
 | Common finite source admission and exact extension | **MECHANIZED with explicit hypotheses** in `D3RegistryAdmission.lean` (50.055 s) and `D3SourceAdmission.lean` (44.771 s): finite family admission under `ConsistentKeys`, exact old lookup preservation, public checker lifting with literal realization, local schema admission from source validity. Unconditional fresh-key allocation and logical conservativity are not claimed. |
 | Source interpretation of native staged CK certificates | **MECHANIZED** in `D3SourceCK.lean` (76.328 s): both stagings evaluate the independent chosen-reference source condition; source correctness supplies exact-local/unique premises for jointly scoped piece certificates when complete. Actual restriction/gluing maps and addressed ordered packets/literal remainder are coherent. Not a bijection of all possible source groupings or coproduct invariance across permutation. |
@@ -306,9 +318,59 @@ completed continuation.
 
 The maintained research status entry is **D3-A** in
 [ledger_current.md](../D3_Research_Ledger_Evidence/ledger_current.md), updated in
-place. Its full source-adequacy target remains partial: recursive source grouping
-and closed erasure/decoration, finer formula-occurrence action, and unconditional
-consistent key allocation remain explicit gates. The D3 continuation in the same
-dated report records eight successful final checks with standard clean closures;
-these extend the application scope of the existing fixed-owner/CK results rather
-than claim new abstract identities or a new logical permutation.
+place. The selected grammar's recursive source-constructor milestone is now
+complete. The dated report records eight earlier source/schema checks and six
+new successful constructor-module checks, all with standard clean headline
+closures. Unconditional consistent key allocation remains separate. Finer
+formula-occurrence action is a resource-provenance extension, not a missing
+hypothesis of the stated multiset-sequent rules. Full LJ, logical Cut and
+executable refinement remain OPEN. These extend the interpreted application of
+existing fixed-owner/CK results, not abstract Hopf identities or priority for a
+new logical permutation.
+
+## Prepared Sys(com) translation and CK-certified reuse — 15 October 2026
+
+Maintained claim: **N6** in
+[ledger_current.md](../D3_Research_Ledger_Evidence/ledger_current.md).
+Detailed scope/proof/check record:
+[contraction-postponement continuation](../reports/2026-10-13/contraction-postponement.md#15-october-2026-prepared-syscom-translation-and-localized-ck-reuse).
+
+The new application is a genuine prepared nested Sys(com) source translated by
+two X Communications, one Y Communication with its exact passive L, and two
+bottom contractions. Native source/target donor frontiers have three/four
+physical sites, respectively. The actual target origin map [a,c,b,c], typed
+remainders, reconstruction, all installed cuts and cached-piece retranslation
+are proved before commutative forest collection. Executable affected-set control
+is tied to native addresses. Identity/IW donor translation is constructor-based;
+the target uses additive strict IW admission and one exact finite registry.
+
+This does not claim all prepared LJ translation, a new abstract cointeraction
+identity, coproduct invariance, material fidelity or runtime speedup. D3 uniform
+weakening and D6 structural conservativity across bases are not completed by
+this selected source application. Existing gluing/K/source adequacy and N5
+pruning are dependencies, not restarted results. **MECHANIZED:** all seven final
+targeted module checks pass, with only `propext`, `Classical.choice`, `Quot.sound`
+in every printed headline closure. The one 22-entry registry checks both
+25-node/1372-full-cut targets and the localized update's equality with full
+retranslation. Counts follow the universal native recurrence, not enumeration.
+Exact commands, durations, scopes and independent review are in the report.
+
+The same N6 application now has a **MECHANIZED recursive continuation**:
+[recursive source/copy/CK/reuse report](../reports/2026-10-13/contraction-postponement.md#recursive-prepared-syscom-continuation--theorem-stated-before-implementation).
+`RecursiveSysComSource` is source-only construction metadata interpreted into
+native `Diagram`. Independent correctness, preparation and ordinary source
+filling are proved, not assumed from target success. The actual recursive
+Com/IW/EC translation supplies `scaffold_fill`/`native_copy_word`; computed
+physical uses satisfy the universal `2^phases` and affected-use recurrences.
+Native installed-cut and staged flag applications retain both ordered packets,
+typed remainders and refill. Source-derived finite reached stock supplies
+strict admission and native checked quotation; allocation remains noncomputable.
+Coordinated cache refresh equals full checked retranslation in one registry.
+The balanced four-to-eight example changes source origin1 at physical positions
+`[2,6]` and carries an eight-site native proper-cut certificate on that same
+output. Its matched source before/after are independently correct/prepared.
+All fourteen new modules pass final targeted checks with standard axiom
+closures only. This is an unbounded restricted source class, not all prepared
+LJ/Sys(com), a new ordered Hopf carrier, coproduct invariance, runtime speedup,
+logical Cut elimination or a global proof optimizer. Details and the independent
+review's corrected source/target key mismatch are recorded in place.
